@@ -2,8 +2,9 @@
 
 namespace App\Models\Standard;
 
-use Spatie\Permission\Traits\HasRoles;
+use App\Models\Bureau\Bureau;
 
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Organisation\Organisation;
 use App\Models\Standard\Webservices\About;
@@ -89,9 +90,9 @@ class User extends Authenticatable
     //     return $this->hasOne(Organisation::class);
     // }
 
-    public function organisationdirectors()
+    public function bureaudirectors()
     {
-        return $this->belongsToMany(Organisation::class,'organisation_director')
+        return $this->belongsToMany(Bureau::class,'bureau_director')
                     ->withPivot(
                         'photo',
                         'active',
@@ -108,13 +109,13 @@ class User extends Authenticatable
                         'ward_id',
                         'position_id'
                     )
-                    ->join('positions', 'organisation_director.position_id', '=', 'positions.id')
-                    ->join('countries', 'organisation_director.country_id', '=', 'countries.id')
-                    ->join('counties', 'organisation_director.county_id', '=', 'counties.id')
-                    ->join('constituencies', 'organisation_director.constituency_id', '=', 'constituencies.id')
-                    ->join('wards', 'organisation_director.ward_id', '=', 'wards.id')
-                    ->select('organisations.*',
-                        'organisation_director.*',
+                    ->join('positions', 'bureau_director.position_id', '=', 'positions.id')
+                    ->join('countries', 'bureau_director.country_id', '=', 'countries.id')
+                    ->join('counties', 'bureau_director.county_id', '=', 'counties.id')
+                    ->join('constituencies', 'bureau_director.constituency_id', '=', 'constituencies.id')
+                    ->join('wards', 'bureau_director.ward_id', '=', 'wards.id')
+                    ->select('bureaus.*',
+                        'bureau_director.*',
                             'countries.name as country_name',
                             'counties.name as county_name',
                             'constituencies.name as constituency_name',
@@ -123,9 +124,9 @@ class User extends Authenticatable
                     )
                     ->withTimestamps();
     }
-    public function organisationadmins()
+    public function bureauadmins()
     {
-        return $this->belongsToMany(Organisation::class,'organisation_admin')
+        return $this->belongsToMany(Bureau::class,'bureau_admin')
                     ->withPivot(
                         'photo',
                         'active',
@@ -142,13 +143,13 @@ class User extends Authenticatable
                         'ward_id',
                         'position_id'
                     )
-                    ->join('positions', 'organisation_admin.position_id', '=', 'positions.id')
-                    ->join('countries', 'organisation_admin.country_id', '=', 'countries.id')
-                    ->join('counties', 'organisation_admin.county_id', '=', 'counties.id')
-                    ->join('constituencies', 'organisation_admin.constituency_id', '=', 'constituencies.id')
-                    ->join('wards', 'organisation_admin.ward_id', '=', 'wards.id')
-                    ->select('organisations.*',
-                        'organisation_admin.*',
+                    ->join('positions', 'bureau_admin.position_id', '=', 'positions.id')
+                    ->join('countries', 'bureau_admin.country_id', '=', 'countries.id')
+                    ->join('counties', 'bureau_admin.county_id', '=', 'counties.id')
+                    ->join('constituencies', 'bureau_admin.constituency_id', '=', 'constituencies.id')
+                    ->join('wards', 'bureau_admin.ward_id', '=', 'wards.id')
+                    ->select('bureaus.*',
+                        'bureau_admin.*',
                             'countries.name as country_name',
                             'counties.name as county_name',
                             'constituencies.name as constituency_name',
@@ -157,9 +158,9 @@ class User extends Authenticatable
                     )
                     ->withTimestamps();
     }
-    public function organisationemployees()
+    public function bureauemployees()
     {
-        return $this->belongsToMany(Organisation::class,'organisation_employee')
+        return $this->belongsToMany(Bureau::class,'bureau_employee')
                     ->withPivot(
                         'photo',
                         'active',
@@ -176,13 +177,13 @@ class User extends Authenticatable
                         'ward_id',
                         'position_id'
                     )
-                    ->join('positions', 'organisation_employee.position_id', '=', 'positions.id')
-                    ->join('countries', 'organisation_employee.country_id', '=', 'countries.id')
-                    ->join('counties', 'organisation_employee.county_id', '=', 'counties.id')
-                    ->join('constituencies', 'organisation_employee.constituency_id', '=', 'constituencies.id')
-                    ->join('wards', 'organisation_employee.ward_id', '=', 'wards.id')
-                    ->select('organisations.*',
-                        'organisation_employee.*',
+                    ->join('positions', 'bureau_employee.position_id', '=', 'positions.id')
+                    ->join('countries', 'bureau_employee.country_id', '=', 'countries.id')
+                    ->join('counties', 'bureau_employee.county_id', '=', 'counties.id')
+                    ->join('constituencies', 'bureau_employee.constituency_id', '=', 'constituencies.id')
+                    ->join('wards', 'bureau_employee.ward_id', '=', 'wards.id')
+                    ->select('bureaus.*',
+                        'bureau_employee.*',
                             'countries.name as country_name',
                             'counties.name as county_name',
                             'constituencies.name as constituency_name',
@@ -191,6 +192,8 @@ class User extends Authenticatable
                     )
                     ->withTimestamps();
     }
+
+
 
 
 

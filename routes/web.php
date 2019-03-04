@@ -4,24 +4,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Frontend\PublicController;
+use App\Http\Controllers\Backend\Bureau\BureauController;
 use App\Http\Controllers\Backend\Standard\WardController;
 use App\Http\Controllers\Backend\Webpage\AboutController;
 use App\Http\Controllers\Backend\Webpage\AdvertController;
 use App\Http\Controllers\Backend\Standard\CountyController;
-use App\Http\Controllers\Backend\Standard\GenderController;
 use App\Http\Controllers\Backend\Webpage\FeatureController;
 use App\Http\Controllers\Backend\Webpage\ServiceController;
 use App\Http\Controllers\Backend\Standard\CountryController;
-use App\Http\Controllers\Backend\Standard\PositionController;
+use App\Http\Controllers\Backend\Organisation\RoleController;
+use App\Http\Controllers\Backend\Organisation\UserController;
+use App\Http\Controllers\Backend\Bureau\BureauAdminController;
 use App\Http\Controllers\Backend\Webpage\ServiceModelController;
+use App\Http\Controllers\Backend\Bureau\BureauDirectorController;
+use App\Http\Controllers\Backend\Bureau\BureauEmployeeController;
+use App\Http\Controllers\Backend\Organisation\OrgAdminController;
 use App\Http\Controllers\Backend\Standard\ConstituencyController;
-use App\Http\Controllers\Backend\Organisation\Superadmin\RoleController;
-use App\Http\Controllers\Backend\Organisation\Superadmin\UserController;
-use App\Http\Controllers\Backend\Organisation\Admin\OrgEmployeeController;
-use App\Http\Controllers\Backend\Organisation\Superadmin\OrgAdminController;
-use App\Http\Controllers\Backend\Organisation\Superadmin\PermissionController;
-use App\Http\Controllers\Backend\Organisation\Superadmin\OrgDirectorController;
-use App\Http\Controllers\Backend\Organisation\Superadmin\OrganisationController;
+use App\Http\Controllers\Backend\Organisation\PermissionController;
+use App\Http\Controllers\Backend\Organisation\OrgDirectorController;
+use App\Http\Controllers\Backend\Organisation\OrgEmployeeController;
+use App\Http\Controllers\Backend\Organisation\OrganisationController;
+
+
 
 
 
@@ -136,29 +140,29 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
         Route::patch('ward/update/{ward}', [WardController::class, 'update'])->name('ward.update');
         Route::get('ward/delete/{ward}', [WardController::class, 'destroy'])->name('ward.destroy');
 
-        //position
-        Route::get('position/get', [PositionController::class, 'index'])->name('position.index');
-        Route::get('position/get/list/{position}', [PositionController::class, 'PositionList'])->name('position.list-index');
-        Route::post('position', [PositionController::class, 'store'])->name('position.store');
-    //     /*
-    //      * Specifics
-    //      */
-        Route::get('position/show/{position}', [PositionController::class, 'show'])->name('position.show');
-        Route::get('position/edit/{position}', [PositionController::class, 'edit'])->name('position.edit');
-        Route::patch('position/update/{position}', [PositionController::class, 'update'])->name('position.update');
-        Route::get('position/delete/{position}', [PositionController::class, 'destroy'])->name('position.destroy');
+//         //position
+//         Route::get('position/get', [PositionController::class, 'index'])->name('position.index');
+//         Route::get('position/get/list/{position}', [PositionController::class, 'PositionList'])->name('position.list-index');
+//         Route::post('position', [PositionController::class, 'store'])->name('position.store');
+//     //     /*
+//     //      * Specifics
+//     //      */
+//         Route::get('position/show/{position}', [PositionController::class, 'show'])->name('position.show');
+//         Route::get('position/edit/{position}', [PositionController::class, 'edit'])->name('position.edit');
+//         Route::patch('position/update/{position}', [PositionController::class, 'update'])->name('position.update');
+//         Route::get('position/delete/{position}', [PositionController::class, 'destroy'])->name('position.destroy');
 
-//gender
-        Route::get('gender/get', [GenderController::class, 'index'])->name('gender.index');
-        Route::get('gender/get/list/{gender}', [GenderController::class, 'GenderList'])->name('gender.list-index');
-        Route::post('gender', [GenderController::class, 'store'])->name('gender.store');
-    //     /*
-    //      * Specifics
-    //      */
-        Route::get('gender/show/{gender}', [GenderController::class, 'show'])->name('gender.show');
-        Route::get('gender/edit/{gender}', [GenderController::class, 'edit'])->name('gender.edit');
-        Route::patch('gender/update/{gender}', [GenderController::class, 'update'])->name('gender.update');
-        Route::get('gender/delete/{gender}', [GenderController::class, 'destroy'])->name('gender.destroy');
+// //gender
+//         Route::get('gender/get', [GenderController::class, 'index'])->name('gender.index');
+//         Route::get('gender/get/list/{gender}', [GenderController::class, 'GenderList'])->name('gender.list-index');
+//         Route::post('gender', [GenderController::class, 'store'])->name('gender.store');
+//     //     /*
+//     //      * Specifics
+//     //      */
+//         Route::get('gender/show/{gender}', [GenderController::class, 'show'])->name('gender.show');
+//         Route::get('gender/edit/{gender}', [GenderController::class, 'edit'])->name('gender.edit');
+//         Route::patch('gender/update/{gender}', [GenderController::class, 'update'])->name('gender.update');
+//         Route::get('gender/delete/{gender}', [GenderController::class, 'destroy'])->name('gender.destroy');
 
 
 
@@ -297,53 +301,69 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
 
 
 
-    //      // bureau
-    //      Route::get('bureau/get', [BureauController::class, 'index'])->name('bureau.index');
-    //      Route::get('bureaus/get/list', [BureauController::class, 'BureauList'])->name('bureau.list-index');
-    //      Route::post('bureau/verify/info/', [BureauController::class, 'verifyBureauInfo'])->name('bureau.verify');
-    //      Route::post('bureau/verify/director/', [BureauController::class, 'verifyDirectorInfo'])->name('bureau.verifydirector');
-    //      Route::post('bureau', [BureauController::class, 'store'])->name('bureau.store');
-    //  //     /*
-    //  //      * Specifics
-    //  //      */
-    //      Route::get('bureau/show/{bureau}', [BureauController::class, 'show'])->name('bureau.show');
-    //      Route::get('bureau/edit/{bureau}', [BureauController::class, 'edit'])->name('bureau.edit');
-    //      Route::patch('bureau/updateverify/info/{bureau}', [BureauController::class, 'updateverifyBureauInfo'])->name('bureau.updateverify');
-    //      Route::patch('bureau/updateverify/director/{bureau}', [BureauController::class, 'updateverifyDirectorInfo'])->name('bureau.updateverifydirector');
-    //      Route::patch('bureau/update/{bureau}', [BureauController::class, 'update'])->name('bureau.update');
-    //      Route::patch('singlebureau/update/{bureau}', [BureauController::class, 'singleupdate'])->name('bureau.update');
-    //      Route::get('bureau/delete/{bureau}', [BureauController::class, 'destroy'])->name('bureau.destroy');
+         // bureau
+         Route::get('bureaus/get', [BureauController::class, 'index'])->name('bureau.index');
+         Route::post('bureau/verify/info/', [BureauController::class, 'verifyBureauInfo'])->name('bureau.verify');
+         Route::post('bureau/verify/director/', [BureauController::class, 'verifyDirectorInfo'])->name('bureau.verifydirector');
+         Route::post('bureau', [BureauController::class, 'store'])->name('bureau.store');
+     //     /*
+     //      * Specifics
+     //      */
+         Route::get('bureau/show/{bureau}', [BureauController::class, 'show'])->name('bureau.show');
+         Route::get('bureau/edit/{bureau}', [BureauController::class, 'edit'])->name('bureau.edit');
+         Route::patch('bureau/updateverify/info/{bureau}', [BureauController::class, 'updateverifyBureauInfo'])->name('bureau.updateverify');
+         Route::patch('bureau/updateverify/director/{bureau}', [BureauController::class, 'updateverifyDirectorInfo'])->name('bureau.updateverifydirector');
+         Route::patch('bureau/update/{bureau}', [BureauController::class, 'update'])->name('bureau.update');
+         Route::patch('singlebureau/update/{bureau}', [BureauController::class, 'singleupdate'])->name('bureau.update');
+         Route::get('bureau/delete/{bureau}', [BureauController::class, 'destroy'])->name('bureau.destroy');
 
-    //      // bureaudirector
-    //      Route::get('bureaudirector/get', [BureauDirectorController::class, 'index'])->name('bureaudirector.index');
-    //      Route::get('bureaudirectors/get', [BureauDirectorController::class, 'bureaus'])->name('bureaudirector.bureaus');
-    //      Route::get('bureaudirector/get/list', [BureauDirectorController::class, 'bureaudirectorList'])->name('bureaudirector.list-index');
-    //      Route::post('bureaudirector/verify/director/', [BureauDirectorController::class, 'verifyDirectorInfo'])->name('bureaudirector.verifydirector');
-    //      Route::patch('bureaudirector/{bureaudirector}', [BureauDirectorController::class, 'store'])->name('bureaudirector.store');
-    //  //     /*
-    //  //      * Specifics
-    //  //      */
-    //      Route::get('bureaudirector/view/{bureaudirector}', [BureauDirectorController::class, 'view'])->name('bureaudirector.show');
-    //      Route::get('bureaudirector/show/{bureaudirector}', [BureauDirectorController::class, 'show'])->name('bureaudirector.show');
-    //      Route::get('bureaudirector/edit/{bureaudirector}', [BureauDirectorController::class, 'edit'])->name('bureaudirector.edit');
-    //      Route::patch('bureaudirector/updateverify/director/{bureaudirector}', [BureauDirectorController::class, 'updateverifyDirectorInfo'])->name('bureaudirector.updateverifydirector');
-    //      Route::patch('bureaudirector/update/{bureaudirector}', [BureauDirectorController::class, 'update'])->name('bureaudirector.update');
-    //      Route::get('bureaudirector/delete/{bureaudirector}/', [BureauDirectorController::class, 'destroy'])->name('bureaudirector.destroy');
+         // bureaudirector
+         Route::get('bureaudirector/get', [BureauDirectorController::class, 'index'])->name('bureaudirector.index');
+         Route::get('bureaudirectors/get', [BureauDirectorController::class, 'bureaus'])->name('bureaudirector.bureaus');
+         Route::get('bureaudirector/get/list', [BureauDirectorController::class, 'bureaudirectorList'])->name('bureaudirector.list-index');
+         Route::post('bureaudirector/verify/director/', [BureauDirectorController::class, 'verifyDirectorInfo'])->name('bureaudirector.verifydirector');
+         Route::patch('bureaudirector/{bureaudirector}', [BureauDirectorController::class, 'store'])->name('bureaudirector.store');
+     //     /*
+     //      * Specifics
+     //      */
+        //  Route::get('bureaudirector/view/{bureaudirector}', [BureauDirectorController::class, 'view'])->name('bureaudirector.view');
+         Route::get('bureaudirector/show/{bureaudirector}', [BureauDirectorController::class, 'show'])->name('bureaudirector.show');
+         Route::get('bureaudirector/edit/{bureaudirector}', [BureauDirectorController::class, 'edit'])->name('bureaudirector.edit');
+         Route::patch('bureaudirector/updateverify/director/{bureaudirector}', [BureauDirectorController::class, 'updateverifyDirectorInfo'])->name('bureaudirector.updateverifydirector');
+         Route::patch('bureaudirector/update/{bureaudirector}', [BureauDirectorController::class, 'update'])->name('bureaudirector.update');
+         Route::get('bureaudirector/delete/{bureaudirector}/', [BureauDirectorController::class, 'destroy'])->name('bureaudirector.destroy');
 
-    //              // bureauadmin
-    //      Route::get('bureauadmin/get', [BureauAdminController::class, 'index'])->name('bureauadmin.index');
-    //      Route::get('bureauadmins/get', [BureauAdminController::class, 'bureaus'])->name('bureauadmin.bureaus');
-    //      Route::get('bureauadmin/get/list', [BureauAdminController::class, 'bureauadminList'])->name('bureauadmin.list-index');
-    //      Route::post('bureauadmin/verify/admin/', [BureauAdminController::class, 'verifyAdminInfo'])->name('bureauadmin.verifyadmin');
-    //      Route::patch('bureauadmin/{bureaudirector}', [BureauAdminController::class, 'store'])->name('bureauadmin.store');
-    //  //     /*
-    //  //      * Specifics
-    //  //      */
-    //      Route::get('bureauadmin/show/{bureauadmin}', [BureauAdminController::class, 'show'])->name('bureauadmin.show');
-    //      Route::get('bureauadmin/edit/{bureauadmin}', [BureauAdminController::class, 'edit'])->name('bureauadmin.edit');
-    //      Route::patch('bureauadmin/updateverify/admin/{bureauadmin}', [BureauAdminController::class, 'updateverifyAdminInfo'])->name('bureauadmin.updateverifyadmin');
-    //      Route::patch('bureauadmin/update/{bureauadmin}', [BureauAdminController::class, 'update'])->name('bureauadmin.update');
-    //      Route::get('bureauadmin/delete/{bureauadmin}/', [BureauAdminController::class, 'destroy'])->name('bureauadmin.destroy');
+                 // bureauadmin
+         Route::get('bureauadmin/get', [BureauAdminController::class, 'index'])->name('bureauadmin.index');
+         Route::get('bureauadmins/get', [BureauAdminController::class, 'bureaus'])->name('bureauadmin.bureaus');
+         Route::get('bureauadmin/get/list', [BureauAdminController::class, 'bureauadminList'])->name('bureauadmin.list-index');
+         Route::post('bureauadmin/verify/admin/', [BureauAdminController::class, 'verifyAdminInfo'])->name('bureauadmin.verifyadmin');
+         Route::patch('bureauadmin/{bureaudirector}', [BureauAdminController::class, 'store'])->name('bureauadmin.store');
+     //     /*
+     //      * Specifics
+     //      */
+         Route::get('bureauadmin/show/{bureauadmin}', [BureauAdminController::class, 'show'])->name('bureauadmin.show');
+         Route::get('bureauadmin/edit/{bureauadmin}', [BureauAdminController::class, 'edit'])->name('bureauadmin.edit');
+         Route::patch('bureauadmin/updateverify/admin/{bureauadmin}', [BureauAdminController::class, 'updateverifyAdminInfo'])->name('bureauadmin.updateverifyadmin');
+         Route::patch('bureauadmin/update/{bureauadmin}', [BureauAdminController::class, 'update'])->name('bureauadmin.update');
+         Route::get('bureauadmin/delete/{bureauadmin}/', [BureauAdminController::class, 'destroy'])->name('bureauadmin.destroy');
+
+         // bureauemployee
+         Route::get('bureauemployee/get', [BureauEmployeeController::class, 'index'])->name('bureauemployee.index');
+         Route::get('bureauemployees/get', [BureauEmployeeController::class, 'bureaus'])->name('bureauemployee.bureaus');
+         Route::get('bureauemployee/get/list', [BureauEmployeeController::class, 'bureauemployeeList'])->name('bureauemployee.list-index');
+         Route::post('bureauemployee/verify/employee/', [BureauEmployeeController::class, 'verifyEmployeeInfo'])->name('bureauemployee.verifyemployee');
+         Route::patch('bureauemployee/{bureaudirector}', [BureauEmployeeController::class, 'store'])->name('bureauemployee.store');
+     //     /*
+     //      * Specifics
+     //      */
+         Route::get('bureauemployee/show/{bureauemployee}', [BureauEmployeeController::class, 'show'])->name('bureauemployee.show');
+         Route::get('bureauemployee/edit/{bureauemployee}', [BureauEmployeeController::class, 'edit'])->name('bureauemployee.edit');
+         Route::patch('bureauemployee/updateverify/employee/{bureauemployee}', [BureauEmployeeController::class, 'updateverifyEmployeeInfo'])->name('bureauemployee.updateverifyemployee');
+         Route::patch('bureauemployee/update/{bureauemployee}', [BureauEmployeeController::class, 'update'])->name('bureauemployee.update');
+         Route::get('bureauemployee/delete/{bureauemployee}/', [BureauEmployeeController::class, 'destroy'])->name('bureauemployee.destroy');
+
+
 
     //                  // househelp
     //      Route::get('househelp/get', [HousehelpController::class, 'index'])->name('househelp.index');

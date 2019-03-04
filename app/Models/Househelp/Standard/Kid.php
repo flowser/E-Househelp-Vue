@@ -15,4 +15,5 @@ class Kid extends Model
     {
         return $this->hasMany(Househelp::class);
     }
+    
 }

@@ -15,7 +15,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <title>{{$organisation->name}}</title>
 
       <!--====== FAVICON ICON =======-->
-<link rel="shortcut icon" type="image/ico" href="{{URL::asset('assets/organisation/img/logo/')}}/{{$organisation->logo}}" />
+      @if($organisation->logo != null)
+          <link rel="shortcut icon" type="image/ico" href="{{URL::asset('assets/organisation/img/logo/')}}/{{$organisation->logo}}" />
+        @else
+          <link rel="shortcut icon" type="image/ico" href="{{URL::asset('assets/organisation/img/website/empty.png')}}"/>
+     @endif
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{URL::asset('css/app.css')}}">
@@ -85,16 +89,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
                     @role('Organisation Director')
-                        <img src="assets/organisation/img/directors/passports/{{$logged_user->photo}}" class="img-circle elevation-2" alt="User Image">
+                        @if($logged_user->photo != null)
+                            <img src="assets/organisation/img/directors/passports/{{$logged_user->photo}}" class="img-circle elevation-2" alt="User Image">
+                        @else
+                            <img src="assets/organisation/img/website/empty.png" class="img-circle elevation-2" alt="User Image">
+                        @endif
                     @endrole
                     {{--  @role('Organisation Superadmin')
                         <img src="assets/organisation/img/admins/passports/{{$logged_user->photo}}" class="img-circle elevation-2" alt="User Image">
                     @endrole  --}}
                     @role('Organisation Admin')
-                        <img src="assets/organisation/img/admins/passports/{{$logged_user->photo}}" class="img-circle elevation-2" alt="User Image">
+                         @if($logged_user->photo != null)
+                            <img src="assets/organisation/img/admins/passports/{{$logged_user->photo}}" class="img-circle elevation-2" alt="User Image">
+                        @else
+                            <img src="assets/organisation/img/website/empty.png" class="img-circle elevation-2" alt="User Image">
+                        @endif
                     @endrole
                     @role('Organisation Employee')
-                        <img src="assets/organisation/img/emloyees/passports/{{$logged_user->photo}}" class="img-circle elevation-2" alt="User Image">
+                        @if($logged_user->photo != null)
+                            <img src="assets/organisation/img/emloyees/passports/{{$logged_user->photo}}" class="img-circle elevation-2" alt="User Image">
+                        @else
+                            <img src="assets/organisation/img/website/empty.png" class="img-circle elevation-2" alt="User Image">
+                        @endif
                     @endrole
                 </div>
                 <div class="info">
@@ -110,13 +126,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
-               @role('Organisation Superadmin')
+
                      <li class="nav-item">
                         <router-link to="/home" class="nav-link">
                             <i class="nav-icon green fas fa-cog"></i>
                                 <p> Dashboard </p>
                         </router-link>
                    </li>
+                   <li class="nav-item">
+                    <router-link to="/bureausettings" class="nav-link">
+                         <i class="nav-icon red fas fa-tools"></i>
+                             <p> Settings </p>
+                    </router-link>
+                   </li>
+
+                @role('Organisation Superadmin')
+                   <li class="nav-item">
+                        <router-link to="/bureaus" class="nav-link">
+                            <i class="fa fa-users purple  nav-icon"></i>
+                            <p>Bureaus</p>
+                        </router-link>
+                    </li>
                      <li class="nav-item has-treeview">
                         <a href="#" class="nav-link ">
                             <i class="nav-icon  red fas fa-cog"></i>
@@ -125,12 +155,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                          {{--  @role('Organisation Admin')  --}}
                             <li class="nav-item">
                                 <router-link to="/users" class="nav-link">
                                     <i class="fa fa-users blue  nav-icon"></i>
                                     <p>Users</p>
                                 </router-link>
                             </li>
+                          {{--  @endrole  --}}
                             <li class="nav-item">
 
                                 <router-link to="/permissions" class="nav-link">
@@ -141,6 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </ul>
                     </li>
                 @endrole
+
                 <li class="nav-item">
                     <router-link to="/settings" class="nav-link">
                          <i class="nav-icon red fas fa-tools"></i>

@@ -64,10 +64,6 @@
                                 <router-link  :to="`/bureau/${bureau.id}`">
                                         <i class="fa fa-eye "></i>
                                 </router-link>
-                                <a href=""  @click.prevent="editBureauModal(bureau.id)">
-                                    <i class="fa fa-edit blue"></i>
-                                </a>
-                                /
                                 <a href=""  @click.prevent="deleteBureau(bureau.id)">
                                     <i class="fa fa-trash red"></i>
                                 </a>
@@ -977,18 +973,24 @@
                             type: 'success',
                             title: 'Fetched the Bureau data successfully'
                             })
-                            let directors = response.data.bureau.bureaudirectors.length;
+                            this.bureauform.fill(response.data.bureau);
+                            //get country id
+                            this.bureauform.country_id = response.data.bureau.country.id;
+                            //get county id using the country id
+                            this.bureauform.county_id = response.data.bureau.county.id
+                            this.$store.dispatch('countrycounties', response.data.bureau.country.id);
+                            //get contituency using county id
+                            this.bureauform.constituency_id = response.data.bureau.constituency.id
+                            this.$store.dispatch('countyconstituencies', response.data.bureau.county.id);
+                            //get ward usng constituency id
+                            this.bureauform.ward_id = response.data.bureau.ward.id
+                            this.$store.dispatch('constituencywards', response.data.bureau.constituency.id);
 
-                            if(directors == 0){
-                                 this.newBureauDirector = true;
-                                  this.bureauform.fill(response.data.bureau)
-                               this.$Progress.finish();
-                            }else{
-                                 this.newBureauDirector = false;
-                                  this.bureauform.fill(response.data.bureau)
-                               this.$Progress.finish();
-                            }
+                            this.$Progress.finish();
+
                         })
+
+
                         .catch(()=>{
                             this.$Progress.fail();
                             //errors
@@ -1022,14 +1024,14 @@
                  if(logo_id){
                     return "assets/bureau/img/logo/"+logo_id;
                 }else{
-                    return "/assets/bureau/img/empty.png";
+                    return "/assets/bureau/img/website/empty.png";
                 }
             },
             updateBureauLogo(bureauformlogo){
                 console.log(bureauformlogo)
                 let img = this.bureauform.logo;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
                         //  console.log('its reall null')
                       }else{
                           if(img.length>100){
@@ -1038,7 +1040,7 @@
                             if(bureauformlogo){
                                 return "assets/bureau/img/logo/"+bureauformlogo;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1067,14 +1069,14 @@
                  if(logo_id){
                     return "assets/bureau/img/logo/"+logo_id;
                 }else{
-                    return "/assets/bureau/img/empty.png";
+                    return "/assets/bureau/img/website/empty.png";
                 }
             },
             updateBureauLogo(bureauformlogo){
                 console.log(bureauformlogo)
                 let img = this.bureauform.logo;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
                         //  console.log('its reall null')
                       }else{
                           if(img.length>100){
@@ -1083,7 +1085,7 @@
                             if(bureauformlogo){
                                 return "assets/bureau/img/logo/"+bureauformlogo;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1112,7 +1114,7 @@
                 console.log(bureauformdirector_passport_image)
                 let img = this.bureauform.director_passport_image;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
                       }else{
                         if(img.length>100){
                             return this.bureauform.director_passport_image;
@@ -1120,7 +1122,7 @@
                             if(bureauformdirector_passport_image){
                                 return "assets/bureau/img/directors/passports/"+bureauform.director_passport_image;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1149,7 +1151,7 @@
                 console.log(bureauformfrontside_director_id_photo)
                 let img = this.bureauform.frontside_director_id_photo;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
                       }else{
                           if(img.length>100){
                             return this.bureauform.frontside_director_id_photo;
@@ -1157,7 +1159,7 @@
                             if(bureauformfrontside_director_id_photo){
                                 return "assets/bureau/img/directors/IDs/"+bureauformfrontside_director_id_photo;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1186,7 +1188,7 @@
                 console.log(bureauformbackside_director_id_photo)
                 let img = this.bureauform.backside_director_id_photo;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
 
                       }else{
                           if(img.length>100){
@@ -1195,7 +1197,7 @@
                             if(bureauformbackside_director_id_photo){
                                 return "assets/bureau/img/directors/IDs/"+bureauformbackside_director_id_photo;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1235,7 +1237,7 @@
                 if(directorpivot_photo){
                     return "/assets/bureau/img/directors/passports/"+directorpivot_photo;
                 }else{
-                    return "/assets/bureau/img/empty.png";
+                    return "/assets/bureau/img/website/empty.png";
                 }
             },
             //director passport photo
@@ -1261,7 +1263,7 @@
                 // console.log(directorform_organisationdirector_photo)
                 let img = this.directorform.photo;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
                         //  console.log('its reall null')
                       }else{
                           if(img.length>100){
@@ -1270,7 +1272,7 @@
                             if(directorform_organisationdirector_photo){
                                 return "assets/bureau/img/directors/passports/"+directorform_organisationdirector_photo;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1280,7 +1282,7 @@
                 if(directorpivot_id_photo_front){
                     return "/assets/bureau/img/directors/IDs/front/"+directorpivot_id_photo_front;
                 }else{
-                    return "/assets/bureau/img/empty.png";
+                    return "/assets/bureau/img/website/empty.png";
                 }
             },
             directorChangeIDFrontPhoto(event){
@@ -1305,7 +1307,7 @@
                 // console.log(directorform.id_photo_front)
                 let img = this.directorform.id_photo_front;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
                         //  console.log('its reall null')
                       }else{
                           if(img.length>100){
@@ -1314,7 +1316,7 @@
                             if(directorform_id_photo_front){
                                 return "assets/bureau/img/directors/passports/"+directorform_id_photo_front;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1324,7 +1326,7 @@
                 if(directorform_id_photo_back){
                     return "/assets/bureau/img/directors/IDs/back/"+directorform_id_photo_back;
                 }else{
-                    return "/assets/bureau/img/empty.png";
+                    return "/assets/bureau/img/website/empty.png";
                 }
             },
             directorChangeIDBackPhoto(event){
@@ -1349,7 +1351,7 @@
                 // console.log(directorform.id_photo_back)
                 let img = this.directorform.id_photo_back;
                       if(img ==null){
-                          return "/assets/bureau/img/empty.png";
+                          return "/assets/bureau/img/website/empty.png";
                         //  console.log('its reall null')
                       }else{
                           if(img.length>100){
@@ -1358,7 +1360,7 @@
                             if(directorform_id_photo_back){
                                 return "assets/bureau/img/directors/IDs/front/"+directorform_id_photo_back;
                             }else{
-                                return "/assets/bureau/img/empty.png";
+                                return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
@@ -1374,7 +1376,7 @@
                             type: 'success',
                             title: 'Bureau Created successfully'
                             })
-                            this.$store.dispatch( "bureaus")
+                            this.$store.dispatch("bureaus")
                             $('#BureauModal').modal('hide')
                             this.bureauform.reset()
                               this.$Progress.finish()
@@ -1394,7 +1396,7 @@
                   this.$Progress.start();
                      this.bureauform.patch('/bureau/update/'+id)
                         .then(()=>{
-                            this.$store.dispatch( "bureau")
+                            this.$store.dispatch("bureaus")
                          $('#BureauModal').modal('hide')
                          toast({
                             type: 'success',
@@ -1431,7 +1433,7 @@
                             type: 'success',
                             title: 'Bureau Deleted successfully'
                             })
-                            this.$store.dispatch( "bureau")
+                            this.$store.dispatch( "bureaus")
                             this.$Progress.finish();
                         })
                         .catch(()=>{

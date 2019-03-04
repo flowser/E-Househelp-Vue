@@ -73,7 +73,7 @@ class HousehelpKin extends Model
     {
         return $this->belongsTo(Bureau::class);
     }
-    public function houshelps()
+    public function househelp()
     {
         return $this->belongsTo(Househelp::class);
     }

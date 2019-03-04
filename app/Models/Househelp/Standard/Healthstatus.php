@@ -9,8 +9,8 @@ class Healthstatus extends Model
 {
     protected $fillable = [
         'househelp_id',
-        'name',
-        'details',
+        'status',
+        'specify',
     ];
 
     public function househelp()

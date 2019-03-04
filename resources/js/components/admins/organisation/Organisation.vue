@@ -2348,30 +2348,7 @@
                     })
             },
 
-            countryCounties(country_id){
-                console.log(country_id);
-                this.$store.dispatch('countrycounties', country_id);
-            },
-            countyConstituencies(county_id){
-                console.log(county_id);
-                this.$store.dispatch('countyconstituencies', county_id);
-            },
-            constituencyWards(constituency_id){
-                console.log(constituency_id);
-                this.$store.dispatch('constituencywards', constituency_id); //send to store to the action with id
-            },
-            DirectorcountryCounties(country_id){
-                console.log(country_id);
-                this.$store.dispatch('countrycounties', country_id);
-            },
-            DirectorcountyConstituencies(county_id){
-                console.log(county_id);
-                this.$store.dispatch('countyconstituencies', county_id);
-            },
-            DirectorconstituencyWards(constituency_id){
-                console.log(constituency_id);
-                this.$store.dispatch('constituencywards', constituency_id); //send to store to the action with id
-            },
+
             loadCountries(){
                 return this.$store.dispatch( "countries")//get all from roles.index
             },
@@ -3281,13 +3258,6 @@
 
 
 
-
-
-
-
-
-
-
             EmployeecountryCounties(country_id){
                 console.log(country_id);
                 this.$store.dispatch('countrycounties', country_id);
@@ -3587,8 +3557,6 @@
                      }
                 })
             },
-
-
 
 
             //About

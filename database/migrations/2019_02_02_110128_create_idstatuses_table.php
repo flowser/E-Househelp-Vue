@@ -16,9 +16,11 @@ class CreateIdstatusesTable extends Migration
         Schema::create('idstatuses', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('househelp_id');
-            $table->string('name')->nullable();//yes/no
+            $table->string('status')->nullable();//yes/no but waiting card/ no nothing at all
             $table->string('id_number')->nullable();
             $table->string('ref_number')->nullable();
+            $table->string('id_photo_front', 120)->nullable();
+            $table->string('id_photo_back', 120)->nullable();
             $table->timestamps();;
             $table->softDeletes();
 

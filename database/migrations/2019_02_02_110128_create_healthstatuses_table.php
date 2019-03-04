@@ -16,8 +16,8 @@ class CreateHealthstatusesTable extends Migration
         Schema::create('healthstatuses', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('househelp_id');
-            $table->string('name')->nullable(); //HIV, ellergy, anyother
-            $table->string('details')->nullable();
+            $table->string('status')->nullable(); //HIV, ellergy, anyother
+            $table->string('specify')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

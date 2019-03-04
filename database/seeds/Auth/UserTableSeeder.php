@@ -32,6 +32,7 @@ class UserTableSeeder extends Seeder
 
         ]);//2
 
+
         if($user1)
         {
             DB::table('organisation_admin')
