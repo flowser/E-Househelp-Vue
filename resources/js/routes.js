@@ -31,6 +31,8 @@ import AdminHome from './components/admins/AdminHome.vue';
         // Bureeau
         import BureauList from './components/admins/organisation/admin/Bureau.vue';
         import SingleBureau from './components/admins/organisation/admin/SingleBureau.vue';
+        import HousehelpList from './components/admins/organisation/admin/Househelp.vue';
+        import SingleHousehelp from './components/admins/organisation/admin/SingleHousehelp.vue';
 
 
 //frontend public view
@@ -111,6 +113,14 @@ export const routes = [
           {
             path: '/bureau/:id',
             component: SingleBureau
+          },
+          {
+            path: '/househelps', //all househelps
+            component: HousehelpList
+          },
+          {
+            path: '/househelp:id',//view signle houshelp with her details
+            component: SingleHousehelp
           },
 
 

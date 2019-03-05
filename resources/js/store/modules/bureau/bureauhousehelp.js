@@ -1,50 +1,51 @@
 
-// //bureauemployee module
+//bureauhousehelp module
 
-// const state = {
-//     bureauemployees:[],
-//     bureauemployee:[],
-//   };
-// const getters = {
-//     BureauEmployees(state){
-//       return state.bureauemployees;
-//     },
-//     BureauEmployee(state){
-//       return state.bureauemployee;
-//     }
-//   };
-// const actions = {
-//     bureauemployees(context){//permission.index route laravel
-//       axios.get('/bureauemployee/get')
-//       .then((response)=>{
-//         console.log(response.data)
-//         context.commit('bureauemployees', response.data.bureauemployees);
-//       });
-//     },
-//     BureauEmployeeById(context, payload){
-//         axios.get('/bureauemployee/show/'+payload)
-//               .then((response)=>{
-//                   console.log(response.data);
-//                   context.commit('bureauemployee', response.data.bureauemployee);
-//               });
-//     }
-//   }
-// const mutations = {
-//     bureauemployees(state, data){
-//       return state.bureauemployees = data;
-//     },
-//     bureauemployee(state, data){
-//       return state.bureauemployee = data;
-//     }
-//   };
+const state = {
+    househelps:[],
+    househelp:[],
+  };
+const getters = {
+    Househelps(state){
+      return state.househelps;
+    },
+    Househelp(state){
+      return state.househelp;
+    }
+  };
+const actions = {
+    househelps(context){//permission.index route laravel
+      axios.get('/househelp/get')
+      .then((response)=>{
+        console.log(response.data)
+        context.commit('househelps', response.data.househelps);
+      });
+    },
+    HousehelpById(context, payload){
+        axios.get('/househelp/show/'+payload)
+              .then((response)=>{
+                  console.log(response.data);
+                  context.commit('househelp', response.data.househelp);
+              });
+    }
+  }
+const mutations = {
+    househelps(state, data){
+      return state.househelps = data;
+    },
+    househelp(state, data){
+      return state.househelp = data;
+    }
+  };
 
-// export default {
-//   // namespaced: true,
-//   state,
-//   getters,
-//   actions,
-//   mutations
-// };
+export default {
+  // namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
+};
+
 
 
 

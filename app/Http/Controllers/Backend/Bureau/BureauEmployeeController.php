@@ -173,12 +173,6 @@ class BureauEmployeeController extends Controller
             'employee'=>$employee,
         ], 200);
 
-        // $employee = User::
-        //                 with('roles','permissions','bureauemployees')
-        //                 ->find($id);
-        // return response()-> json([
-        //     'employee'=>$employee,
-        // ], 200);
     }
 
     /**

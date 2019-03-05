@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\Standard\CountryController;
 use App\Http\Controllers\Backend\Organisation\RoleController;
 use App\Http\Controllers\Backend\Organisation\UserController;
 use App\Http\Controllers\Backend\Bureau\BureauAdminController;
+use App\Http\Controllers\Backend\Househelp\HousehelpController;
 use App\Http\Controllers\Backend\Webpage\ServiceModelController;
 use App\Http\Controllers\Backend\Bureau\BureauDirectorController;
 use App\Http\Controllers\Backend\Bureau\BureauEmployeeController;
@@ -366,19 +367,20 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
 
 
     //                  // househelp
-    //      Route::get('househelp/get', [HousehelpController::class, 'index'])->name('househelp.index');
-    //      Route::get('househelps/get', [HousehelpController::class, 'bureaus'])->name('househelp.bureaus');
-    //      Route::get('househelp/get/list', [HousehelpController::class, 'househelpList'])->name('househelp.list-index');
-    //      Route::post('househelp/verify/kin/', [HousehelpController::class, 'verifyKinInfo'])->name('househelp.verifykin');
-    //      Route::patch('househelp/{bureaudirector}', [HousehelpController::class, 'store'])->name('househelp.store');
-    //  //     /*
-    //  //      * Specifics
-    //  //      */
-    //      Route::get('househelp/show/{househelp}', [HousehelpController::class, 'show'])->name('househelp.show');
-    //      Route::get('househelp/edit/{househelp}', [HousehelpController::class, 'edit'])->name('househelp.edit');
-    //      Route::patch('househelp/updateverify/kin/{househelp}', [HousehelpController::class, 'updateverifyKinInfo'])->name('househelp.updateverifykin');
-    //      Route::patch('househelp/update/{househelp}', [HousehelpController::class, 'update'])->name('househelp.update');
-    //      Route::get('househelp/delete/{househelp}/', [HousehelpController::class, 'destroy'])->name('househelp.destroy');
+         Route::get('househelp/get', [HousehelpController::class, 'index'])->name('househelp.index');
+         Route::post('househelp/verify/demographics/', [HousehelpController::class, 'verifyDemographics'])->name('househelp.verifydemographics');
+         Route::post('househelp/verify/attributes/', [HousehelpController::class, 'verifyAttributes'])->name('househelp.verifyattributes');
+         Route::post('househelp/verify/kin/', [HousehelpController::class, 'verifyKin'])->name('househelp.verifykin');
+
+         Route::post('househelp/verify/kin/', [HousehelpController::class, 'verifyKinInfo'])->name('househelp.verifykin');
+         Route::patch('househelp/{bureaudirector}', [HousehelpController::class, 'store'])->name('househelp.store');
+     //     /*
+     //      * Specifics
+     //      */
+         Route::get('househelp/show/{househelp}', [HousehelpController::class, 'show'])->name('househelp.show');
+         Route::get('househelp/edit/{househelp}', [HousehelpController::class, 'edit'])->name('househelp.edit');
+         Route::patch('househelp/update/{househelp}', [HousehelpController::class, 'update'])->name('househelp.update');
+         Route::get('househelp/delete/{househelp}/', [HousehelpController::class, 'destroy'])->name('househelp.destroy');
 
 
 

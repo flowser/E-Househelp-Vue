@@ -532,24 +532,7 @@
         name:"SingleBureau",
         data(){
             return{
-                newBureauDirector: false,
-                editmodeBureau: false,
-                bureauOutput:'',//view form data and confirm if is ok before submit
-                bureauform: new Form({
-                        id:'',
-                        name:'',
-                        bureau_email:'',
-                        phone:'',
-                        landline:'',
-                        website:'',
-                        address:'',
-                        country_id:'',
-                        county_id:'',
-                        constituency_id:'',
-                        ward_id:'',
-                        logo:'',
-                }),
-                 newDirector: false,
+                newDirector: false,
                 editmodeHousehelp: false,
                 househelpform: new Form({
                         id:'',
@@ -557,12 +540,10 @@
                         househelp_last_name:'',
                         househelp_email:'',
                         househelp_password:'',
-                        househelp_user_type:'',
-                        permissions:[],
-                        roles:[],
+
+
                         househelp_user_id:'',
                         househelp_bureau_id:'',
-                        househelp_age:'',
 
                         househelp_photo:'',
                         househelp_id_photo_front:'',
@@ -575,7 +556,8 @@
                         househelp_constituency_id:'',
                         househelp_ward_id:'',
                         //extra
-                        househelp_id_no:'',
+                        age:'',
+                        househelp_gender_id:'',
                         education_id:'',
                         experience_id:'',
                         maritalstatus_id:'',
@@ -620,42 +602,17 @@
 
                 }),
 
-                 //organisation
+                 //Househelp
                 phone1:{
                         isValid: false,
                         country: undefined,
                 },
-                landline1:{
-                        isValid: false,
-                        country: undefined,
-                },
-                 //director
+                 //househelpkin
                 phone2:{
                         isValid: false,
                         country: undefined,
                 },
-                landline2:{
-                        isValid: false,
-                        country: undefined,
-                },
-                //admin
-                phone3:{
-                        isValid: false,
-                        country: undefined,
-                },
-                landline3:{
-                        isValid: false,
-                        country: undefined,
-                },
-                  //employee
-                phone4:{
-                        isValid: false,
-                        country: undefined,
-                },
-                landline4:{
-                        isValid: false,
-                        country: undefined,
-                },
+
             }
         },
         mounted() {
@@ -666,38 +623,10 @@
             this.singlebureau();
         },
         computed:{
-            Countries(){
-                return this.$store.getters.Countries
+            Househelps(){
+                console.log(this.$store.getters.BureauHousehelps)
+               return this.$store.getters.BureauHousehelps//View Single Bureau houshelp  by parameter id with their kins
             },
-            Counties(){
-               return this.$store.getters.CountryCounties
-            },
-            Constituencies(){
-               return this.$store.getters.CountyConstituencies
-            },
-            Wards(){
-               return this.$store.getters.ConstituencyWards
-            },
-            Bureau(){
-                console.log(this.$store.getters.Bureau)
-               return this.$store.getters.Bureau//single Bureau by parameter id
-            },
-            Director(){
-                console.log(this.$store.getters.BureauDirector)
-               return this.$store.getters.BureauDirector//View Single Bureau director  by parameter id
-            },
-            Admin(){
-                console.log(this.$store.getters.BureauAdmin)
-               return this.$store.getters.BureauAdmin//View Single Bureau  admin by parameter id
-            },
-            Employee(){
-                console.log(this.$store.getters.BureauEmployee)
-               return this.$store.getters.BureauEmployee//View Single Bureau  admin by parameter id
-            },
-            // Househelp(){
-            //     console.log(this.$store.getters.BureauHousehelp)
-            //    return this.$store.getters.BureauHousehelps//View Single Bureau houshelp  by parameter id with their kins
-            // },
             // CLient(){
             //     console.log(this.$store.getters.BureauClient)
             //    return this.$store.getters.BureauClient//View Single Bureau client  by parameter id

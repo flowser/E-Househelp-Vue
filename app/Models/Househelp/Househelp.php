@@ -17,22 +17,12 @@ class Househelp extends Model
         'user_id',
         'bureau_id',
         'photo',
-        'age',
-
-
-
-        'id_no',
-        'id_waiting_card_no',
-        'id_photo_front',
-        'id_photo_back',
-        'search_fee',
         'about_me',
         'phone',
         'address',
         'active',
         'employmentstatus',
-        'hired',
-
+        'hiredstatus',
 
         'country_id',
         'county_id',
@@ -41,6 +31,7 @@ class Househelp extends Model
 
         //filters
 
+        'age',
         'gender_id',
         'education_id',
         'experience_id',
@@ -50,8 +41,6 @@ class Househelp extends Model
         'operation_id',
         'duration_id',
         'englishstatus_id',
-        'healthstatus_id',
-        'idstatus_id',
         'religion_id',
         'kid_id',
     ];
