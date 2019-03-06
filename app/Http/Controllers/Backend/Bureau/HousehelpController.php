@@ -50,21 +50,70 @@ class HousehelpController extends Controller
         }
 
     }
-
+//for fresh store
 
     public function verifyDemographics (Request $request)
     {
-        $this->validate($request,[
 
+        $this->validate($request,[
+            'househelp_first_name'  =>  'required',
+            'househelp_last_name'  =>  'required',
+            'email'  =>  'required|email|max:255|unique:users',
+            'househelp_password'  =>  'required',
+            'househelp_phone'  =>  'phone:AUTO,MOBILE',
+            'househelp_landline'  =>  'phone:AUTO,MOBILE',
+            'househelp_address'  =>  'required|digits_between:1,20',
+            'househelp_age'  =>  'required',
+            'househelp_gender_id'  =>  'required',
+            'househelp_country_id'  =>  'required',
+            'househelp_county_id'  =>  'required',
+            'househelp_constituency_id'  =>  'required',
+            'househelp_ward_id'  =>  'required',
+            'househelp_photo'  =>  'required',
+           
+            'househelp_id_status'           => 'required',
+            'househelp_id_number'  =>  'required|digits_between:7,10',
+            'househelp_ref_number'          => 'required',
+            'househelp_id_photo_front'      => 'required',
+            'househelp_id_photo_back'       => 'required',
        ]);
     }
     public function verifyAttributes (Request $request)
     {
         $this->validate($request,[
 
+            'househelp_education_id'        => 'required',
+            'househelp_experience_id'       => 'required',
+            'househelp_maritalstatus_id'    => 'required',
+            'househelp_tribe_id'            => 'required',
+            'househelp_skill_id'            => 'required',
+            'househelp_operation_id'        => 'required',
+            'househelp_duration_id'         => 'required',
+            'househelp_englishstatus_id'    => 'required',
+            'househelp_religion_id'         => 'required',
+            'househelp_kid_id'              => 'required',
+
+
+            'househelp_health_status'       => 'required',
+            'househelp_specify'             => 'required',
        ]);
     }
+
     public function verifyKin (Request $request)
+    {
+        $this->validate($request,[
+
+       ]);
+    }
+
+    //for update
+    public function verifyUpdateDemographics (Request $request)
+    {
+        $this->validate($request,[
+
+       ]);
+    }
+    public function verifyUpdateAttributes (Request $request)
     {
         $this->validate($request,[
 

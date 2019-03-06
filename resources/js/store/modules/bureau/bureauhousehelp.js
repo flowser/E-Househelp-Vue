@@ -28,7 +28,7 @@ const actions = {
                   context.commit('househelp', response.data.househelp);
               });
     }
-  }
+  };
 const mutations = {
     househelps(state, data){
       return state.househelps = data;

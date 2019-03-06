@@ -27,6 +27,17 @@ import bureauadmin from './modules/bureau/bureauadmin';
 import bureauemployee from './modules/bureau/bureauemployee';
 import bureauhousehelp from './modules/bureau/bureauhousehelp';
 import bureauclient from './modules/bureau/bureauclient';
+//househelp standard
+import duration from './modules/bureau/standard/duration';
+import education from './modules/bureau/standard/education';
+import englishstatus from './modules/bureau/standard/englishstatus';
+import experience from './modules/bureau/standard/experience';
+import kid from './modules/bureau/standard/kid';
+import maritalstatus from './modules/bureau/standard/maritalstatus';
+import operation from './modules/bureau/standard/operation';
+import religion from './modules/bureau/standard/religion';
+import skill from './modules/bureau/standard/skill';
+import tribe from './modules/bureau/standard/tribe';
 
         export default {
           modules: {
@@ -46,8 +57,17 @@ import bureauclient from './modules/bureau/bureauclient';
                 bureauemployee,
                 bureauhousehelp,
                 bureauclient,
-            //househelp
-                // househelp,
+            //househelp standard
+                duration,
+                education,
+                englishstatus,
+                experience,
+                kid,
+                maritalstatus,
+                operation,
+                religion,
+                skill,
+                tribe,
 
             //client
                 // client,

@@ -97,7 +97,13 @@
                                 <!-- Navbar brand -->
                                 {{-- {{$organisation}} --}}
                                 <div class="navbar-header">
-                                    <img src="assets/organisation/img/logo/{{$organisation->logo}}" alt="logo" style="width: 50px;padding-bottom: 1px;">
+                                   @if($organisation->logo != null)
+                                        <img src="assets/organisation/img/logo/{{$organisation->logo}}" alt="logo" style="width: 50px;padding-bottom: 1px;">
+                                      @else
+                                      <img src="{{URL::asset('assets/organisation/img/website/empty.png')}}" alt="logo" style="width: 50px;padding-bottom: 1px;">
+
+                                   @endif
+
                                 </div>
                                 <!-- Collapsible content -->
                                 <div class="collapse navbar-collapse" id="basicExampleNav">

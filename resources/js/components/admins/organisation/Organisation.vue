@@ -337,15 +337,23 @@
                                         <h3 class="card-title">
                                              <a href="#general_configuration">About Us Settings</a>
                                         </h3>
-                                        <div class="card-tools" v-if="About.length <1">
-                                                <button class="btn btn-success" @click.prevent="newAboutModal()" >Add About Us
-                                                    <i class="fas fa-plus fw"></i>
-                                                </button>
-                                        </div>
                                     </div>
                                     <!-- about us -->
                                      <div >
-                                        <div class="card" >
+                                         <div class="card" v-if="About <1 ">
+                                             <div class="card-body">
+                                                <h5 class="card-title text-center">
+                                                    Currently the About us setting is not yet set,
+                                                     Kindly set it using ,
+                                                     <span>
+                                                         <button class="btn btn-success" @click.prevent="newAboutModal()" >Add About Us
+                                                            <i class="fas fa-plus fw"></i>
+                                                        </button>
+                                                     </span>
+                                                </h5>
+                                             </div>
+                                         </div>
+                                        <div class="card" v-else>
                                             <div class="row">
                                                 <div class="col-md-4" >
                                                     <div class="card-body">
@@ -409,14 +417,27 @@
                                         <h3 class="card-title">
                                              <a href="#advert">Service Settings</a>
                                         </h3>
-                                        <div class="card-tools">
+                                        <div class="card-tools" v-if="Services.length >0 ">
                                                 <button class="btn btn-success" @click.prevent="newServiceModal()" >Add new Service
                                                     <i class="fas fa-plus fw"></i>
                                                 </button>
                                         </div>
                                          <!-- service -->
                                     </div>
-                                    <div class="card-body">
+                                     <div class="card" v-if="Services.length <1 ">
+                                          <div class="card-body">
+                                            <h5 class="card-title text-center">
+                                                Currently the Services setting is not yet set,
+                                                Kindly set it using ,
+                                                <span>
+                                                    <button class="btn btn-success" @click.prevent="newServiceModal()" >Add new Service
+                                                       <i class="fas fa-plus fw"></i>
+                                                    </button>
+                                                </span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="card" v-else>
                                         <div class="row ">
                                                  <div  v-for="service in Services" :key="service.id" class="col-md-3 d-flex">
                                                     <div class="card flex-fill" >
@@ -460,12 +481,26 @@
                                         <h3 class="card-title">
                                              <a href="#features">System Features Settings</a>
                                         </h3>
-                                        <div class="card-tools">
+                                        <div class="card-tools" v-if="Features.length >0 ">
                                                 <button class="btn btn-success" @click.prevent="newFeatureModal()" >Add new System Feature
                                                     <i class="fas fa-plus fw"></i>
                                                 </button>
                                         </div>
-                                         <!-- feature -->
+                                        <div class="card" v-if="Features.length <1 ">
+                                          <div class="card-body">
+                                            <h5 class="card-title text-center">
+                                                Currently the Features setting is not yet set,
+                                                Kindly set it using ,
+                                                <span>
+                                                    <button class="btn btn-success" @click.prevent="newFeatureModal()" >Add new Feature
+                                                       <i class="fas fa-plus fw"></i>
+                                                    </button>
+                                                </span>
+                                            </h5>
+                                          </div>
+                                        </div>
+                                            <!-- feature -->
+                                        <div class="card" v-else>
                                             <div class="row ">
                                                 <div  v-for="feature in Features" :key="feature.id" class="col-md-3 d-flex">
                                                     <div class="card flex-fill" >
@@ -501,6 +536,7 @@
                                                         <!-- {{ $fulltime_courses->links()}} -->
                                                 </ul>
                                             </div>
+                                        </div>
                                             <!--end feature  -->
                                     </div>
                                 </div>
@@ -509,12 +545,26 @@
                                         <h3 class="card-title">
                                              <a href="#advert">Advert Settings</a>
                                         </h3>
-                                        <div class="card-tools">
-                                                <button class="btn btn-success" @click.prevent="newAdvertModal()" >Add new Advert
+                                        <div class="card-tools" v-if="Adverts.length >0 ">
+                                                <button class="btn btn-success" @click.prevent="newAdvertodal()" >Add new Advert
                                                     <i class="fas fa-plus fw"></i>
                                                 </button>
                                         </div>
+                                        <div class="card" v-if="Adverts.length <1 ">
+                                          <div class="card-body">
+                                            <h5 class="card-title text-center">
+                                                Currently the Adverts setting is not yet set,
+                                                Kindly set it using ,
+                                                <span>
+                                                    <button class="btn btn-success" @click.prevent="newAdvertModal()" >Add new Advert
+                                                       <i class="fas fa-plus fw"></i>
+                                                    </button>
+                                                </span>
+                                            </h5>
+                                          </div>
+                                        </div>
                                          <!-- Advert -->
+                                          <div class="card" v-else>
                                             <div class="row ">
                                                  <div  v-for="advert in Adverts" :key="advert.id" class="col-md-3 d-flex">
                                                     <div class="card flex-fill" >
@@ -550,9 +600,8 @@
                                                         <!-- {{ $fulltime_courses->links()}} -->
                                                 </ul>
                                             </div>
+                                          </div>
                                             <!--end Advert  -->
-
-
                                     </div>
                                 </div>
                             </div>

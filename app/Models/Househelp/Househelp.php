@@ -81,5 +81,52 @@ class Househelp extends Model
 
 
     //has many
-
+    public function househelpkin()
+    {
+        return $this->hasOne(HousehelpKin::class);
+    }
+    public function idstatus()
+    {
+        return $this->hasOne(IDstatus::class);
+    }
+    public function healthtatus()
+    {
+        return $this->hasOne(Healthstatus::class);
+    }
+    public function househelpkins()
+    {
+        return $this->belongsToMany(User::class,'househelp_kin')
+                    ->withPivot(
+                        'photo',
+                        'active',
+                        'id_no',
+                        'id_photo_front',
+                        'id_photo_back',
+                        'phone',
+                        'landline',
+                        'address',
+                        'gender_id',
+                        'relationship_id',
+                        'country_id',
+                        'county_id',
+                        'constituency_id',
+                        'ward_id'
+                    )
+                    ->join('genders', 'househelp_kin.gender_id', '=', 'genders.id')
+                    ->join('relationships', 'househelp_kin.relationship_id', '=', 'relationships.id')
+                    ->join('countries', 'househelp_kin.country_id', '=', 'countries.id')
+                    ->join('counties', 'househelp_kin.county_id', '=', 'counties.id')
+                    ->join('constituencies', 'househelp_kin.constituency_id', '=', 'constituencies.id')
+                    ->join('wards', 'househelp_kin.ward_id', '=', 'wards.id')
+                    ->select('users.*',
+                        'househelp_kin.*',
+                            'genders.name as gender_name',
+                            'relationship.name as relationship_name',
+                            'countries.name as country_name',
+                            'counties.name as county_name',
+                            'constituencies.name as constituency_name',
+                            'wards.name as ward_name',
+                    )
+                    ->withTimestamps();
+    }
 }

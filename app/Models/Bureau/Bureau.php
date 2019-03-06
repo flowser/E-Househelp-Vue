@@ -167,10 +167,68 @@ class Bureau extends Model
 
 
 
-    public function househelps()
+    public function bureauhousehelps()
     {
-        return $this->hasMany(Househelp::class);
+        return $this->belongsToMany(User::class,'bureau_househelp')
+                    ->withPivot(
+                        'photo',
+                        'about_me',
+                        'phone',
+                        'address',
+                        'active',
+                        'employmentstatus',
+                        'hiredstatus',
+                        'country_id',
+                        'county_id',
+                        'constituency_id',
+                        'ward_id',
+                        //filters
+                        'age',
+                        'gender_id',
+                        'education_id',
+                        'experience_id',
+                        'maritalstatus_id',
+                        'tribe_id',
+                        'skill_id',
+                        'operation_id',
+                        'duration_id',
+                        'englishstatus_id',
+                        'religion_id',
+                        'kid_id'
+                    )
+                    ->join('countries', 'bureau_househelp.country_id', '=', 'countries.id')
+                    ->join('counties', 'bureau_househelp.county_id', '=', 'counties.id')
+                    ->join('constituencies', 'bureau_househelp.constituency_id', '=', 'constituencies.id')
+                    ->join('wards', 'bureau_househelp.ward_id', '=', 'wards.id')
+                    ->join('genders', 'bureau_househelp.gender_id', '=', 'genders.id')
+                    ->join('educations', 'bureau_househelp.education_id', '=', 'educations.id')
+                    ->join('experiences', 'bureau_househelp.experience_id', '=', 'experiences.id')
+                    ->join('maritalstatuses', 'bureau_househelp.maritalstatus_id', '=', 'maritalstatuses.id')
+                    ->join('tribes', 'bureau_househelp.tribe_id', '=', 'tribes.id')
+                    ->join('skills', 'bureau_househelp.skill_id', '=', 'skills.id')
+                    ->join('operations', 'bureau_househelp.operation_id', '=', 'operations.id')
+                    ->join('durations', 'bureau_househelp.duration_id', '=', 'durations.id')
+                    ->join('englishstatuses', 'bureau_househelp.englishstatus_id', '=', 'englishstatuses.id')
+                    ->join('religions', 'bureau_househelp.religion_id', '=', 'religions.id')
+                    ->join('kids', 'bureau_househelp.kid_id', '=', 'kids.id')
+                    ->select('users.*',
+                        'bureau_househelp.*',
+                            'countries.name as country_name',
+                            'counties.name as county_name',
+                            'constituencies.name as constituency_name',
+                            'wards.name as ward_name',
+                            'genders.name as gender_name',
+                            'educations.name as education_name',
+                            'experiences.name as experience_name',
+                            'maritalstatuses.name as maritalstatus_name',
+                            'tribes.name as tribe_name',
+                            'skills.name as skill_name',
+                            'operations.name as operation_name',
+                            'durations.name as duration_name',
+                            'englishstatuses.name as englishstatus_name',
+                            'religions.name as religion_name',
+                            'kids.name as kid_name'
+                    )
+                    ->withTimestamps();
     }
-
-     //about page
 }

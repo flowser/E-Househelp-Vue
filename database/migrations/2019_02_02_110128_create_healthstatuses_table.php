@@ -21,7 +21,7 @@ class CreateHealthstatusesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('househelp_id')->references('id')->on('househelps')->onDelete('cascade');
+            $table->foreign('househelp_id')->references('id')->on('bureau_househelp')->onDelete('cascade');
         });
     }
 
