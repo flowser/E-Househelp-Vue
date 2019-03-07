@@ -30,6 +30,13 @@ const actions = {
                   context.commit('bureau', response.data.bureau);
               });
     },
+    bureauByUserID(context, payload){
+        axios.get('/bureau/get')
+              .then((response)=>{
+                  console.log(response.data);
+                  context.commit('bureau', response.data.bureau);
+              });
+    },
   }
 const mutations = {
     bureaus(state, data){

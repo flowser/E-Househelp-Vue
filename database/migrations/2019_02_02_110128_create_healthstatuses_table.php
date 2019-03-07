@@ -15,13 +15,17 @@ class CreateHealthstatusesTable extends Migration
     {
         Schema::create('healthstatuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('househelp_id');
+            $table->unsignedInteger('bureau_househelp_id');
             $table->string('status')->nullable(); //HIV, ellergy, anyother
+            $table->string('HIV_status')->nullable();
+            $table->string('other_chronics')->nullable();
+            $table->string('chronic_details')->nullable();
+            $table->string('allergy')->nullable();
             $table->string('specify')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('househelp_id')->references('id')->on('bureau_househelp')->onDelete('cascade');
+            $table->foreign('bureau_househelp_id')->references('id')->on('bureau_househelp')->onDelete('cascade');
         });
     }
 

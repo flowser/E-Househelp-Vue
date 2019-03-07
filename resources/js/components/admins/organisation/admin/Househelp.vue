@@ -7,6 +7,7 @@
         <div class="col-md">
           <div class="card">
             <div class="card-header">
+              <h3 class="card-title">Welcome to {{Bureau.name}} Househelps</h3>
               <h3 class="card-title">Househelps And Their Next of Kins Table</h3>
               <div class="card-tools">
                     <button class="btn btn-success"  @click.prevent="newHousehelpKinModal()">Add New Househelp and Their Next of Kins                         <i class="fas fa-plus fw"></i>
@@ -24,7 +25,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(househelp, index) in Househelps" :key="househelp.id">
+                  <tr v-for="(househelp, index) in Bureau.bureauhousehelps" :key="househelp.id">
                     <td >{{index+1}}</td>
                     <td >
                         <div class="row">
@@ -43,7 +44,7 @@
                                                 <!-- {{Bureau.name}}, -->
                                             </span>
                                         </div>
-                                        <div> ID: ,<span style="color:#9a009a;">{{househelp.pivot.id_no}}</span>,
+                                        <div> ID: ,<span style="color:#9a009a;">{{househelp.pivot.id_number}}</span>,
                                             Phone: <span style="color:#9a009a;">{{househelp.pivot.phone}},</span>
                                         </div>
                                         <div>
@@ -126,7 +127,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form-wizard role="form" @on-complete="addHousehelp ()" >
+                        <form-wizard role="form" @on-complete="addHousehelp(Bureau.id)" >
                             <h5 class="modal-title" id="Househelp_KinModalLabel">Add New Househelp & Kin</h5>
 
                             <tab-content title="Househelp Househelp Info" :before-change="validateHousehelpDemograhic">
@@ -157,10 +158,13 @@
                                             <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_password"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_age" class="col-form-label">Househelp Age</label>
-                                            <input v-model="househelp_kinform.househelp_age" type="text" name="househelp_age" placeholder="Househelp age"
-                                                class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_age') }" >
-                                            <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_age"></has-error>
+                                            <label for="househelp_birth_date" class="col-form-label">Househelp Birth Date</label>
+                                                <!-- <datetime v-model="househelp_kinform.househelp_birth_date" type="text" name="househelp_birth_date" placeholder="Househelp Birth Date"
+                                                              input-class="my-class form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_birth_date') }" >
+                                                </datetime> -->
+                                                <datetime v-model="househelp_kinform.househelp_birth_date" type="text" id="househelp_birth_date" placeholder="Househelp Birth Date"
+                                                class="form-control"  input-class="form-control border-0" style="padding-top: 0px;"  :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_birth_date') }"></datetime>
+                                            <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_birth_date"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="househelp_address" class=" col-form-label">Househelp Address</label>
@@ -245,40 +249,86 @@
                                     <div class=" row">
                                         <div class="form-group col-md-4">
                                             <div>Househelp ID status</div>
-                                            <div class="col">
-                                                <input type="radio" name="paper" v-model="selected" value="live">Live Papaer
-                                                <div v-if="selected === 'live'">
-                                                    Live on <input type="datetime-local" name="" value="" > Time <input type="time" name="" value="">
-                                                </div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="HasID">
+                                                <label for="IDstatus" class="col-form-label"> Has ID card</label>
                                             </div>
-                                            <div class="col">
-                                                <input type="radio" name="paper" v-model="hasID" value="normal">Normal Paper
-                                                <div v-if="hasID === true">
-                                                    Time <input type="time" name="" value="">
-                                                </div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="HASIDbutlost">
+                                                <label for="IDstatus" class="col-form-label"> Has ID (lost, waiting card)</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="NOIDbutapplied">
+                                                <label for="IDstatus" class="col-form-label"> NO ID (new, waiting card)</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="NOID">
+                                                <label for="IDstatus" class="col-form-label"> NO ID (completely) </label>
                                             </div>
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_id_photo_front" class=" col-form-label">Househelp FrontSide ID Photo</label><br>
+                                            <div v-show="IDstatus === 'HasID'">
+                                               <label for="househelp_id_photo_front" class=" col-form-label">Househelp FrontSide ID Photo</label><br>
                                                 <input @change="househelpChangeIDFrontPhoto($event)" type="file" name="househelp_id_photo_front"
                                                     :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_id_photo_front') }"
                                                      class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
                                                     <img  :src="househelp_kinform.househelp_id_photo_front" alt="" width="100%" >
                                                 <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_id_photo_front"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'HASIDbutlost'">
+                                                <label for="househelp_id_number" class="col-form-label">Househelp ID NO.</label>
+                                                    <input v-model="househelp_kinform.househelp_id_number" type="text" name="househelp_id_number" placeholder="Househelp ID NO"
+                                                    class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_id_number') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_id_number"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'NOIDbutapplied'">
+                                                <label for="househelp_ref_number" class="col-form-label">Househelp Waiting Card Rer NO.</label>
+                                                    <input v-model="househelp_kinform.househelp_ref_number" type="text" name="househelp_ref_number" placeholder="Househelp Waiting card ref NO"
+                                                    class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_ref_number') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_ref_number"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'NOID'">
+                                                <h5 class="text-center">This Househelp has No ID card Whatsoever,
+                                                     but you can register and later update if Gets ID card</h5>
+                                            </div>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_id_photo_back" class=" col-form-label">Househelp BackSide ID Photo</label><br>
-                                                <input @change="househelpChangeIDBackPhoto($event)" type="file" name="househelp_id_photo_back"
-                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_id_photo_back') }"
-                                                     class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
-                                                    <img  :src="househelp_kinform.househelp_id_photo_back" alt="" width="100%" >
+                                             <div v-show="IDstatus === 'HasID'">
+                                                <label for="househelp_id_photo_back" class=" col-form-label">Househelp BackSide ID Photo</label><br>
+                                                    <input @change="househelpChangeIDBackPhoto($event)" type="file" name="househelp_id_photo_back"
+                                                        :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_id_photo_back') }"
+                                                        class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
+                                                        <img  :src="househelp_kinform.househelp_id_photo_back" alt="" width="100%" >
                                                 <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_id_photo_back"></has-error>
+
+                                               <div>
+                                                   <label for="househelp_id_number" class="col-form-label">Househelp ID NO.</label>
+                                                    <input v-model="househelp_kinform.househelp_id_number" type="text" name="househelp_id_number" placeholder="Househelp ID NO"
+                                                    class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_id_number') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_id_number"></has-error>
+                                               </div>
+                                            </div>
+                                            <div v-show="IDstatus === 'HASIDbutlost'">
+                                                  <label for="househelp_waiting_card_photo" class="col-form-label">Househelp Waiting Card Photo</label>
+                                                 <input @change="househelpChangeWaitingCardPhoto($event)" type="file" name="househelp_waiting_card_photo"
+                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_waiting_card_photo') }"
+                                                     class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
+                                                    <img  :src="househelp_kinform.househelp_waiting_card_photo" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_waiting_card_photo"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'NOIDbutapplied'">
+                                                <label for="househelp_waiting_card_photo" class=" col-form-label">Househelp Waiting Card Photo</label><br>
+                                                <input @change="househelpChangeWaitingCardPhoto($event)" type="file" name="househelp_waiting_card_photo"
+                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelp_waiting_card_photo') }"
+                                                     class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
+                                                    <img  :src="househelp_kinform.househelp_waiting_card_photo" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_waiting_card_photo"></has-error>
+                                            </div>
                                         </div>
                                     </div>
                             </tab-content>
                             <tab-content title="Househelp Features Info" :before-change="validateHousehelpAttributes">
-
                                     <div class=" row">
                                          <div class="form-group col-md-3">
                                             <label for="househelp_education_id">Select Education Level</label>
@@ -375,6 +425,57 @@
                                                 <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_kid_id"></has-error>
                                         </div>
                                     </div>
+                                    <div class=" row">
+                                        <div class="form-group col-md-4">
+                                            <div>Househelp ID status</div>
+                                            <div>
+                                                <input type="radio" v-model="Healthstatus" value="HEALTHY">
+                                                <label for="Healthstatus" class="col-form-label"> Is Healthy</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="Healthstatus" value="HASMINOR">
+                                                <label for="Healthstatus" class="col-form-label">Has Minor Health Issues</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="Healthstatus" value="HASCHRONIC">
+                                                <label for="Healthstatus" class="col-form-label">Has Other Chronic</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div v-show="Healthstatus === 'HEALTHY'">
+                                                   <label for="HIV_status" class="col-form-label">HIV status</label>
+                                                    <input v-model="househelp_kinform.HIV_status" type="text" name="HIV_status" placeholder="HIV status"
+                                                    class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('HIV_status') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelp_kinform" field="HIV_status"></has-error>
+                                            </div>
+                                            <div v-show="Healthstatus === 'HASMINOR'">
+                                                <label for="HIV_status" class="col-form-label">HIV status</label>
+                                                    <input v-model="househelp_kinform.HIV_status" type="text" name="HIV_status" placeholder="HIV status"
+                                                    class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('HIV_status') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelp_kinform" field="HIV_status"></has-error>
+                                            </div>
+                                            <div v-show="Healthstatus === 'HASCHRONIC'">
+                                                <label for="HIV_status" class="col-form-label"> HIV status</label>
+                                                    <input v-model="househelp_kinform.HIV_status" type="text" name="HIV_status" placeholder="HIV status"
+                                                    class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('HIV_status') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelp_kinform" field="HIV_status"></has-error>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div v-show="Healthstatus === 'HASMINOR'">
+                                                <label for="specify" class="col-form-label">Allergies Specification</label>
+                                                <input v-model="househelp_kinform.specify" type="text" name="specify" placeholder="Allergies Specification"
+                                                   class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('specify') }" >
+                                               <has-error style="color: #e83e8c" :form="househelp_kinform" field="specify"></has-error>
+                                            </div>
+                                            <div v-show="Healthstatus === 'HASCHRONIC'">
+                                                   <label for="chronic_details" class="col-form-label">Chronic Issues</label>
+                                                    <input v-model="househelp_kinform.chronic_details" type="text" name="chronic_details" placeholder="Chronic Issues"
+                                                    class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('chronic_details') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelp_kinform" field="chronic_details"></has-error>
+                                            </div>
+                                        </div>
+                                    </div>
                             </tab-content>
                             <tab-content title="Househelpkin Househelpkin Info" :before-change="validateHousehelpkin">
                                       <div class="row">
@@ -399,14 +500,32 @@
 
                                     </div>
                                     <div class=" row">
+                                        <div class="form-group col-md-3">
+                                            <label for="househelpkin_relationship_id">Select Relationship </label>
+                                            <select class="form-control" v-model="househelp_kinform.househelpkin_relationship_id"
+                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelpkin_relationship_id') }">
+                                                    <option disabled value="">Select relationship</option>
+                                                    <option v-for="relationship in Relationships" :value="relationship.id" :key="relationship.id">{{relationship.name}}</option>
+                                            </select>
+                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_gender_id"></has-error>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="househelpkin_gender_id">Select Gender</label>
+                                            <select class="form-control" v-model="househelp_kinform.househelpkin_gender_id"
+                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelpkin_gender_id') }">
+                                                    <option disabled value="">Select gender</option>
+                                                    <option v-for="gender in Genders" :value="gender.id" :key="gender.id">{{gender.name}}</option>
+                                            </select>
+                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelp_gender_id"></has-error>
+                                        </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-3">
                                             <label for="househelpkin_address" class=" col-form-label">Househelpkin Address</label>
                                             <input v-model="househelp_kinform.househelpkin_address" type="text" name="Address" placeholder="Househelpkin Address"
                                                 class="form-control" :class="{ 'is-invalid': househelp_kinform.errors.has('househelpkin_address') }" >
                                             <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelpkin_address"></has-error>
                                         </div>
-                                         <div class="form-group col-md-4">
+                                         <div class="form-group col-md-3">
                                             <label for="househelpkin_phone" class="col-form-label"> Househelpkin Phone</label>
                                                 <div>
                                                     <vue-tel-input v-model="househelp_kinform.househelpkin_phone" name="househelpkin_phone" @onInput="HousehelpkinInputPhone1"
@@ -461,27 +580,30 @@
                                     </div>
                                     <div class=" row">
                                         <div class="form-group col-md-4">
-                                            <label for="househelpkin_passport_image" class=" col-form-label">Househelpkin PassPort Image</label><br>
-                                                <input @change="househelpkinChangePImage($event)" type="file" name="househelpkin_passport_image"
-                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelpkin_passport_image') }">
-                                                    <img  :src="househelp_kinform.househelpkin_passport_image" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelpkin_passport_image"></has-error>
+                                            <label for="househelpkin_photo" class=" col-form-label">Househelpkin PassPort Image</label><br>
+                                                <input @change="househelpkinChangePassPhoto($event)" type="file" name="househelpkin_photo"
+                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelpkin_photo') }">
+                                                    <img  :src="househelp_kinform.househelpkin_photo" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelpkin_photo"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="frontside_househelpkin_id_photo" class=" col-form-label">Househelpkin FrontSide ID Photo</label><br>
-                                                <input @change="househelpkinChangeFIDPhoto($event)" type="file" name="frontside_househelpkin_id_photo"
-                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('frontside_househelpkin_id_photo') }">
-                                                    <img  :src="househelp_kinform.frontside_househelpkin_id_photo" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="frontside_househelpkin_id_photo"></has-error>
+                                            <label for="househelpkin_id_photo_front" class=" col-form-label">Househelpkin FrontSide ID Photo</label><br>
+                                                <input @change="househelpkinChangeIDFrontPhoto($event)" type="file" name="househelpkin_id_photo_front"
+                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelpkin_id_photo_front') }">
+                                                    <img  :src="househelp_kinform.househelpkin_id_photo_front" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelpkin_id_photo_front"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="backside_househelpkin_i_photod" class=" col-form-label">Househelpkin BackSide ID Photo</label><br>
-                                                <input @change="househelpkinChangeBIDPhoto($event)" type="file" name="backside_househelpkin_id_photo"
-                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('backside_househelpkin_id') }">
-                                                    <img  :src="househelp_kinform.backside_househelpkin_id_photo" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="backside_househelpkin_id_photo"></has-error>
+                                            <label for="househelpkin_id_photo_back" class=" col-form-label">Househelpkin BackSide ID Photo</label><br>
+                                                <input @change="househelpkinChangeIDBackPhoto($event)" type="file" name="househelpkin_id_photo_back"
+                                                    :class="{ 'is-invalid': househelp_kinform.errors.has('househelpkin_id_photo_back') }">
+                                                    <img  :src="househelp_kinform.househelpkin_id_photo_back" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelp_kinform" field="househelpkin_id_photo_back"></has-error>
                                         </div>
                                     </div>
+                            </tab-content>
+                            <tab-content>
+                                Create Houshelp and Next of Kin
                             </tab-content>
                         </form-wizard>
                     </div>
@@ -499,6 +621,9 @@
 
   </div>
 </template>
+<script>
+
+</script>
 
 <script>
 
@@ -525,10 +650,8 @@
         name:"Househelps",
         data(){
             return{
-                selected: 'live',
-                    hasID:true,
-                    noIDbutWaitingCard:true,
-                    noID:true,
+                IDstatus:"HasID",    //id status check
+                Healthstatus: "HEALTHY",
                 househelp_kinform: new Form({
                         id:'',
                         househelp_first_name:'',
@@ -541,8 +664,7 @@
                         househelp_bureau_id:'',
 
                         househelp_photo:'',
-                        househelp_id_photo_front:'',
-                        househelp_id_photo_back:'',
+
                         househelp_about_me:'',
                         househelp_phone:'',
                         househelp_address:'',
@@ -551,7 +673,7 @@
                         househelp_constituency_id:'',
                         househelp_ward_id:'',
                         //extra
-                        age:'',
+                        househelp_birth_date:'',
                         househelp_gender_id:'',
                         education_id:'',
                         experience_id:'',
@@ -564,13 +686,22 @@
                         religion_id:'',
                         kid_id:'',
                         //id status
-                        id_status:'',
-                        id_number:'',
-                        ref_number:'',
-                        id_photo_front:'',
-                        id_photo_back:'',
+                        IDstatus:'',
+                        HealthStatus:'',
+
+                        househelp_id_status:'',
+                        househelp_id_status_reason:'',
+                        househelp_id_number:'',
+                        househelp_ref_number:'',
+                        househelp_id_photo_front:'',
+                        househelp_id_photo_back:'',
+                        househelp_waiting_card_photo:'',
                         //health status
-                        health_status:'',
+                        status:'',
+                        HIV_status:'',
+                        other_chronics:'',
+                        chronic_details:'',
+                        allergy:'',
                         specify:'',
 
                         //househelp
@@ -587,6 +718,7 @@
                         househelpkin_id_photo_back:'',
                         househelpkin_phone:'',
                         househelpkin_address:'',
+                        househelpkin_gender_id:'',
                         househelpkin_country_id:'',
                         househelpkin_county_id:'',
                         househelpkin_constituency_id:'',
@@ -615,7 +747,7 @@
                         househelp_constituency_id:'',
                         househelp_ward_id:'',
                         //extra
-                        age:'',
+                        househelp_birth_date:'',
                         househelp_gender_id:'',
                         education_id:'',
                         experience_id:'',
@@ -681,7 +813,6 @@
             this.loadCounties();
             this.loadConstituencies();///linked to methods and actions store
             this.loadWards();///linked to methods and actions store
-            this.loadHousehelps(); //from methods
             this.loadDurations(); //from methods
             this.loadEducations(); //from methods
             this.loadEnglishstatuses(); //from methods
@@ -693,6 +824,7 @@
             this.loadSkills(); //from methods
             this.loadTribes(); //from methods
             this.loadGenders(); //from methods
+            this.loadBureau(); //from methods
         },
         computed:{
             Countries(){
@@ -707,11 +839,11 @@
             Wards(){
                return this.$store.getters.ConstituencyWards
             },
+            Bureau(){
+               return this.$store.getters.Bureau
+            },
             Genders(){
                return this.$store.getters.Genders
-            },
-            Househelps(){
-               return this.$store.getters.BureauHousehelps//View Single Bureau houshelp  by parameter id with their kins
             },
             Educations(){
                return this.$store.getters.Educations
@@ -749,9 +881,28 @@
             // },
         },
         methods:{
-
             //Househelp Demographic
             validateHousehelpDemograhic() {
+                if(this.IDstatus === 'HasID'){
+                    this.househelp_kinform.IDstatus = 'HasID';
+                    this.househelp_kinform.househelp_id_status = 'Yes';
+                    this.househelp_kinform.househelp_id_status_reason = 'Has ID Card';
+                }
+                if(this.IDstatus === 'HASIDbutlost'){
+                    this.househelp_kinform.IDstatus = 'HASIDbutlost';
+                    this.househelp_kinform.househelp_id_status = 'Yes';
+                    this.househelp_kinform.househelp_id_status_reason = 'Has ID Card but lost, however applied for replacement';
+                }
+                if(this.IDstatus === 'NOIDbutapplied'){
+                    this.househelp_kinform.IDstatus = 'NOIDbutapplied';
+                    this.househelp_kinform.househelp_id_status = 'No';
+                    this.househelp_kinform.househelp_id_status_reason = 'Dont Have ID Card but applied for new Card';
+                }
+                if(this.IDstatus === 'NOID'){
+                    this.househelp_kinform.IDstatus = 'NOID';
+                    this.househelp_kinform.househelp_id_status = 'No';
+                    this.househelp_kinform.househelp_id_status_reason = 'Dont Have ID Card and Has not applied for new Card';
+                }
                 this.$Progress.start()
                 return this.househelp_kinform.post('/househelp/verify/demographics')
                     .then((response)=>{
@@ -772,6 +923,20 @@
             },
             //Househelp Attributes Info info verification
             validateHousehelpAttributes() {
+                if(this.Healthstatus === 'HEALTHY'){
+                    this.househelp_kinform.HealthStatus = 'HEALTHY';
+                    this.househelp_kinform.status = 'Healthy';
+                }
+                if(this.Healthstatus === 'HASMINOR'){
+                    this.househelp_kinform.HealthStatus = 'HASMINOR';
+                    this.househelp_kinform.status = 'Yes';
+                    this.househelp_kinform.allergy = 'Has Minor Health Issues';
+                }
+                if(this.Healthstatus === 'HASCHRONIC'){
+                    this.househelp_kinform.HealthStatus = 'HASCHRONIC';
+                    this.househelp_kinform.status = 'Yes';
+                    this.househelp_kinform.other_chronics = 'Has Other Chorinc Issues';
+                }
                 this.$Progress.start()
                 return this.househelp_kinform.post('/househelp/verify/attributes')
                     .then((response)=>{
@@ -794,7 +959,7 @@
             //Househelpkin verification
             validateHousehelpkin() {
                 this.$Progress.start()
-                return this.househelp_kinform.patch('/househelp/verify/kin')
+                return this.househelp_kinform.post('/househelp/verify/kin')
                     .then((response)=>{
                         return true;
                         toast({
@@ -811,6 +976,7 @@
                         })
                     })
             },
+
             //Househelp Update Demographic
             validateupdateHousehelpDemograhic() {
                 let id = this.househelpform.id;
@@ -898,10 +1064,7 @@
                 return this.$store.dispatch( "constituencywards")//get all from towns.index
             },
             loadBureau(){
-                return this.$store.dispatch( "bureaus")//get all from bureau. bureau linked to user
-            },
-            loadHousehelps(){
-                return this.$store.dispatch( "househelps")
+                return this.$store.dispatch("bureauByUserID")
             },
             loadGenders(){
                return this.$store.dispatch("genders")
@@ -980,9 +1143,6 @@
                     return "/assets/bureau/img/website/empty.png";
                 }
             },
-
-            //househelp passport photo
-
             househelpLoadIDFrontPhoto(househelp_idstatus_id_photo_front){
                 if(househelp_idstatus_id_photo_front){
                     return "/assets/bureau/img/househelps/IDs/front/"+househelp_idstatus_id_photo_front;
@@ -1034,6 +1194,24 @@
                         reader.readAsDataURL(file);
                 }
             },
+            househelpChangeWaitingCardPhoto(event){
+             let file = event.target.files[0];
+                if(file.size>1048576){
+                    Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'The File you are uploading is larger than 2mbs!',
+                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
+                        })
+                }else{
+                    let reader = new FileReader();
+                        reader.onload = event=> {
+                            this.househelp_kinform.househelp_waiting_card_photo =event.target.result
+                                // console.log(event.target.result)
+                            };
+                        reader.readAsDataURL(file);
+                }
+            },
 
             househelpChangeIDBackPhoto(event){
              let file = event.target.files[0];
@@ -1066,13 +1244,12 @@
                 }else{
                     let reader = new FileReader();
                         reader.onload = event=> {
-                            this.househelpkin_kinform.househelpkin_photo =event.target.result
+                            this.househelp_kinform.househelpkin_photo =event.target.result
                                 // console.log(event.target.result)
                             };
                         reader.readAsDataURL(file);
                 }
             },
-
             househelpkinChangeIDFrontPhoto(event){
              let file = event.target.files[0];
                 if(file.size>1048576){
@@ -1085,13 +1262,12 @@
                 }else{
                     let reader = new FileReader();
                         reader.onload = event=> {
-                            this.househelpkin_kinform.househelpkin_id_photo_front =event.target.result
+                            this.househelp_kinform.househelpkin_id_photo_front =event.target.result
                                 // console.log(event.target.result)
                             };
                         reader.readAsDataURL(file);
                 }
             },
-
             househelpkinChangeIDBackPhoto(event){
              let file = event.target.files[0];
                 if(file.size>1048576){
@@ -1104,10 +1280,36 @@
                 }else{
                     let reader = new FileReader();
                         reader.onload = event=> {
-                            this.househelpkin_kinform.househelpkin_id_photo_back =event.target.result
+                            this.househelp_kinform.househelpkin_id_photo_back =event.target.result
                             };
                         reader.readAsDataURL(file);
                 }
+            },
+            addHousehelp(Bureau_id) {
+                console.log(Bureau_id)
+                this.$Progress.start();
+                this.househelp_kinform.patch('/househelp/'+Bureau_id)
+                    .then((response)=>{
+                        //  console.log(response.data)
+                         toast({
+                            type: 'success',
+                            title: 'Househelp_kin Created successfully'
+                            })
+                            this.$store.dispatch('bureauByUserID');
+
+                            this.househelp_kinform.reset()
+                            $('#Househelp_KinModal').modal('hide')
+                              this.$Progress.finish()
+                    })
+                    .catch(()=>{
+                        this.$Progress.fail()
+                        //errors
+                            $('#Househelp_KinModal').modal('show');
+                            toast({
+                                type: 'error',
+                                title: 'There was something wrong.'
+                                })
+                    })
             },
 
 

@@ -9,10 +9,12 @@ class Idstatus extends Model
 {
     protected $fillable = [
         'status',
+        'reason',
         'id_number',
         'ref_number',
         'id_photo_front',
         'id_photo_back',
+        'waiting_card_photo',
         'househelp_id',
     ];
 

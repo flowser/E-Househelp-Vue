@@ -10,7 +10,11 @@ class Healthstatus extends Model
     protected $fillable = [
         'househelp_id',
         'status',
-        'specify',
+        'HIV_status',
+        'other_chronics',
+        'chronic_details',
+        'allergy',
+        'specify'
     ];
 
     public function househelp()

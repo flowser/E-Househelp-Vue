@@ -7,7 +7,7 @@ window.Vue = require('vue');
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
-import storeData from "./store/index"
+import storeData from "./store/index";
 const store = new Vuex.Store(
     storeData
 )
@@ -15,8 +15,16 @@ const store = new Vuex.Store(
 import {filter} from './filter';
 
 //suport Phone input vue-tel-input
-import VueTelInput from 'vue-tel-input'
-Vue.use(VueTelInput)
+import VueTelInput from 'vue-tel-input';
+Vue.use(VueTelInput);
+
+//support date picker
+import {Datetime} from 'vue-datetime';
+// You need a specific loader for CSS files
+import 'vue-datetime/dist/vue-datetime.css';
+
+
+Vue.component('datetime', Datetime);
 
 //vue-router support
 import VueRouter from 'vue-router';

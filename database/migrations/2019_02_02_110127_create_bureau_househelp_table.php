@@ -28,7 +28,7 @@ class CreateBureauHousehelpTable extends Migration
             //statuses
             $table->tinyInteger('active')->default(1)->unsigned();
             $table->tinyInteger('employmentstatus')->default(0)->unsigned();
-            $table->tinyInteger('hired')->default(0)->unsigned();
+            $table->tinyInteger('hiredstatus')->default(0)->unsigned();
 
             //stand filters
             $table->integer('country_id')->unsigned()->nullable();

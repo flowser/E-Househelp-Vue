@@ -316,6 +316,7 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
 
          // bureau
          Route::get('bureaus/get', [BureauController::class, 'index'])->name('bureau.index');
+         Route::get('bureau/get', [BureauController::class, 'bureauByUserID'])->name('bureau.bureauByUserID');
          Route::post('bureau/verify/info/', [BureauController::class, 'verifyBureauInfo'])->name('bureau.verify');
          Route::post('bureau/verify/director/', [BureauController::class, 'verifyDirectorInfo'])->name('bureau.verifydirector');
          Route::post('bureau', [BureauController::class, 'store'])->name('bureau.store');
@@ -384,8 +385,7 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
          Route::post('househelp/verify/attributes/', [HousehelpController::class, 'verifyAttributes'])->name('househelp.verifyattributes');
          Route::post('househelp/verify/kin/', [HousehelpController::class, 'verifyKin'])->name('househelp.verifykin');
 
-         Route::post('househelp/verify/kin/', [HousehelpController::class, 'verifyKinInfo'])->name('househelp.verifykin');
-         Route::patch('househelp/{bureaudirector}', [HousehelpController::class, 'store'])->name('househelp.store');
+         Route::patch('househelp/{bureau}', [HousehelpController::class, 'store'])->name('househelp.store');
      //     /*
      //      * Specifics
      //      */

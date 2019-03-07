@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Backend\Househelp;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Bureau\Bureau;
 use App\Models\Standard\User;
 use App\Models\Standard\Gender;
 use App\Models\Standard\Position;
+use Illuminate\Support\Facades\DB;
 use App\Models\Househelp\Househelp;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use App\Models\Organisation\Organisation;
 use App\Models\Househelp\HousehelpDirector;
 use App\Models\Househelp\Standard\Idstatus;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use App\Models\Househelp\Standard\Healthstatus;
 
 
 class HousehelpController extends Controller
@@ -30,21 +35,50 @@ class HousehelpController extends Controller
                     return response()-> json([
                         'househelps' => $househelps,
                     ], 200);
-            }elseif(auth()->user()->hasRole('Bureau Director', 'Bureau Superadmin','Bureau Admin','Bureau Employee')){
+            }elseif(auth()->user()->hasRole('Bureau Director')) {
+                        $bureau = Auth::user()->bureaudirectors()->first();
+                        $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
+                        'genders', 'education', 'experiences', 'tribes', 'skills','durations',
+                        'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
+                        '_i_dstatus','healthstatus', 'househelpkins')//single has
+                        ->where('bureau_id', $bureau->id)
+                                               ->get();
+                           return response()-> json([
+                                'househelps' => $househelps,
+                            ], 200);
 
-                // $bureaudirector = Auth::user()->bureaudirectors()->first();
-                // $bureauadmin = Auth::user()->bureauadmins()->first();
-                // $bureauemployee = Auth::user()->bureauemployees()->first();
-
+            }elseif(auth()->user()->hasRole('Bureau Admin')){
+                $bureau = Auth::user()->bureauadmins()->first();
                 $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
                 'genders', 'education', 'experiences', 'tribes', 'skills','durations',
                 'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
-                '_i_dstatus','healthstatus')//single has
+                '_i_dstatus','healthstatus', 'househelpkins')//single has
+                ->where('bureau_id', $bureau->id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+            }elseif(auth()->user()->hasRole('Bureau Employee')){
+                $bureau = Auth::user()->bureauemployees()->first();
+                $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
+                'genders', 'education', 'experiences', 'tribes', 'skills','durations',
+                'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
+                '_i_dstatus','healthstatus', 'househelpkins')//single has
+                ->where('bureau_id', $bureau->id)
                                        ->get();
                    return response()-> json([
                         'househelps' => $househelps,
                     ], 200);
             }else{
+                $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
+                'genders', 'education', 'experiences', 'tribes', 'skills','durations',
+                'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
+                '_i_dstatus','healthstatus')//single has
+                ->where('bureau_id', $bureau->id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
 
             }
         }
@@ -55,54 +89,179 @@ class HousehelpController extends Controller
     public function verifyDemographics (Request $request)
     {
 
-        $this->validate($request,[
-            'househelp_first_name'  =>  'required',
-            'househelp_last_name'  =>  'required',
-            'email'  =>  'required|email|max:255|unique:users',
-            'househelp_password'  =>  'required',
-            'househelp_phone'  =>  'phone:AUTO,MOBILE',
-            'househelp_landline'  =>  'phone:AUTO,MOBILE',
-            'househelp_address'  =>  'required|digits_between:1,20',
-            'househelp_age'  =>  'required',
-            'househelp_gender_id'  =>  'required',
-            'househelp_country_id'  =>  'required',
-            'househelp_county_id'  =>  'required',
-            'househelp_constituency_id'  =>  'required',
-            'househelp_ward_id'  =>  'required',
-            'househelp_photo'  =>  'required',
-           
-            'househelp_id_status'           => 'required',
-            'househelp_id_number'  =>  'required|digits_between:7,10',
-            'househelp_ref_number'          => 'required',
-            'househelp_id_photo_front'      => 'required',
-            'househelp_id_photo_back'       => 'required',
-       ]);
+        if($request->has('IDstatus') && $request['IDstatus'] == "HasID") {
+
+            $request->validate([
+                'househelp_first_name'  =>  'required',
+                'househelp_last_name'  =>  'required',
+                'email'  =>  'required|email|max:255|unique:users',
+                'househelp_password'  =>  'required',
+                'househelp_phone'  =>  'phone:AUTO,MOBILE',
+                'househelp_landline'  =>  'phone:AUTO,MOBILE',
+                'househelp_address'  =>  'required|digits_between:1,20',
+                'househelp_birth_date'  =>  'required',
+                'househelp_gender_id'  =>  'required',
+                'househelp_country_id'  =>  'required',
+                'househelp_county_id'  =>  'required',
+                'househelp_constituency_id'  =>  'required',
+                'househelp_ward_id'  =>  'required',
+                'househelp_photo'  =>  'required',
+                //default
+                'househelp_id_status'       =>'required',
+                'househelp_id_status_reason'=>'required',
+                //condition
+                'househelp_id_number'      =>  'required|digits_between:7,10',
+                'househelp_id_photo_front' =>'required',
+                'househelp_id_photo_back'  =>'required',
+           ]);
+        }elseif($request->has('IDstatus') && $request['IDstatus'] == "HASIDbutlost"){
+            $request->validate([
+                'househelp_first_name'  =>  'required',
+                'househelp_last_name'  =>  'required',
+                'email'  =>  'required|email|max:255|unique:users',
+                'househelp_password'  =>  'required',
+                'househelp_phone'  =>  'phone:AUTO,MOBILE',
+                'househelp_landline'  =>  'phone:AUTO,MOBILE',
+                'househelp_address'  =>  'required|digits_between:1,20',
+                'househelp_birth_date'  =>  'required',
+                'househelp_gender_id'  =>  'required',
+                'househelp_country_id'  =>  'required',
+                'househelp_county_id'  =>  'required',
+                'househelp_constituency_id'  =>  'required',
+                'househelp_ward_id'  =>  'required',
+                'househelp_photo'  =>  'required',
+                //default
+                'househelp_id_status'       =>'required',
+                'househelp_id_status_reason'=>'required',
+                //condition
+                'househelp_id_number'      =>  'required|digits_between:7,10',
+                'househelp_waiting_card_photo'=>'required',
+           ]);
+        }elseif($request->has('IDstatus') && $request['IDstatus'] == "NOIDbutapplied"){
+            $request->validate([
+                'househelp_first_name'  =>  'required',
+                'househelp_last_name'  =>  'required',
+                'email'  =>  'required|email|max:255|unique:users',
+                'househelp_password'  =>  'required',
+                'househelp_phone'  =>  'phone:AUTO,MOBILE',
+                'househelp_landline'  =>  'phone:AUTO,MOBILE',
+                'househelp_address'  =>  'required|digits_between:1,20',
+                'househelp_birth_date'  =>  'required',
+                'househelp_gender_id'  =>  'required',
+                'househelp_country_id'  =>  'required',
+                'househelp_county_id'  =>  'required',
+                'househelp_constituency_id'  =>  'required',
+                'househelp_ward_id'  =>  'required',
+                'househelp_photo'  =>  'required',
+                //default
+                'househelp_id_status'       =>'required',
+                'househelp_id_status_reason'=>'required',
+                //condition
+                'househelp_ref_number'      =>'required',
+                'househelp_waiting_card_photo'=>'required',
+           ]);
+        }elseif($request->has('IDstatus') && $request['IDstatus'] == "NOID"){
+            $request->validate([
+                'househelp_first_name'  =>  'required',
+                'househelp_last_name'  =>  'required',
+                'email'  =>  'required|email|max:255|unique:users',
+                'househelp_password'  =>  'required',
+                'househelp_phone'  =>  'phone:AUTO,MOBILE',
+                'househelp_landline'  =>  'phone:AUTO,MOBILE',
+                'househelp_address'  =>  'required|digits_between:1,20',
+                'househelp_birth_date'  =>  'required',
+                'househelp_gender_id'  =>  'required',
+                'househelp_country_id'  =>  'required',
+                'househelp_county_id'  =>  'required',
+                'househelp_constituency_id'  =>  'required',
+                'househelp_ward_id'  =>  'required',
+                'househelp_photo'  =>  'required',
+                //default
+                'househelp_id_status'       =>'required',
+                'househelp_id_status_reason'=>'required',
+                //condition no checking id here
+                // 'househelp_ref_number'      =>'required',
+                // 'househelp_waiting_card_photo'=>'required',
+           ]);
+        }
     }
     public function verifyAttributes (Request $request)
     {
-        $this->validate($request,[
+        // return $request;
 
-            'househelp_education_id'        => 'required',
-            'househelp_experience_id'       => 'required',
-            'househelp_maritalstatus_id'    => 'required',
-            'househelp_tribe_id'            => 'required',
-            'househelp_skill_id'            => 'required',
-            'househelp_operation_id'        => 'required',
-            'househelp_duration_id'         => 'required',
-            'househelp_englishstatus_id'    => 'required',
-            'househelp_religion_id'         => 'required',
-            'househelp_kid_id'              => 'required',
+        if($request->has('HealthStatus') && $request['HealthStatus'] == "HEALTHY") {
+                $request->validate([
+                    'househelp_education_id'        => 'required',
+                    'househelp_experience_id'       => 'required',
+                    'househelp_maritalstatus_id'    => 'required',
+                    'househelp_tribe_id'            => 'required',
+                    'househelp_skill_id'            => 'required',
+                    'househelp_operation_id'        => 'required',
+                    'househelp_duration_id'         => 'required',
+                    'househelp_englishstatus_id'    => 'required',
+                    'househelp_religion_id'         => 'required',
+                    'househelp_kid_id'              => 'required',
+                    //CONDITION
+                    'status'                        => 'required',
+                    'HIV_status'                    => 'required',
 
+                ]);
+        }elseif($request->has('HealthStatus') && $request['HealthStatus'] == "HASMINOR"){
+                 $request->validate([
+                    'househelp_education_id'        => 'required',
+                    'househelp_experience_id'       => 'required',
+                    'househelp_maritalstatus_id'    => 'required',
+                    'househelp_tribe_id'            => 'required',
+                    'househelp_skill_id'            => 'required',
+                    'househelp_operation_id'        => 'required',
+                    'househelp_duration_id'         => 'required',
+                    'househelp_englishstatus_id'    => 'required',
+                    'househelp_religion_id'         => 'required',
+                    'househelp_kid_id'              => 'required',
+                    //CONDITION
+                    'HIV_status'                    => 'required',
+                    'allergy'                       => 'required',
+                    'specify'                       => 'required',
 
-            'househelp_health_status'       => 'required',
-            'househelp_specify'             => 'required',
-       ]);
+                ]);
+        }elseif($request->has('HealthStatus') && $request['HealthStatus'] == "HASCHRONIC"){
+                $request->validate([
+                    'househelp_education_id'        => 'required',
+                    'househelp_experience_id'       => 'required',
+                    'househelp_maritalstatus_id'    => 'required',
+                    'househelp_tribe_id'            => 'required',
+                    'househelp_skill_id'            => 'required',
+                    'househelp_operation_id'        => 'required',
+                    'househelp_duration_id'         => 'required',
+                    'househelp_englishstatus_id'    => 'required',
+                    'househelp_religion_id'         => 'required',
+                    'househelp_kid_id'              => 'required',
+                    //CONDITION
+                    'HIV_status'                    => 'required',
+                    'other_chronics'                => 'required',
+                    'chronic_details'               => 'required',
+                ]);
+        }
     }
 
     public function verifyKin (Request $request)
     {
         $this->validate($request,[
-
+                'househelpkin_first_name'  =>  'required',
+                'househelpkin_last_name'  =>  'required',
+                // 'email'  =>  'required|email|max:255|unique:users',
+                // 'password'  =>  'required',
+                'househelpkin_phone'  =>  'phone:AUTO,MOBILE',
+                'househelpkin_id_no'  =>  'required|digits_between:7,10',
+                'househelpkin_address'  =>  'required|digits_between:1,20',
+                'househelpkin_gender_id'  =>  'required',
+                'househelpkin_country_id'  =>  'required',
+                'househelpkin_county_id'  =>  'required',
+                'househelpkin_constituency_id'  =>  'required',
+                'househelpkin_ward_id'  =>  'required',
+                'househelpkin_photo'  =>  'required',
+                'househelpkin_id_photo_front'  =>  'required',
+                'househelpkin_id_photo_back'  =>  'required',
        ]);
     }
 
@@ -123,6 +282,7 @@ class HousehelpController extends Controller
     public function store(Request $request, $id)
     {
         $bureau= Bureau::find($id);
+        return $request;
         if ($bureau){
             $user = new User();
             $user->first_name = $request->househelp_first_name;
@@ -185,8 +345,12 @@ class HousehelpController extends Controller
                     $id_photo_back = $bs_id_name;
                 }
 
+                $date_of_birth = Carbon::parse($request->input('househelp_birth_date'));
+                $now = Carbon::now();
+                $househelp_date_of_birth = $date_of_birth->diffInYears($now);
+
             if($user){
-                $househelp = $bureau->bureauhousehelps()->save($user, [
+                $bureau_househelp = $bureau->bureauhousehelps()->save($user, [
                         'active'           => true,
                         'employmentstatus' => false,
                         'hiredstatus'      => false,
@@ -200,7 +364,7 @@ class HousehelpController extends Controller
                         'ward_id'          => $request->househelp_ward_id,
 
                             //attributes
-                        'age'            => $request->age,
+                        'househelp_date_of_birth'=> $househelp_date_of_birth,
                         'gender_id'      => $request->househelp_gender_id,
                         'education_id'   => $request->education_id,
                         'experience_id'  => $request->experience_id,
@@ -212,36 +376,41 @@ class HousehelpController extends Controller
                         'englishstatus_id'=> $request->englishstatus_id,
                         'religion_id'    => $request->religion_id,
                         'kid_id'         => $request->kid_id,
+
                     ]);
 
-                    if($househelp){
+                    if($bureau_househelp){
                         $Idstatus = new Idstatus();
-                        $Idstatus->househelp_id   = $househelp->id ;
-                        $Idstatus->id_status      = $request->id_status;
-                        $Idstatus->id_number      = $request->id_number;
-                        $Idstatus->ref_number     = $request->ref_number;
-                        $Idstatus->id_photo_front = $id_photo_front;
-                        $Idstatus->id_photo_back  = $id_photo_back;
+                        $Idstatus->bureau_househelp_id   = $bureau_househelp->id ;
+                        $Idstatus ->househelp_id_status           = $request ->househelp_id_status;
+                        $Idstatus ->househelp_id_status_reason    = $request ->househelp_id_status_reason;
+                        $Idstatus ->househelp_id_number           = $request ->househelp_id_number;
+                        $Idstatus ->househelp_id_photo_front      = $request ->househelp_id_photo_front;
+                        $Idstatus ->househelp_id_photo_back       = $request ->househelp_id_photo_back;
+                        $Idstatus ->househelp_waiting_card_photo  = $request ->househelp_waiting_card_photo;
+                        $Idstatus ->househelp_ref_number          = $request ->househelp_ref_number;
                         $Idstatus->save();
 
                         //health status
                         $Healthstatus = new Healthstatus();
-                        $Healthstatus->househelp_id  = $househelp->id ;
-                        $Healthstatus->health_status  = $request->health_status;
-                        $Healthstatus->specify        = $request->specify;
+                        $Healthstatus->bureau_househelp_id  = $bureau_househelp->id;
+                        $Healthstatus->status          = $request->status;
+                        $Healthstatus->HIV_status      = $request->HIV_status;
+                        $Healthstatus->allergy         = $request->allergy;
+                        $Healthstatus->specify         = $request->specify;
                         $Healthstatus->save();
                     }
             }
             if($user){//adding kin
                 $user2 = new User();
-                $user2->first_name = $request->first_name;
-                $user2->last_name  = $request->last_name;
-                $user2->email      = $request->email;
+                $user2->first_name = $request->househelpkin_first_name;
+                $user2->last_name  = $request->househelpkin_last_name;
+                // $user2->email      = $request->email;
                 $user2->active     = true;
-                $user2->confirmed  = true;
-                $user2->confirmation_code = md5(uniqid(mt_rand(), true));
+                // $user2->confirmed  = true;
+                // $user2->confirmation_code = md5(uniqid(mt_rand(), true));
                 $user2->user_type      = 'Househelp Kin';
-                $user2->password   = Hash::make($request->password);
+                // $user2->password   = Hash::make($request->password);
 
                 $user2->assignRole('Househelp Kin');
 
@@ -253,7 +422,7 @@ class HousehelpController extends Controller
                         $ps_ex = explode('/', $ps_sub)[1];
                         $ps_name = time().".".$ps_ex;
 
-                        $ps_Path = public_path()."/assets/bureau/img/househelpkins/passports";
+                        $ps_Path = public_path()."/assets/bureau/img/househelps/househelpkins/passports";
                             $ps_img = Image::make($passport);
                             $ps_img ->save($ps_Path.'/'.$ps_name);
                         //end processing
@@ -268,7 +437,7 @@ class HousehelpController extends Controller
                         $fr_id_ex = explode('/', $fr_id_sub)[1];
                         $fr_id_name = time().".".$fr_id_ex;
 
-                        $fr_id_Path = public_path()."/assets/bureau/img/househelpkins/IDs/front";
+                        $fr_id_Path = public_path()."/assets/bureau/img/househelps/househelpkins/IDs/front";
                             $fr_id_img = Image::make($frontside_id);
                             $fr_id_img ->save($fr_id_Path.'/'.$fr_id_name);
                         //end processing
@@ -282,7 +451,7 @@ class HousehelpController extends Controller
                         $bs_id_ex = explode('/', $bs_id_sub)[1];
                         $bs_id_name = time().".".$bs_id_ex;
 
-                        $bs_id_Path = public_path()."/assets/bureau/img/househelpkins/IDs/back";
+                        $bs_id_Path = public_path()."/assets/bureau/img/househelps/househelpkins/IDs/back";
                             $bs_id_img = Image::make($backside_id);
                             $bs_id_img ->save($bs_id_Path.'/'.$bs_id_name);
                         //end processing

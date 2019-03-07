@@ -342,7 +342,7 @@ class User extends Authenticatable
                     ->join('constituencies', 'bureau_househelp.constituency_id', '=', 'constituencies.id')
                     ->join('wards', 'bureau_househelp.ward_id', '=', 'wards.id')
                     ->join('genders', 'bureau_househelp.gender_id', '=', 'genders.id')
-                    ->join('educations', 'bureau_househelp.education_id', '=', 'educations.id')
+                    ->join('education', 'bureau_househelp.education_id', '=', 'education.id')
                     ->join('experiences', 'bureau_househelp.experience_id', '=', 'experiences.id')
                     ->join('maritalstatuses', 'bureau_househelp.maritalstatus_id', '=', 'maritalstatuses.id')
                     ->join('tribes', 'bureau_househelp.tribe_id', '=', 'tribes.id')
@@ -352,6 +352,8 @@ class User extends Authenticatable
                     ->join('englishstatuses', 'bureau_househelp.englishstatus_id', '=', 'englishstatuses.id')
                     ->join('religions', 'bureau_househelp.religion_id', '=', 'religions.id')
                     ->join('kids', 'bureau_househelp.kid_id', '=', 'kids.id')
+                    ->join('healthstatuses', 'healthstatuses.bureau_househelp_id', '=', 'healthstatuses.id')
+                    ->join('idstatuses', 'idstatuses.bureau_househelp_id', '=', 'idstatuses.id')
                     ->select('bureaus.*',
                         'bureau_househelp.*',
                             'countries.name as country_name',
@@ -359,7 +361,7 @@ class User extends Authenticatable
                             'constituencies.name as constituency_name',
                             'wards.name as ward_name',
                             'genders.name as gender_name',
-                            'educations.name as education_name',
+                            'education.name as education_name',
                             'experiences.name as experience_name',
                             'maritalstatuses.name as maritalstatus_name',
                             'tribes.name as tribe_name',
@@ -368,7 +370,20 @@ class User extends Authenticatable
                             'durations.name as duration_name',
                             'englishstatuses.name as englishstatus_name',
                             'religions.name as religion_name',
-                            'kids.name as kid_name'
+                            'kids.name as kid_name',
+                            'healthstatuses.status as healthstatus_status',
+                            'healthstatuses.HIV_status as healthstatus_HIV_status',
+                            'healthstatuses.other_chronics as healthstatus_other_chronics',
+                            'healthstatuses.chronic_details as healthstatus_chronic_details',
+                            'healthstatuses.allergy as healthstatus_allergy',
+                            'healthstatuses.specify as healthstatus_specify',
+                            'idstatuses.status as idstatus_status',
+                            'idstatuses.reason as idstatus_reason',
+                            'idstatuses.id_number as idstatus_id_number',
+                            'idstatuses.ref_number as idstatus_ref_number',
+                            'idstatuses.id_photo_front as idstatus_id_photo_front',
+                            'idstatuses.id_photo_back as idstatus_id_photo_back',
+                            'idstatuses.waiting_card_photo as idstatus_waiting_card_photo'
                     )
                     ->withTimestamps();
     }

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Househelp extends Model
 {
+    // protected $table = 'bureau_househelp';
     protected $fillable = [
         'user_id',
         'bureau_id',
@@ -125,7 +126,7 @@ class Househelp extends Model
                             'countries.name as country_name',
                             'counties.name as county_name',
                             'constituencies.name as constituency_name',
-                            'wards.name as ward_name',
+                            'wards.name as ward_name'
                     )
                     ->withTimestamps();
     }

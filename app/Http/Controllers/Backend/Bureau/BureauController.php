@@ -8,6 +8,7 @@ use App\Models\Standard\User;
 use App\Models\Standard\Gender;
 use App\Models\Standard\Position;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Bureau\BureauDirector;
 use Intervention\Image\Facades\Image;
@@ -31,11 +32,44 @@ class BureauController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //get own bureau according to login details
+    public function bureauByUserID()
+    {
+        if (auth()->check()) {
+            if (auth()->user()->hasRole('Bureau Director')) {
+                $bureauid = Auth::user()->bureaudirectors()->first()->id;
+                $bureau = Bureau::with('country', 'county', 'constituency', 'ward', 'bureaudirectors','bureauadmins',
+                            'bureauemployees', 'bureauhousehelps')
+                            ->where('id', $bureauid)
+                            ->first();
+                    return response()-> json([
+                        'bureau' => $bureau,
+                    ], 200);
+
+            }elseif(auth()->user()->hasRole('Bureau Admin')){
+                $bureauid = Auth::user()->bureauadmins()->first()->id;
+                $bureau = Bureau::with('country', 'county', 'constituency', 'ward', 'bureaudirectors','bureauadmins',
+                            'bureauemployees', 'bureauhousehelps')
+                            ->where('id', $bureauid)
+                            ->first();
+                return response()-> json([
+                    'bureau' => $bureau,
+                ], 200);
+
+            }elseif(auth()->user()->hasRole('Bureau Employee')){
+                $bureauid = Auth::user()->bureauemployees()->first()->id;
+                $bureau = Bureau::with('country', 'county', 'constituency', 'ward', 'bureaudirectors','bureauadmins',
+                            'bureauemployees', 'bureauhousehelps')
+                            ->where('id', $bureauid)
+                            ->first();
+                return response()-> json([
+                    'bureau' => $bureau,
+                ], 200);
+            }
+        }
+    }
+
+
     public function create()
     {
         //

@@ -620,12 +620,10 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <form-wizard role="form" @on-complete="editmodeOrganisation ? updateOrganisation(organisationform.id) : addOrganisation ()" >
+                    <form role="form" @submit.prevent="editmodeOrganisation ? updateOrganisation(organisationform.id) : addOrganisation ()" >
+                        <div class="modal-body">
                             <h5 class="modal-title" v-show="editmodeOrganisation" id="OrganisationModalLabel">Update Organisation</h5>
                             <!-- <h5 class="modal-title" v-show="!editmodeOrganisation" id="OrganisationModalLabel">Add New Organisation & Director</h5> -->
-                            <tab-content title="Organisation Details" icon="fa fa-building" :before-change="editmodeOrganisation ? validateOrganisationUpdate : validateOrganisation" >
-                                {{organisationform.id}}
                                 <div class=" row">
                                     <div class="form-group col-md-4">
                                         <label for="name" class="col-form-label"> Organisation Name</label>
@@ -727,88 +725,13 @@
                                             <has-error style="color: #e83e8c" :form="organisationform" field="logo"></has-error>
                                     </div>
                                 </div>
-                            </tab-content>
-
-                            <tab-content title="Last step">
-                                Organisation Information
-                                <div class=" row">
-                                    <div class="form-group col-md-4">
-                                        <label for="name" class="col-form-label"> Organisation Name</label>
-                                        <input v-model="organisationform.name" class="form-control" :readonly="true">
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="organisation_email" class=" col-form-label">Email </label>
-                                        <input v-model="organisationform.organisation_email" class="form-control" :readonly="true">
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="phone" class="col-form-label"> Organisation Phone</label>
-                                            <div>
-                                                <vue-tel-input v-model="organisationform.phone" class="form-control" :readonly="true">
-                                                </vue-tel-input>
-                                            </div>
-                                            <div v-if="organisationform.phone" style="color: #e83e8c">
-                                                <span>Is valid: <strong>{{phone1.isValid}}</strong>,&nbsp;</span>
-                                                <span>Country: <strong>{{phone1.country}}</strong></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class=" row">
-                                    <div class="form-group col-md-4">
-                                        <label for="landline" class=" col-form-label">Landline</label>
-                                            <vue-tel-input v-model="organisationform.landline" class="form-control" :readonly="true">
-                                            </vue-tel-input>
-                                            <div v-if="organisationform.landline" style="color: #e83e8c">
-                                                <span>Is valid: <strong>{{landline1.isValid}}</strong>,&nbsp;</span>
-                                                <span>Country: <strong>{{landline1.country}}</strong></span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="website" class="col-form-label">Website</label>
-                                        <input v-model="organisationform.website" class="form-control" :readonly="true" >
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label for="address" class=" col-form-label">address</label>
-                                        <input v-model="organisationform.address" class="form-control" :readonly="true" >
-                                    </div>
-                                </div>
-                                <div class=" row">
-                                    <div class="form-group col-md-3">
-                                        <label for="country_id" class=" col-form-label">Country</label>
-                                        <select class="form-control" v-model="organisationform.country_id" :readonly="true">
-                                                <option v-for="country in Countries" :value="country.id" :key="country.id">{{country.name}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="county_id" class=" col-form-label">County</label>
-                                        <select class="form-control" v-model="organisationform.county_id" :readonly="true">
-                                                <option v-for="county in Counties" :value="county.id" :key="county.id">{{county.name}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="constituency_id" class=" col-form-label">Constituency</label>
-                                        <select class="form-control" v-model="organisationform.constituency_id" :readonly="true">
-                                                <option v-for="constituency in Constituencies" :value="constituency.id" :key="constituency.id">{{constituency.name}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                        <label for="ward_id" class="col-form-label"> Ward </label>
-                                        <select class="form-control" v-model="organisationform.ward_id" :readonly="true">
-                                                <option v-for="ward in Wards" :value="ward.id" :key="ward.id">{{ward.name}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class=" row">
-                                    <div class="form-group col-md-6">
-                                        <label for="logo" class=" col-form-label">Organisation Logo</label><br>
-                                            <input type="file" name="logo" :readonly="true">
-                                                <img v-show="editmodeOrganisation" :src="updateOrganisationLogo(organisationform.logo)" alt="" width="100%" >
-                                                <img  v-show="!editmodeOrganisation" :src="organisationform.logo" alt="" width="100%" >
-                                            <has-error style="color: #e83e8c" :form="organisationform" field="logo"></has-error>
-                                    </div>
-                                </div>
-                            </tab-content>
-                        </form-wizard>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button v-show="editmodeOrganisation" type="submit" class="btn btn-success">Update</button>
+                            <button v-show="!editmodeOrganisation" type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
