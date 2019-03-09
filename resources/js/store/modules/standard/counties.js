@@ -17,7 +17,7 @@ const actions = {
     counties(context){
         axios.get('/county/get')
         .then((response)=>{
-          console.log(response.data.counties);
+        //   console.log(response.data);
           context.commit('counties', response.data.counties);
         });
     },
@@ -26,7 +26,7 @@ const actions = {
         .then((response)=>{
 
           context.commit('countrycounties', response.data.counties);
-          console.log(response.data.counties);
+          console.log(response.data, 'jjjjoo');
         })
     }
   };

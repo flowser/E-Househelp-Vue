@@ -119,7 +119,7 @@ export const routes = [
             component: HousehelpList
           },
           {
-            path: '/househelp:id',//view signle houshelp with her details
+            path: '/househelp/:id',//view signle houshelp with her details
             component: SingleHousehelp
           },
 

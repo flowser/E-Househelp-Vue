@@ -16,7 +16,7 @@ class CreateHousehelpKinTable extends Migration
         Schema::create('househelp_kin', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('househelp_id');
+            $table->unsignedInteger('bureau_househelp_id');
             $table->unsignedInteger('relationship_id');
             $table->unsignedInteger('gender_id')->nullable();
             $table->string('photo')->nullable();
@@ -41,7 +41,7 @@ class CreateHousehelpKinTable extends Migration
             $table->foreign('constituency_id')->references('id')->on('constituencies')->onDelete('cascade');
             $table->foreign('ward_id')->references('id')->on('wards')->onDelete('cascade');
 
-            $table->foreign('househelp_id')->references('id')->on('bureau_househelp')->onDelete('cascade');
+            $table->foreign('bureau_househelp_id')->references('id')->on('bureau_househelp')->onDelete('cascade');
             $table->foreign('relationship_id')->references('id')->on('relationships')->onDelete('cascade');
             $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -3157,9 +3157,9 @@
                             type: 'success',
                             title: 'Admin Created successfully'
                             })
-                             this.$store.dispatch('organisation');
-                            this.adminform.reset()
+                            this.$store.dispatch('organisation');
                             $('#AdminModal').modal('hide')
+                            this.$refs.wizard.reset()
                               this.$Progress.finish()
                     })
                     .catch(()=>{

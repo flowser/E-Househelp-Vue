@@ -4,6 +4,7 @@ namespace App\Models\Standard;
 
 use App\Models\Bureau\Bureau;
 
+use App\Models\Househelp\Househelp;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Organisation\Organisation;
@@ -310,7 +311,7 @@ class User extends Authenticatable
     // househelps
     public function bureauhousehelps()
     {
-        return $this->belongsToMany(Bureau::class,'bureau_househelp')
+        return $this->belongsToMany(Bureau::class,'bureau_househelp','user_id')
                     ->withPivot(
                         'photo',
                         'about_me',
@@ -352,8 +353,8 @@ class User extends Authenticatable
                     ->join('englishstatuses', 'bureau_househelp.englishstatus_id', '=', 'englishstatuses.id')
                     ->join('religions', 'bureau_househelp.religion_id', '=', 'religions.id')
                     ->join('kids', 'bureau_househelp.kid_id', '=', 'kids.id')
-                    ->join('healthstatuses', 'healthstatuses.bureau_househelp_id', '=', 'healthstatuses.id')
-                    ->join('idstatuses', 'idstatuses.bureau_househelp_id', '=', 'idstatuses.id')
+                    ->join('healthstatuses', 'healthstatuses.bureau_househelp_id', '=', 'bureau_househelp.id')
+                    ->join('idstatuses', 'idstatuses.bureau_househelp_id', '=', 'bureau_househelp.id')
                     ->select('bureaus.*',
                         'bureau_househelp.*',
                             'countries.name as country_name',
@@ -390,7 +391,7 @@ class User extends Authenticatable
     //houshelps kins
     public function househelpkins()
     {
-        return $this->belongsToMany(Househelp::class,'househelp_kin')
+        return $this->belongsToMany(Househelp::class,'househelp_kin', 'user_id','bureau_househelp_id')
                     ->withPivot(
                         'photo',
                         'active',
@@ -398,7 +399,6 @@ class User extends Authenticatable
                         'id_photo_front',
                         'id_photo_back',
                         'phone',
-                        'landline',
                         'address',
                         'gender_id',
                         'relationship_id',
@@ -413,10 +413,10 @@ class User extends Authenticatable
                     ->join('counties', 'househelp_kin.county_id', '=', 'counties.id')
                     ->join('constituencies', 'househelp_kin.constituency_id', '=', 'constituencies.id')
                     ->join('wards', 'househelp_kin.ward_id', '=', 'wards.id')
-                    ->select('househelps.*',
+                    ->select('bureau_househelp.*',
                         'househelp_kin.*',
                             'genders.name as gender_name',
-                            'relationship.name as relationship_name',
+                            'relationships.name as relationship_name',
                             'countries.name as country_name',
                             'counties.name as county_name',
                             'constituencies.name as constituency_name',

@@ -5,6 +5,7 @@ import constituencies from './modules/standard/constituencies';
 import wards from './modules/standard/wards';
 import genders from './modules/standard/genders';
 import positions from './modules/standard/positions';
+import relationships from './modules/standard/relationships';
 
 //universal
 import about from './modules/webpages/about';
@@ -80,6 +81,7 @@ import tribe from './modules/bureau/standard/tribe';
                 wards,
                 genders,
                 positions,
+                relationships,
             //universal
                 about,
                 advert,

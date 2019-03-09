@@ -37,30 +37,31 @@ class BureauController extends Controller
     {
         if (auth()->check()) {
             if (auth()->user()->hasRole('Bureau Director')) {
-                $bureauid = Auth::user()->bureaudirectors()->first()->id;
+                $bureaudirector = Auth::user()->bureaudirectors()->first();
                 $bureau = Bureau::with('country', 'county', 'constituency', 'ward', 'bureaudirectors','bureauadmins',
                             'bureauemployees', 'bureauhousehelps')
-                            ->where('id', $bureauid)
+                            ->where('id', $bureaudirector->bureau_id)
                             ->first();
                     return response()-> json([
                         'bureau' => $bureau,
                     ], 200);
 
             }elseif(auth()->user()->hasRole('Bureau Admin')){
-                $bureauid = Auth::user()->bureauadmins()->first()->id;
+                $bureauadmin = Auth::user()->bureauadmins()->first();
+                // return  $bureauadmin->bureau_id;
                 $bureau = Bureau::with('country', 'county', 'constituency', 'ward', 'bureaudirectors','bureauadmins',
                             'bureauemployees', 'bureauhousehelps')
-                            ->where('id', $bureauid)
+                            ->where('id', $bureauadmin->bureau_id)
                             ->first();
                 return response()-> json([
                     'bureau' => $bureau,
                 ], 200);
 
             }elseif(auth()->user()->hasRole('Bureau Employee')){
-                $bureauid = Auth::user()->bureauemployees()->first()->id;
+                $bureauemployee = Auth::user()->bureauemployees()->first();
                 $bureau = Bureau::with('country', 'county', 'constituency', 'ward', 'bureaudirectors','bureauadmins',
                             'bureauemployees', 'bureauhousehelps')
-                            ->where('id', $bureauid)
+                            ->where('id', $bureauemployee->bureau_id)
                             ->first();
                 return response()-> json([
                     'bureau' => $bureau,

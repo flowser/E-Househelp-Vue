@@ -21,6 +21,7 @@
                   <tr>
                     <th>S1</th>
                     <th>Househelp Details</th>
+                    <th>Househelp Attributes</th>
                     <th style="padding-left: 14px">Actions</th>
                   </tr>
                 </thead>
@@ -32,19 +33,25 @@
                            <div class="col" style="padding: 3px;">
                                         <img class="card-img-top" :src="househelpLoadPassPhoto(househelp.pivot.photo)" style="width:100%; height:130px" alt="Card image cap">
                                     </div>
-                                    <div class="col" style="padding: 3px;">
-                                        <img class="card-img-top" :src="househelpLoadIDFrontPhoto(househelp.idstatus.id_photo_front)" style="width:100%;height:65px" alt="Card image cap"><br>
-                                        <img class="card-img-top" :src="househelpLoadIDBackPhoto(househelp.idstatus.id_photo_back)" style="width:100%;height:65px" alt="Card image cap">
+                                    <div class="col" style="padding: 3px;" v-if="househelp.idstatus_id_photo_front !=null">
+                                        <img class="card-img-top" :src="househelpLoadIDFrontPhoto(househelp.idstatus_id_photo_front)" style="width:100%;height:65px" alt="Card image cap"><br>
+                                        <img class="card-img-top" :src="househelpLoadIDBackPhoto(househelp.idstatus_id_photo_back)" style="width:100%;height:65px" alt="Card image cap">
+                                    </div>
+                                    <div class="col" style="padding: 3px;" v-else>
+                                        Waiting Card<br>
+                                        <img class="card-img-top" :src="househelpLoadWaitingCard(househelp.idstatus_waiting_card_photo)" style="width:100%;height:65px" alt="Card image cap"><br>
                                     </div>
                                     <div style="font-weight:bold;font-size:0.7em;min-width:210px;max-width:400px;margin-top:4px;padding-top:4px;font-style: italic ">
                                         <div>{{househelp.full_name}},</div>
                                         <div>
+                                            Househelp,
                                             <!-- {{househelp.position_name}}, -->
                                             <span style="color:#9a009a;">
-                                                <!-- {{Bureau.name}}, -->
+                                                {{Bureau.name}},
                                             </span>
                                         </div>
-                                        <div> ID: ,<span style="color:#9a009a;">{{househelp.pivot.id_number}}</span>,
+                                        <div>
+                                             ID: ,<span style="color:#9a009a;">{{househelp.idstatus_id_number}}</span>,
                                             Phone: <span style="color:#9a009a;">{{househelp.pivot.phone}},</span>
                                         </div>
                                         <div>
@@ -60,41 +67,63 @@
                                             <span style="color:#9a009a;">{{househelp.county_name}}</span> county,
                                             <span style="color:#9a009a;">{{househelp.country_name}},</span>
                                         </div>
-                                         <div class="clearfix" style="font-weight:bold;font-size:0.9em;">
-                                            <span class="float-left" style="margin-bottom:-0.5em" >
-                                                <div style="margin-bottom:0.25em"> Updated at:
-                                                    <span style="color:#9a009a;">{{househelp.created_at | dateformat}} </span>
-                                                </div>
-                                            </span>
-                                            <span class="float-right">
-                                                <a href=""  @click.prevent="viewHousehelpModal(househelp.user_id)">
-                                                    <i class="fa fa-eye purple"></i>
-                                                </a>
-
-                                                <br>
-                                                <br>
-                                                <a href=""  @click.prevent="deleteHousehelp(househelp.user_id)">
-                                                    <i class="fa fa-trash red"></i>
-                                                </a>
-                                            </span>
-                                        </div>
                                     </div>
                         </div>
                     </td>
-                    <td style="padding: 3px;" >
+                    <td>
+                        <div class="row">
+                           <div class="col" style="padding: 3px;">
+                               <div style="font-weight:bold;font-size:0.7em;min-width:210px;max-width:400px;margin-top:4px;padding-top:4px;font-style: italic ">
+                                    <div>Gender: <span style="color:#9a009a;">{{househelp.gender_name}}</span>,
+                                         Age: <span style="color:#9a009a;">{{househelp.age}} Years</span>,
+                                    </div>
+                                    <div>
+                                        Marital Status: <span style="color:#9a009a;">{{househelp.maritalstatus_name}}</span>,
+                                    </div>
+                                    <div>
+                                        English Ability: <span style="color:#9a009a;">{{househelp.englishstatus_name}}</span>,
+                                    </div>
+                                    <div>
+                                        Education Level: <span style="color:#9a009a;">{{househelp.education_name}}</span>,
+                                    </div>
+                                    <div>
+                                        Experience Level: <span style="color:#9a009a;">{{househelp.experience_name}}</span>,
+                                    </div>
+                                    <div>
+                                         Duration: <span style="color:#9a009a;">{{househelp.duration_name}}</span>,
+                                    </div>
+                                    <div>
+                                        Employemnt Status:
+                                         <span style="color:#9a009a;">
+                                            <div v-if="househelp.employementstatus == true">
+                                                <a type="button" class="btn btn-success btn-md"> Employed</a>
+                                            </div>
+                                            <div v-else-if="househelp.employementstatus == false">
+                                                <a type="button" class="btn btn-success btn-md"> Unemployed</a>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                    </td>
+                    <td style="padding: 3px; width:130px" >
                         <div class="clearfix" style="font-weight:bold;font-size:0.7em;">
                             <span class="float-left" style="margin-bottom:-0.5em" >
                                 <div style="margin-bottom:0.25em"> Updated at:
                                     <span style="color:#9a009a;">{{househelp.created_at | dateformat}} </span>
                                 </div>
                             </span>
-                            <span class="float-right">
+                        </div>
+                        <br>
+                        <div class="clearfix" style="font-weight:bold;font-size:0.7em;">
+                            <span class="float-left">
                                 <router-link  :to="`/househelp/${househelp.id}`">
                                         <i class="fa fa-eye "></i>
                                 </router-link>
-                                <br>
-                                <br>
-                                <a href=""  @click.prevent="deleteHousehelp(househelp.id)">
+                            </span>
+                            <span class="float-right">
+                                <a href=""  @click.prevent="deleteHousehelp(househelp.user_id)">
                                     <i class="fa fa-trash red"></i>
                                 </a>
                             </span>
@@ -127,7 +156,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form-wizard role="form" @on-complete="addHousehelp(Bureau.id)" >
+                        <form-wizard role="form" @on-complete="addHousehelp(Bureau.id)" ref="wizard">
                             <h5 class="modal-title" id="Househelp_KinModalLabel">Add New Househelp & Kin</h5>
 
                             <tab-content title="Househelp Househelp Info" :before-change="validateHousehelpDemograhic">
@@ -675,16 +704,16 @@
                         //extra
                         househelp_birth_date:'',
                         househelp_gender_id:'',
-                        education_id:'',
-                        experience_id:'',
-                        maritalstatus_id:'',
-                        tribe_id:'',
-                        skill_id:'',
-                        operation_id:'',
-                        duration_id:'',
-                        englishstatus_id:'',
-                        religion_id:'',
-                        kid_id:'',
+                        househelp_education_id:'',
+                        househelp_experience_id:'',
+                        househelp_maritalstatus_id:'',
+                        househelp_tribe_id:'',
+                        househelp_skill_id:'',
+                        househelp_operation_id:'',
+                        househelp_duration_id:'',
+                        househelp_englishstatus_id:'',
+                        househelp_religion_id:'',
+                        househelp_kid_id:'',
                         //id status
                         IDstatus:'',
                         HealthStatus:'',
@@ -824,6 +853,7 @@
             this.loadSkills(); //from methods
             this.loadTribes(); //from methods
             this.loadGenders(); //from methods
+            this.loadRelationships(); //from methods
             this.loadBureau(); //from methods
         },
         computed:{
@@ -844,6 +874,9 @@
             },
             Genders(){
                return this.$store.getters.Genders
+            },
+            Relationships(){
+               return this.$store.getters.Relationships
             },
             Educations(){
                return this.$store.getters.Educations
@@ -935,7 +968,7 @@
                 if(this.Healthstatus === 'HASCHRONIC'){
                     this.househelp_kinform.HealthStatus = 'HASCHRONIC';
                     this.househelp_kinform.status = 'Yes';
-                    this.househelp_kinform.other_chronics = 'Has Other Chorinc Issues';
+                    this.househelp_kinform.other_chronics = 'Has Other Chronic Issues';
                 }
                 this.$Progress.start()
                 return this.househelp_kinform.post('/househelp/verify/attributes')
@@ -977,48 +1010,6 @@
                     })
             },
 
-            //Househelp Update Demographic
-            validateupdateHousehelpDemograhic() {
-                let id = this.househelpform.id;
-                this.$Progress.start()
-                return this.househelpform.post('/househelp/verify/updatedemographics/' +id)
-                    .then((response)=>{
-                        return true;
-                        toast({
-                            type: 'success',
-                            title: 'Househelp Update Demographic Info Verifed successfully'
-                        })
-                        this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        toast({
-                            type: 'error',
-                            title: 'The Househelp Update Demographic Info failed Verification.'
-                        })
-                    })
-            },
-            //Househelp update Attributes Info info verification
-            validateupdateHousehelpAttributes() {
-                let id = this.househelpform.id;
-                this.$Progress.start()
-                return this.househelpform.post('/househelp/verify/updateattributes' +id)
-                    .then((response)=>{
-                        return true;
-                        toast({
-                            type: 'success',
-                            title: 'Househelp Update Attributes Info Verifed successfully'
-                        })
-                        this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        toast({
-                            type: 'error',
-                            title: 'The Househelp Update Attributes Info failed Verification.'
-                        })
-                    })
-            },
 
             //Househelp and kin
             HousehelpInputPhone1({ number, isValid, country }) {
@@ -1034,23 +1025,6 @@
             this.phone2.isValid = isValid;
             this.phone2.country = country && country.name;
             },
-
-            //Househelp alone during editing
-            HousehelpInputPhone2({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.househelpform.phone = number;
-            this.phone1.isValid = isValid;
-            this.phone1.country = country && country.name;
-            },
-            //Househelp alone during editing
-            HousehelpInputPhone2({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.househelpkinform.phone = number;
-            this.phone2.isValid = isValid;
-            this.phone2.country = country && country.name;
-            },
-
-
             loadCountries(){
                 return this.$store.dispatch( "countries")//get all from roles.index
             },
@@ -1068,6 +1042,9 @@
             },
             loadGenders(){
                return this.$store.dispatch("genders")
+            },
+            loadRelationships(){
+               return this.$store.dispatch("relationships")
             },
             loadEducations(){
                return this.$store.dispatch("educations")
@@ -1128,7 +1105,7 @@
                 this.$store.dispatch('constituencywards', constituency_id); //send to store to the action with id
             },
 
-             //Bureau
+             //househelp
             newHousehelpKinModal(){
                  this.newBureauDirector = true;
                 //  this.editmodeBureau= false;
@@ -1151,8 +1128,15 @@
                 }
             },
             househelpLoadIDBackPhoto(househelp_idstatus_id_photo_back){
-                if(househelpform_id_photo_back){
+                if(househelp_idstatus_id_photo_back){
                     return "/assets/bureau/img/househelps/IDs/back/"+househelp_idstatus_id_photo_back;
+                }else{
+                    return "/assets/bureau/img/website/empty.png";
+                }
+            },
+            househelpLoadWaitingCard(househelp_idstatus_waiting_card_photo){
+                if(househelp_idstatus_waiting_card_photo){
+                    return "/assets/bureau/img/househelps/waitingcards/"+househelp_idstatus_waiting_card_photo;
                 }else{
                     return "/assets/bureau/img/website/empty.png";
                 }
@@ -1296,10 +1280,9 @@
                             title: 'Househelp_kin Created successfully'
                             })
                             this.$store.dispatch('bureauByUserID');
-
-                            this.househelp_kinform.reset()
                             $('#Househelp_KinModal').modal('hide')
-                              this.$Progress.finish()
+                             this.$refs.wizard.reset()
+                             this.$Progress.finish()
                     })
                     .catch(()=>{
                         this.$Progress.fail()
@@ -1311,6 +1294,41 @@
                                 })
                     })
             },
+            deleteHousehelp(id){
+                Swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                })
+                .then((result) => {
+                    if (result.value) {
+                    //  console.log('delete househelp', id)
+                        this.$Progress.start();
+                        this.househelpform.get('/househelp/delete/'+id)
+                            .then(()=>{
+                            toast({
+                            type: 'success',
+                            title: 'Househelp Deleted successfully'
+                            })
+                            this.$store.dispatch("bureauByUserID")
+                            this.$Progress.finish();
+                        })
+                        .catch(()=>{
+                            this.$Progress.fail();
+                            toast({
+                            type: 'error',
+                            title: 'There was something wrong'
+                            })
+                        })
+                     }
+                })
+            },
+
+
 
 
 

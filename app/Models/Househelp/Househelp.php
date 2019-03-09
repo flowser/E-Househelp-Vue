@@ -4,16 +4,30 @@ namespace App\Models\Househelp;
 
 
 use App\Models\Bureau\Bureau;
+use App\Models\Standard\User;
 use App\Models\Standard\Ward;
 use App\Models\Standard\County;
 use App\Models\Standard\Gender;
 use App\Models\Standard\Country;
 use App\Models\Standard\Constituency;
+use App\Models\Househelp\HousehelpKin;
+use App\Models\Househelp\Standard\Kid;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Househelp\Standard\Skill;
+use App\Models\Househelp\Standard\Tribe;
+use App\Models\Househelp\Standard\Duration;
+use App\Models\Househelp\Standard\Idstatus;
+use App\Models\Househelp\Standard\Religion;
+use App\Models\Househelp\Standard\Education;
+use App\Models\Househelp\Standard\Operation;
+use App\Models\Househelp\Standard\Experience;
+use App\Models\Househelp\Standard\Healthstatus;
+use App\Models\Househelp\Standard\Englishstatus;
+use App\Models\Househelp\Standard\Maritalstatus;
 
 class Househelp extends Model
 {
-    // protected $table = 'bureau_househelp';
+    protected $table = 'bureau_househelp';
     protected $fillable = [
         'user_id',
         'bureau_id',
@@ -75,6 +89,52 @@ class Househelp extends Model
     {
         return $this->belongsTo(Gender::class);
     }
+    public function duration()
+    {
+        return $this->belongsTo(Duration::class);
+    }
+    public function education()
+    {
+        return $this->belongsTo(Education::class);
+    }
+    public function englishstatus()
+    {
+        return $this->belongsTo(Englishstatus::class);
+    }
+    public function experience()
+    {
+        return $this->belongsTo(Experience::class);
+    }
+    public function kid()
+    {
+        return $this->belongsTo(Kid::class);
+    }
+    public function maritalstatus()
+    {
+        return $this->belongsTo(Maritalstatus::class);
+    }
+    public function operation()
+    {
+        return $this->belongsTo(Operation::class);
+    }
+    public function religion()
+    {
+        return $this->belongsTo(Religion::class);
+    }
+    public function skill()
+    {
+        return $this->belongsTo(Skill::class);
+    }
+    public function tribe()
+    {
+        return $this->belongsTo(Tribe::class);
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function bureau()
     {
         return $this->belongsTo(Bureau::class);
@@ -82,21 +142,18 @@ class Househelp extends Model
 
 
     //has many
-    public function househelpkin()
-    {
-        return $this->hasOne(HousehelpKin::class);
-    }
+
     public function idstatus()
     {
-        return $this->hasOne(IDstatus::class);
+        return $this->hasOne(Idstatus::class,'bureau_househelp_id');
     }
-    public function healthtatus()
+    public function healthstatus()
     {
-        return $this->hasOne(Healthstatus::class);
+        return $this->hasOne(Healthstatus::class,'bureau_househelp_id');
     }
     public function househelpkins()
     {
-        return $this->belongsToMany(User::class,'househelp_kin')
+        return $this->belongsToMany(User::class,'househelp_kin', 'bureau_househelp_id', 'user_id')
                     ->withPivot(
                         'photo',
                         'active',
@@ -104,7 +161,6 @@ class Househelp extends Model
                         'id_photo_front',
                         'id_photo_back',
                         'phone',
-                        'landline',
                         'address',
                         'gender_id',
                         'relationship_id',
@@ -122,7 +178,7 @@ class Househelp extends Model
                     ->select('users.*',
                         'househelp_kin.*',
                             'genders.name as gender_name',
-                            'relationship.name as relationship_name',
+                            'relationships.name as relationship_name',
                             'countries.name as country_name',
                             'counties.name as county_name',
                             'constituencies.name as constituency_name',

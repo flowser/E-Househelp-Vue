@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Backend\Organisation;
 
 use Illuminate\Http\Request;
 use App\Models\Standard\User;
+use Propaganistas\LaravelPhone\PhoneNumber;
 use App\Models\Standard\Position;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use App\Models\Organisation\Organisation;
-use Propaganistas\LaravelPhone\PhoneNumber;
 use App\Models\Organisation\OrganisationDirector;
 
 class OrganisationController extends Controller
@@ -203,6 +203,18 @@ class OrganisationController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'name'    => 'required|min:2|max:50',
+            'organisation_email' => 'required|email|max:255',
+            'phone' => 'phone:AUTO,MOBILE',
+            'landline'=> 'phone:AUTO,MOBILE', //FIXED_LINE
+            'website'=> 'required|min:2|max:50',
+            'address'=> 'required|digits_between:1,20',
+            'country_id'=> 'required',
+            'county_id'=> 'required',
+            'constituency_id'=> 'required',
+            'ward_id'=> 'required',
+   ]);
         $organisation = Organisation::find($id);
 
         if($organisation){

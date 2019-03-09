@@ -48,7 +48,6 @@ class AuthTableSeeder extends Seeder
         $this->call(ExperienceTableSeeder::class);
         $this->call(MaritalstatusTableSeeder::class);
         $this->call(OperationTableSeeder::class);
-        $this->call(SkillTableSeeder::class);
         $this->call(DurationTableSeeder::class);
         $this->call(EnglishstatusTableSeeder::class);
         $this->call(SkillTableSeeder::class);

@@ -166,7 +166,7 @@ class Bureau extends Model
 
     public function bureauhousehelps()
     {
-        return $this->belongsToMany(User::class,'bureau_househelp')
+        return $this->belongsToMany(User::class,'bureau_househelp','bureau_id')
                     ->withPivot(
                         'photo',
                         'about_me',
@@ -208,8 +208,8 @@ class Bureau extends Model
                     ->join('englishstatuses', 'bureau_househelp.englishstatus_id', '=', 'englishstatuses.id')
                     ->join('religions', 'bureau_househelp.religion_id', '=', 'religions.id')
                     ->join('kids', 'bureau_househelp.kid_id', '=', 'kids.id')
-                    ->join('healthstatuses', 'healthstatuses.bureau_househelp_id', '=', 'healthstatuses.id')
-                    ->join('idstatuses', 'idstatuses.bureau_househelp_id', '=', 'idstatuses.id')
+                    ->join('healthstatuses', 'healthstatuses.bureau_househelp_id', '=', 'bureau_househelp.id')
+                    ->join('idstatuses', 'idstatuses.bureau_househelp_id', '=', 'bureau_househelp.id')
                     ->select('users.*',
                         'bureau_househelp.*',
                             'countries.name as country_name',

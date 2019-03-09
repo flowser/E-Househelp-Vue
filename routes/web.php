@@ -17,12 +17,14 @@ use App\Http\Controllers\Backend\Organisation\RoleController;
 use App\Http\Controllers\Backend\Organisation\UserController;
 use App\Http\Controllers\Backend\Standard\PositionController;
 use App\Http\Controllers\Backend\Bureau\BureauAdminController;
+use App\Http\Controllers\Backend\Bureau\HousehelpkinController;
 use App\Http\Controllers\Backend\Househelp\HousehelpController;
 use App\Http\Controllers\Backend\Webpage\ServiceModelController;
 use App\Http\Controllers\Backend\Bureau\BureauDirectorController;
 use App\Http\Controllers\Backend\Bureau\BureauEmployeeController;
 use App\Http\Controllers\Backend\Organisation\OrgAdminController;
 use App\Http\Controllers\Backend\Standard\ConstituencyController;
+use App\Http\Controllers\Backend\Standard\RelationshipController;
 use App\Http\Controllers\Backend\Standard\Househelp\KidController;
 use App\Http\Controllers\Backend\Organisation\PermissionController;
 use App\Http\Controllers\Backend\Organisation\OrgDirectorController;
@@ -164,6 +166,20 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
         Route::get('position/edit/{position}', [PositionController::class, 'edit'])->name('position.edit');
         Route::patch('position/update/{position}', [PositionController::class, 'update'])->name('position.update');
         Route::get('position/delete/{position}', [PositionController::class, 'destroy'])->name('position.destroy');
+
+                //relationship
+        Route::get('relationship/get', [RelationshipController::class, 'index'])->name('relationship.index');
+        Route::get('relationship/get/list/{relationship}', [RelationshipController::class, 'RelationshipList'])->name('relationship.list-index');
+        Route::post('relationship', [RelationshipController::class, 'store'])->name('relationship.store');
+    //     /*
+    //      * Specifics
+    //      */
+        Route::get('relationship/show/{relationship}', [RelationshipController::class, 'show'])->name('relationship.show');
+        Route::get('relationship/edit/{relationship}', [RelationshipController::class, 'edit'])->name('relationship.edit');
+        Route::patch('relationship/update/{relationship}', [RelationshipController::class, 'update'])->name('relationship.update');
+        Route::get('relationship/delete/{relationship}', [RelationshipController::class, 'destroy'])->name('relationship.destroy');
+
+
 
 //gender
         Route::get('gender/get', [GenderController::class, 'index'])->name('gender.index');
@@ -391,10 +407,20 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
      //      */
          Route::get('househelp/show/{househelp}', [HousehelpController::class, 'show'])->name('househelp.show');
          Route::get('househelp/edit/{househelp}', [HousehelpController::class, 'edit'])->name('househelp.edit');
-         Route::patch('househelp/verify/updatedemographics/{househelp}', [HousehelpController::class, 'verifyUpdateDemographics'])->name('househelp.verifyupdatedemographics');
-         Route::patch('househelp/verify/updateattributes/{househelp}', [HousehelpController::class, 'verifyUpdateAttributes'])->name('househelp.verifyupdateattributes');
+         Route::patch('househelp/verify/updatedemographics/{househelp}', [HousehelpController::class, 'verifyUpdateDemographics'])->name('househelp.Demographics');
+         Route::patch('househelp/verify/updateattributes/{househelp}', [HousehelpController::class, 'verifyUpdateAttributes'])->name('househelp.Attributes');
          Route::patch('househelp/update/{househelp}', [HousehelpController::class, 'update'])->name('househelp.update');
          Route::get('househelp/delete/{househelp}/', [HousehelpController::class, 'destroy'])->name('househelp.destroy');
+
+        //  Househelpkin
+         Route::get('househelpkin/get', [HousehelpkinController::class, 'index'])->name('househelpkin.index');
+         Route::patch('househelpkin/{househelpkin}', [HousehelpkinController::class, 'store'])->name('househelpkin.store');
+         Route::get('househelpkin/show/{househelpkin}', [HousehelpkinController::class, 'show'])->name('househelpkin.show');
+         Route::get('househelpkin/edit/{househelpkin}', [HousehelpkinController::class, 'edit'])->name('househelpkin.edit');
+         Route::patch('househelpkin/update/{househelpkin}', [HousehelpkinController::class, 'update'])->name('househelpkin.update');
+         Route::get('househelpkin/delete/{househelpkin}/', [HousehelpkinController::class, 'destroy'])->name('househelpkin.destroy');
+
+
 
 //filters
 

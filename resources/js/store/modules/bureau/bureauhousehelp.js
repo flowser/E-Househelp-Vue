@@ -22,9 +22,10 @@ const actions = {
       });
     },
     HousehelpById(context, payload){
+        // console.log(payload)
         axios.get('/househelp/show/'+payload)
               .then((response)=>{
-                  console.log(response.data);
+                  console.log(response.data, 'teiyo');
                   context.commit('househelp', response.data.househelp);
               });
     }

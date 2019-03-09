@@ -121,6 +121,8 @@ class PermissionRoleTableSeeder extends Seeder
         $bureauemployee = Role::create(['name' => 'Bureau Employee']);
         $bureauadmin = Role::create(['name' => 'Bureau Admin']);
         $bureauaccountant = Role::create(['name' => 'Bureau Accountant']);
+        $househelp = Role::create(['name' => 'Househelp']);
+        $househelpkin = Role::create(['name' => 'Househelp Kin']);
 
 
         $client = Role::create(['name' => 'Client']);
@@ -210,6 +212,8 @@ class PermissionRoleTableSeeder extends Seeder
 
                   //bureau Superadmin
 
+        $househelp->givePermissionTo('View Backend','View Frontend', 'View', 'Edit');
+        $househelpkin->givePermissionTo('View Frontend', 'View', 'Edit');
         $client->givePermissionTo('View Frontend', 'View', 'Edit');
 
         $this->enableForeignKeys();

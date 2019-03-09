@@ -1,145 +1,225 @@
 <template>
-  <div class="container-fluid mt-5">
-      <!-- Main content -->
-    <div class="col-md-12">
-     <section class="content">
-      <div class="row justify-content-around">
-        <div class="col-md">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Househelps And Their Next of Kins Table</h3>
-              <div class="card-tools">
-                    <button class="btn btn-success"  @click.prevent="newHousehelpModal()">Add New Househelp and Their Next of Kins                         <i class="fas fa-plus fw"></i>
-                     </button>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>S1</th>
-                    <th>Househelp Details</th>
-                    <th>Househelp Next of Kin Details</th>
-                    <th style="padding-left: 14px">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(househelp, index) in Househelps" :key="househelp.id">
-                    <td >{{index+1}}</td>
-                    <td >
-                        <div class="row">
-                            <div style="padding: 3px;max-width:250px">
-                                 <img class="card-img-top" :src="househelpLoadLogo(househelp.logo)" style="width:170px" alt="Card image cap">
-                            </div>
-                            <div style="font-weight:bold;font-size:0.7em;min-width:210px;max-width:400px;margin-top:4px;padding-top:4px;padding-left: 10px;
-                                        font-style: italic ">
-                                <div>{{househelp.name}},</div>
-                                <div> Phone: ,<span style="color:#9a009a;">{{househelp.phone}}</span>,
-                                    Landline: <span style="color:#9a009a;">{{househelp.landline}},</span>
-                                </div>
-                                <div>
-                                     Mail: <span style="color:#9a009a;">{{househelp.househelp_email}},</span>
-                                </div>
-                                    <div>P. O. Box , <span style="color:#9a009a;">{{househelp.address}}</span>,
+    <!-- Main content -->
+    <section class="content">
+            <div class="card card-widget widget-user" >
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header text-white" style="background: url('assets/bureau/img/background/background-1.jpg')
+                     center center;width:100%;height:300px">
+                    <div class="clearfix">
+                        <span class="float-left">
+                            <h3 class="widget-user-username" v-if="Househelp.user">{{Househelp.user.full_name}}</h3>
+                            <h5 class="widget-user-desc bg-green" style="margin-bottom:0">Phone: {{Househelp.phone}} ,</h5>
+                            <h5 class="widget-user-desc" style="margin-bottom:0">P.O. Box {{Househelp.address}},</h5>
+                            <h5 class="widget-user-desc" style="margin-bottom:0" v-if="Househelp.ward">{{Househelp.ward.name}} Ward,
+                                <span v-if="Househelp.constituency">{{Househelp.constituency.name}} Constituency,</span>
+                            </h5>
+                            <h5 class="widget-user-desc" style="margin-bottom:0" v-if="Househelp.county">
+                                {{Househelp.county.name}} County,
+                                <span v-if="Househelp.country"> {{Househelp.country.name}}</span>
+                            </h5>
+                        </span>
+                        <span class="float-right">
+                            <h5 class="widget-user-desc" style="margin-bottom:0" v-if="Househelp.user">{{Househelp.user.email}}</h5>
+                            <p style="margin-bottom:0.25em">
+                                <small class="text-muted">Last updated On: {Househelp.updated_at | dateformat}}</small>
+                            </p>
+                        </span>
+                    </div>
+                    <div class="card-footer" style="padding-top:0px; margin-top: 60px;">
+                            <div class="row">
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header">3,200</h5>
+                                        <span class="description-header green " >Twitter Followers</span>
+                                        <div class="card-tools">
+                                            <button class="btn btn-info" style="background-color: purple; color: #fff" >Follow us
+                                                <i class="fas fa-plus fw"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                <div>
-                                    <span style="color:#9a009a;">{{househelp.ward.name}}</span> ward,
-                                    <span style="color:#9a009a;">{{househelp.constituency.name}}</span> constituency,
+                                    <!-- /.description-block -->
                                 </div>
-                                <div>
-                                    <span style="color:#9a009a;">{{househelp.county.name}}</span> county,
-                                    <span style="color:#9a009a;">{{househelp.country.name}}, </span>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div style="font-weight:bold;font-size:0.7em;min-width:210px;max-width:400px;margin-top:4px;padding-top:4px;padding-left: 10px;
-                                        font-style: italic ">
-                                <div>{{househelpkin.name}},</div>
-                                <div> Phone: ,<span style="color:#9a009a;">{{househelpkin.phone}}</span>,
-                                    Landline: <span style="color:#9a009a;">{{househelpkin.landline}},</span>
-                                </div>
-                                <div>
-                                     Mail: <span style="color:#9a009a;">{{househelpkin.househelpkin_email}},</span>
-                                </div>
-                                    <div>P. O. Box , <span style="color:#9a009a;">{{househelpkin.address}}</span>,
+                                <!-- /.col -->
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <h5 class="description-header">13,000</h5>
+                                        <span class="description-header green">Facebook Followers</span>
+                                        <div class="card-tools">
+                                            <button class="btn btn-info " style="background-color: purple; color: #fff">Follow us
+                                                <i class="fas fa-plus fw"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                <div>
-                                    <span style="color:#9a009a;">{{househelpkin.ward.name}}</span> ward,
-                                    <span style="color:#9a009a;">{{househelpkin.constituency.name}}</span> constituency,
+                                    <!-- /.description-block -->
                                 </div>
-                                <div>
-                                    <span style="color:#9a009a;">{{househelpkin.county.name}}</span> county,
-                                    <span style="color:#9a009a;">{{househelpkin.country.name}}, </span>
+                                <!-- /.col -->
+                                <div class="col-sm-4">
+                                    <div class="description-block">
+                                        <h5 class="description-header">3544</h5>
+                                        <span class="description-header green">Linkedin Followers</span>
+                                        <div class="card-tools">
+                                            <button class="btn btn-info" style="background-color: purple; color: #fff" >Follow us
+                                                <i class="fas fa-plus fw"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                    </div>
+                </div>
+                <div class="widget-user-image" style="top:5px;">
+                    <img :src="househelpLoadPassPhoto(Househelp.photo)"  class="border-0"  style="width:160px;">
+                    <h3 class="card-title text-center text-white" v-if="Househelp.user">{{Househelp.user.full_name}}</h3>
+                </div>
+            </div>
+            <div class="container-fluid">
+                    <div class="row">
+                        <div class="card col-md">
+                            <div class="card-header">
+                               <h3 class="card-title">Househelp Demographic Data</h3>
+                            </div>
+                            <div class="card-body">
+                                 <div class="row">
+                                    <div class="col" style="padding: 3px;">
+                                        <img class="card-img-top" :src="househelpLoadPassPhoto(Househelp.photo)" style="width:100%; height:130px" alt="Card image cap">
+                                    </div>
+                                    <div class="col" style="padding: 3px;" v-if="Househelp.idstatus">
+                                        <img class="card-img-top" :src="househelpLoadIDFrontPhoto(Househelp.idstatus.id_photo_back)" style="width:100%;height:65px" alt="Card image cap"><br>
+                                        <img class="card-img-top" :src="househelpLoadIDBackPhoto(Househelp.idstatus.id_photo_back)" style="width:100%;height:65px" alt="Card image cap">
+                                    </div>
+                                    <div style="font-weight:bold;font-size:0.7em;min-width:210px;max-width:400px;margin-top:4px;padding-top:4px;font-style: italic ">
+                                        <div v-if="Househelp.user">{{Househelp.user.full_name}},</div>
+                                        <div>
+                                            Househelp,
+                                            <span style="color:#9a009a;">
+                                                <!-- {{Bureau.name}}, -->
+                                            </span>
+                                        </div>
+                                        <div> ID: ,<span style="color:#9a009a;" v-if="Househelp.idstatus">{{Househelp.idstatus.id_number}}</span>,
+                                            Phone: <span style="color:#9a009a;">{{Househelp.phone}},</span>
+                                        </div>
+                                        <div>
+                                            Mail: <span style="color:#9a009a;" v-if="Househelp.user">{{Househelp.user.email}},</span>
+                                        </div>
+                                            <div>P. O. Box , <span style="color:#9a009a;">{{Househelp.address}}</span>,
+                                            </div>
+                                        <div>
+                                            <span style="color:#9a009a;" v-if="Househelp.ward">{{Househelp.ward.name}}</span> ward,
+                                            <span style="color:#9a009a;" v-if="Househelp.constituency">{{Househelp.constituency.name}}</span> constituency,
+                                        </div>
+                                        <div >
+                                            <span style="color:#9a009a;" v-if="Househelp.county">{{Househelp.county.name}}</span> county,
+                                            <span style="color:#9a009a;" v-if="Househelp.country">{{Househelp.country.name}},</span>
+                                        </div>
+                                         <div class="clearfix" style="font-weight:bold;font-size:0.9em;">
+                                            <span class="float-left" style="margin-bottom:-0.5em" >
+                                                <div style="margin-bottom:0.25em"> Updated at:
+                                                    <span style="color:#9a009a;">{{Househelp.created_at | dateformat}} </span>
+                                                </div>
+                                            </span>
+                                            <span class="float-right">
+                                                <a href=""  @click.prevent="editHousehelpModal(Househelp.id)">
+                                                    <i class="fa fa-edit blue"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </td>
-                    <td style="padding: 3px;" >
-                        <div class="clearfix" style="font-weight:bold;font-size:0.7em;">
-                            <span class="float-left" style="margin-bottom:-0.5em" >
-                                <div style="margin-bottom:0.25em"> Updated at:
-                                    <span style="color:#9a009a;">{{househelp.created_at | dateformat}} </span>
+                        <div class="card col-md">
+                            <div class="card-header">
+                               <h3 class="card-title">Househelp Kin Demographic Data</h3>
+                            </div>
+                            <div class="card-body">
+                                 <div class="row" v-for="househelpkin in Househelp.househelpkins" :key="househelpkin.id">
+                                    <div class="col" style="padding: 3px;">
+                                        <img class="card-img-top" :src="househelpkinLoadPassPhoto(househelpkin.pivot.photo)" style="width:100%; height:130px" alt="Card image cap">
+                                    </div>
+                                    <div class="col" style="padding: 3px;">
+                                        <img class="card-img-top" :src="househelpkinLoadIDFrontPhoto(househelpkin.pivot.id_photo_front)" style="width:100%;height:65px" alt="Card image cap"><br>
+                                        <img class="card-img-top" :src="househelpkinLoadIDBackPhoto(househelpkin.pivot.id_photo_back)" style="width:100%;height:65px" alt="Card image cap">
+                                    </div>
+                                    <div style="font-weight:bold;font-size:0.7em;min-width:210px;max-width:400px;margin-top:4px;padding-top:4px;font-style: italic ">
+                                        <div>{{househelpkin.full_name}},</div>
+                                        <div>
+                                            Househelp Kin,
+                                            <span style="color:#9a009a;">
+                                                {{househelpkin.relationship_name}}, to
+                                            </span>
+                                            <span style="color:#9a009a;">
+                                                {{Househelp.user.full_name}},
+                                            </span>
+                                        </div>
+                                        <div> ID: ,<span style="color:#9a009a;">{{househelpkin.pivot.id_no}}</span>,
+                                            Phone: <span style="color:#9a009a;">{{househelpkin.pivot.phone}},</span>
+                                        </div>
+                                        <div>
+                                            Mail: <span style="color:#9a009a;" v-if="househelpkin.email">{{househelpkin.email}},</span>
+                                        </div>
+                                            <div>P. O. Box , <span style="color:#9a009a;">{{househelpkin.pivot.address}}</span>,
+                                            </div>
+                                        <div>
+                                            <span style="color:#9a009a;">{{househelpkin.ward_name}}</span> ward,
+                                            <span style="color:#9a009a;">{{househelpkin.constituency_name}}</span> constituency,
+                                        </div>
+                                        <div >
+                                            <span style="color:#9a009a;">{{househelpkin.county_name}}</span> county,
+                                            <span style="color:#9a009a;">{{househelpkin.country_name}},</span>
+                                        </div>
+                                         <div class="clearfix" style="font-weight:bold;font-size:0.9em;">
+                                            <span class="float-left" style="margin-bottom:-0.5em" >
+                                                <div style="margin-bottom:0.25em"> Updated at:
+                                                    <span style="color:#9a009a;">{{househelpkin.created_at | dateformat}} </span>
+                                                </div>
+                                            </span>
+                                            <span class="float-right">
+                                                <a href=""  @click.prevent="viewHousehelpkinModal(househelpkin.user_id)">
+                                                    <i class="fa fa-eye purple"></i>
+                                                </a>
+                                                <a href=""  @click.prevent="editHousehelpkinModal(househelpkin.user_id)">
+                                                    <i class="fa fa-edit blue"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </span>
-                            <span class="float-right">
-                                <router-link  :to="`/househelp/${househelp.id}`">
-                                        <i class="fa fa-eye "></i>
-                                </router-link>
-                                <a href=""  @click.prevent="deleteHousehelp(househelp.id)">
-                                    <i class="fa fa-trash red"></i>
-                                </a>
-                            </span>
+                            </div>
                         </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                    </div>
+
+
             </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <!-- /.col -->
-      </div>
-    </section>
-
-
-    </div>
-        <!-- Role Modal -->
-
- <div class="modal fade " id="BureauModal" tabindex="-1" role="dialog" aria-labelledby="BureauModalLabel" aria-hidden="true">
+        <!-- create & edit Househelp modal -->
+        <div class="modal fade " id="HousehelpModal" tabindex="-1" role="dialog" aria-labelledby="HousehelpModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4> Househelp Demographic data</h4>
+                        <h4> Update Househelp Demographic data</h4>
 
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form-wizard role="form" @on-complete="editmodeBureau ? updateBureau(bureauform.id) : addBureau ()" >
-                            <h5 class="modal-title" v-show="editmodeBureau" id="BureauModalLabel">Update Bureau & Director</h5>
-                            <h5 class="modal-title" v-show="!editmodeBureau" id="BureauModalLabel">Add New Bureau & Director</h5>
-
-
-                            <tab-content title="Househelp Househelp Info" :before-change="newHousehelp ? validateHousehelp : validateHousehelpUpdate ">
+                        <form-wizard role="form" @on-complete="updateHousehelp(Househelp.id)" ref="wizard">
+                            <h5 class="modal-title" id="HousehelpModalLabel">Uppdate Current Househelp Demographic data</h5>
+                            <tab-content title="Househelp Househelp Info" :before-change="validateupdateHousehelpDemograhic">
                                       <div class="row">
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_first_name" class="col-form-label"> Househelp First Name</label>
-                                            <input v-model="househelpform.househelp_first_name" type="text" name="first_name" placeholder="Househelp First Name"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelp_first_name') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelp_first_name"></has-error>
+                                            <label for="first_name" class="col-form-label"> Househelp First Name</label>
+                                            <input v-model="househelpform.first_name" type="text" name="first_name" placeholder="Househelp First Name"
+                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('first_name') }" >
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="first_name"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_last_name" class=" col-form-label">househelp_Last Name </label>
-                                            <input v-model="househelpform.househelp_last_name" type="househelp_last_name" name="househelp_last_name" placeholder="househelp_Last Name"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelp_last_name') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelp_last_name"></has-error>
+                                            <label for="last_name" class=" col-form-label">Last Name </label>
+                                            <input v-model="househelpform.last_name" type="last_name" name="last_name" placeholder="Last Name"
+                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('last_name') }" >
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="last_name"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="email" class=" col-form-label">Email </label>
@@ -150,432 +230,521 @@
                                     </div>
                                     <div class=" row">
                                         <div class="form-group col-md-4">
-                                            <input v-model="househelpform.househelp_password" type="password" id="househelp_password" placeholder="Househelp Password"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelp_password') }">
-                                            <has-error :form="househelpform" field="password"></has-error>
+                                            <input v-model="househelpform.password" type="password" id="password" placeholder="Househelp Password"
+                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('password') }">
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="password"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_age" class="col-form-label">Househelp Age</label>
-                                            <input v-model="househelpform.househelp_age" type="text" name="househelp_id_no" placeholder="Househelp age"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelp_age') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelp_age"></has-error>
+                                            <div> Current Age is {{this.househelpform.age}} Years</div>
+                                            <label for="birth_date" class="col-form-label">Househelp Birth Date</label>
+                                                <datetime v-model="househelpform.birth_date" type="text" id="birth_date" placeholder="Househelp Birth Date"
+                                                class="form-control"  input-class="form-control border-0" style="padding-top: 0px;"  :class="{ 'is-invalid': househelpform.errors.has('birth_date') }"></datetime>
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="birth_date"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_address" class=" col-form-label">Househelp Address</label>
-                                            <input v-model="househelpform.househelp_address" type="text" name="Address" placeholder="Househelp Address"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelp_address') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelp_address"></has-error>
+                                            <label for="address" class=" col-form-label">Househelp Address</label>
+                                            <input v-model="househelpform.address" type="text" name="Address" placeholder="Househelp Address"
+                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('address') }" >
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="address"></has-error>
                                         </div>
 
                                     </div>
                                     <div class=" row">
                                          <div class="form-group col-md-4">
-                                            <label for="househelp_gender_id">Select Gender</label>
-                                            <select class="form-control" v-model="househelpform.househelp_gender_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_gender_id') }">
+                                            <label for="gender_id">Select Gender</label>
+                                            <select class="form-control" v-model="househelpform.gender_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('gender_id') }">
                                                     <option disabled value="">Select gender</option>
                                                     <option v-for="gender in Genders" :value="gender.id" :key="gender.id">{{gender.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_gender_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="gender_id"></has-error>
                                         </div>
 
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_phone" class="col-form-label"> Househelp Phone</label>
+                                            <label for="phone" class="col-form-label"> Househelp Phone</label>
                                                 <div>
-                                                    <vue-tel-input v-model="househelpform.househelp_phone" name="househelp_phone" @onInput="HousehelpInputPhone"
-                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelp_phone') }">
+                                                    <vue-tel-input v-model="househelpform.phone" name="phone" @onInput="HousehelpInputPhone1"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('phone') }">
                                                     </vue-tel-input>
-                                                    <has-error style="color: #e83e8c" :form="househelpform" field="househelp_phone"></has-error>
+                                                    <has-error style="color: #e83e8c" :form="househelpform" field="phone"></has-error>
                                                 </div>
-                                                <div v-if="househelpform.househelp_phone" style="color: #e83e8c">
-                                                    <span>Is valid: <strong>{{househelp_phone1.isValid}}</strong>,&nbsp;</span>
-                                                    <span>Country: <strong>{{househelp_phone1.country}}</strong></span>
+                                                <div v-if="househelpform.phone" style="color: #e83e8c">
+                                                    <span>Is valid: <strong>{{phone1.isValid}}</strong>,&nbsp;</span>
+                                                    <span>Country: <strong>{{phone1.country}}</strong></span>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_landline" class=" col-form-label">Househelp Landline</label>
-                                                <vue-tel-input v-model="househelpform.househelp_landline" name="househelp_landline" @onInput="HousehelpInputLandline"
-                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelp_landline') }">
-                                                </vue-tel-input>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_landline"></has-error>
-
-                                                <div v-if="househelpform.househelp_landline" style="color: #e83e8c">
-                                                    <span>Is valid: <strong>{{househelp_landline1.isValid}}</strong>,&nbsp;</span>
-                                                    <span>Country: <strong>{{househelp_landline1.country}}</strong></span>
-                                            </div>
+                                            <label for="photo" class=" col-form-label">Househelp PassPort Image</label><br>
+                                                <input @change="househelpChangePassPhoto($event)" type="file" name="photo"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('photo') }"
+                                                    class="form-control" style=" border: 1px solid #ffffff; padding-left: 0px;">
+                                                    <img :src="updateHousehelpPassPhoto(househelpform.photo)" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="photo"></has-error>
                                         </div>
                                     </div>
                                     <div class=" row">
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_country_id">Select Country</label>
-                                            <select class="form-control" @change="HousehelpcountryCounties(househelpform.househelp_country_id)"
-                                            v-model="househelpform.househelp_country_id" :class="{ 'is-invalid': househelpform.errors.has('househelp_country_id') }">
+                                            <label for="country_id">Select Country</label>
+                                            <select class="form-control" @change="countryCounties(househelpform.country_id)"
+                                            v-model="househelpform.country_id" :class="{ 'is-invalid': househelpform.errors.has('country_id') }">
                                                     <option disabled value="">Select Country</option>
                                                     <option v-for="country in Countries" :value="country.id" :key="country.id">{{country.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_country_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="country_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_county_id" class=" col-form-label">County</label>
-                                            <select class="form-control" @change="HousehelpcountyConstituencies(househelpform.househelp_county_id)"
-                                            v-model="househelpform.househelp_county_id" :class="{ 'is-invalid': househelpform.errors.has('househelp_county_id') }">
+                                            <label for="county_id" class=" col-form-label">County</label>
+                                            <select class="form-control" @change="countyConstituencies(househelpform.county_id)"
+                                            v-model="househelpform.county_id" :class="{ 'is-invalid': househelpform.errors.has('county_id') }">
                                                     <option disabled value="">Select County</option>
                                                     <option v-for="county in Counties" :value="county.id" :key="county.id">{{county.name}}</option>
                                             </select>
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelp_county_id"></has-error>
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="county_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_constituency_id" class=" col-form-label">Constituency</label>
-                                            <select class="form-control" @change="HousehelpconstituencyWards(househelpform.househelp_constituency_id)"
-                                            v-model="househelpform.househelp_constituency_id" :class="{ 'is-invalid': househelpform.errors.has('househelp_constituency_id') }">
+                                            <label for="constituency_id" class=" col-form-label">Constituency</label>
+                                            <select class="form-control" @change="constituencyWards(househelpform.constituency_id)"
+                                            v-model="househelpform.constituency_id" :class="{ 'is-invalid': househelpform.errors.has('constituency_id') }">
                                                     <option disabled value="">Select County</option>
                                                     <option v-for="constituency in Constituencies" :value="constituency.id" :key="constituency.id">{{constituency.name}}</option>
                                             </select>
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelp_constituency_id"></has-error>
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="constituency_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_ward_id" class="col-form-label"> Ward </label>
+                                            <label for="ward_id" class="col-form-label"> Ward </label>
                                             <select class="form-control"
-                                            v-model="househelpform.househelp_ward_id" :class="{ 'is-invalid': househelpform.errors.has('househelp_ward_id') }">
+                                            v-model="househelpform.ward_id" :class="{ 'is-invalid': househelpform.errors.has('ward_id') }">
                                                     <option disabled value="">Select Ward</option>
                                                     <option v-for="ward in Wards" :value="ward.id" :key="ward.id">{{ward.name}}</option>
                                             </select>
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelp_ward_id"></has-error>
+                                            <has-error style="color: #e83e8c" :form="househelpform" field="ward_id"></has-error>
                                         </div>
 
                                     </div>
                                     <div class=" row">
                                         <div class="form-group col-md-4">
-                                            <label for="househelp_passport_image" class=" col-form-label">Househelp PassPort Image</label><br>
-                                                <input @change="househelpChangePImage($event)" type="file" name="househelp_passport_image"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_passport_image') }">
-                                                    <img v-show="editmodeHousehelp" :src="updateHousehelpPImage(househelpform.househelp_passport_image)" alt="" width="100%" >
-                                                    <img  v-show="!editmodeHousehelp" :src="househelpform.househelp_passport_image" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_passport_image"></has-error>
+                                            <div>Househelp ID status</div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="HasID">
+                                                <label for="IDstatus" class="col-form-label"> Has ID card</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="HASIDbutlost">
+                                                <label for="IDstatus" class="col-form-label"> Has ID (lost, waiting card)</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="NOIDbutapplied">
+                                                <label for="IDstatus" class="col-form-label"> NO ID (new, waiting card)</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="IDstatus" value="NOID">
+                                                <label for="IDstatus" class="col-form-label"> NO ID (completely) </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <div v-show="IDstatus === 'HasID'">
+                                               <label for="id_photo_front" class=" col-form-label">Househelp FrontSide ID Photo</label><br>
+                                                <input @change="househelpChangeIDFrontPhoto($event)" type="file" name="id_photo_front"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('id_photo_front') }"
+                                                     class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
+                                                    <img :src="updateHousehelpIDFrontPhoto(househelpform.id_photo_front)" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="id_photo_front"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'HASIDbutlost'">
+                                                <label for="id_number" class="col-form-label">Househelp ID NO.</label>
+                                                    <input v-model="househelpform.id_number" type="text" name="id_number" placeholder="Househelp ID NO"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('id_number') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelpform" field="id_number"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'NOIDbutapplied'">
+                                                <label for="ref_number" class="col-form-label">Househelp Waiting Card Rer NO.</label>
+                                                    <input v-model="househelpform.ref_number" type="text" name="ref_number" placeholder="Househelp Waiting card ref NO"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('ref_number') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelpform" field="ref_number"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'NOID'">
+                                                <h5 class="text-center">This Househelp has No ID card Whatsoever,
+                                                     but you can register and later update if Gets ID card</h5>
+                                            </div>
                                         </div>
                                         <div class="form-group col-md-4">
-                                            <label for="frontside_househelp_id_photo" class=" col-form-label">Househelp FrontSide ID Photo</label><br>
-                                                <input @change="househelpChangeFIDPhoto($event)" type="file" name="frontside_househelp_id_photo"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('frontside_househelp_id_photo') }">
-                                                    <img v-show="editmodeHousehelp" :src="updateHousehelpFIDPhoto(househelpform.frontside_househelp_id_photo)" alt="" width="100%" >
-                                                    <img  v-show="!editmodeHousehelp" :src="househelpform.frontside_househelp_id_photo" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="frontside_househelp_id_photo"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="backside_househelp_i_photod" class=" col-form-label">Househelp BackSide ID Photo</label><br>
-                                                <input @change="househelpChangeBIDPhoto($event)" type="file" name="backside_househelp_id_photo"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('backside_househelp_id') }">
-                                                    <img v-show="editmodeHousehelp" :src="updateHousehelpBIDPhoto(househelpform.backside_househelp_id_photo)" alt="" width="100%" >
-                                                    <img  v-show="!editmodeHousehelp" :src="househelpform.backside_househelp_id_photo" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="backside_househelp_id_photo"></has-error>
+                                             <div v-show="IDstatus === 'HasID'">
+                                                <label for="id_photo_back" class=" col-form-label">Househelp BackSide ID Photo</label><br>
+                                                    <input @change="househelpChangeIDBackPhoto($event)" type="file" name="id_photo_back"
+                                                        :class="{ 'is-invalid': househelpform.errors.has('id_photo_back') }"
+                                                        class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
+                                                         <img :src="updateHousehelpIDBackPhoto(househelpform.id_photo_back)" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="id_photo_back"></has-error>
+
+                                               <div>
+                                                   <label for="id_number" class="col-form-label">Househelp ID NO.</label>
+                                                    <input v-model="househelpform.id_number" type="text" name="id_number" placeholder="Househelp ID NO"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('id_number') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelpform" field="id_number"></has-error>
+                                               </div>
+                                            </div>
+                                            <div v-show="IDstatus === 'HASIDbutlost'">
+                                                  <label for="waiting_card_photo" class="col-form-label">Househelp Waiting Card Photo</label>
+                                                 <input @change="househelpChangeWaitingCardPhoto($event)" type="file" name="waiting_card_photo"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('waiting_card_photo') }"
+                                                     class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
+                                                     <img :src="updateHousehelpWaitingCardPhoto(househelpform.waiting_card_photo)" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="waiting_card_photo"></has-error>
+                                            </div>
+                                            <div v-show="IDstatus === 'NOIDbutapplied'">
+                                                <label for="waiting_card_photo" class=" col-form-label">Househelp Waiting Card Photo</label><br>
+                                                <input @change="househelpChangeWaitingCardPhoto($event)" type="file" name="waiting_card_photo"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('waiting_card_photo') }"
+                                                     class="form-control" style=" border: 1px solid #ffffff;padding-left: 0px;">
+                                                    <img :src="updateHousehelpWaitingCardPhoto(househelpform.waiting_card_photo)" alt="" width="100%" >
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="waiting_card_photo"></has-error>
+                                            </div>
                                         </div>
                                     </div>
                             </tab-content>
-                            <tab-content title="Househelp Features Info" :before-change="newHousehelp ? validateHousehelp : validateHousehelpUpdate ">
-
+                            <tab-content title="Househelp Features Info" :before-change="validateupdateHousehelpAttributes">
                                     <div class=" row">
                                          <div class="form-group col-md-3">
-                                            <label for="househelp_education_id">Select Education Level</label>
-                                            <select class="form-control" v-model="househelpform.househelp_education_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_education_id') }">
+                                            <label for="education_id">Select Education Level</label>
+                                            <select class="form-control" v-model="househelpform.education_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('education_id') }">
                                                     <option disabled value="">Select education</option>
                                                     <option v-for="education in Educations" :value="education.id" :key="education.id">{{education.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_education_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="education_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_experience_id">Select Experience</label>
-                                            <select class="form-control" v-model="househelpform.househelp_experience_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_experience_id') }">
+                                            <label for="experience_id">Select Experience</label>
+                                            <select class="form-control" v-model="househelpform.experience_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('experience_id') }">
                                                     <option disabled value="">Select experience</option>
                                                     <option v-for="experience in Experiences" :value="experience.id" :key="experience.id">{{experience.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_experience_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="experience_id"></has-error>
                                         </div>
                                          <div class="form-group col-md-3">
-                                            <label for="househelp_maritalstatus_id">Select Maritalstatus</label>
-                                            <select class="form-control" v-model="househelpform.househelp_maritalstatus_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_maritalstatus_id') }">
+                                            <label for="maritalstatus_id">Select Maritalstatus</label>
+                                            <select class="form-control" v-model="househelpform.maritalstatus_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('maritalstatus_id') }">
                                                     <option disabled value="">Select maritalstatus</option>
                                                     <option v-for="maritalstatus in Maritalstatuses" :value="maritalstatus.id" :key="maritalstatus.id">{{maritalstatus.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_maritalstatus_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="maritalstatus_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_tribe_id">Select Tribe</label>
-                                            <select class="form-control" v-model="househelpform.househelp_tribe_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_tribe_id') }">
+                                            <label for="tribe_id">Select Tribe</label>
+                                            <select class="form-control" v-model="househelpform.tribe_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('tribe_id') }">
                                                     <option disabled value="">Select tribe</option>
                                                     <option v-for="tribe in Tribes" :value="tribe.id" :key="tribe.id">{{tribe.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_tribe_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="tribe_id"></has-error>
                                         </div>
                                     </div>
                                     <div class=" row">
                                          <div class="form-group col-md-3">
-                                            <label for="househelp_skill_id">Select Skill Level</label>
-                                            <select class="form-control" v-model="househelpform.househelp_skill_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_skill_id') }">
+                                            <label for="skill_id">Select Skill Level</label>
+                                            <select class="form-control" v-model="househelpform.skill_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('skill_id') }">
                                                     <option disabled value="">Select skill</option>
                                                     <option v-for="skill in Skills" :value="skill.id" :key="skill.id">{{skill.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_skill_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="skill_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_operation_id">Select Operation</label>
-                                            <select class="form-control" v-model="househelpform.househelp_operation_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_operation_id') }">
+                                            <label for="operation_id">Select Operation</label>
+                                            <select class="form-control" v-model="househelpform.operation_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('operation_id') }">
                                                     <option disabled value="">Select operation</option>
                                                     <option v-for="operation in Operations" :value="operation.id" :key="operation.id">{{operation.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_operation_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="operation_id"></has-error>
                                         </div>
                                          <div class="form-group col-md-3">
-                                            <label for="househelp_duration_id">Select Duration</label>
-                                            <select class="form-control" v-model="househelpform.househelp_duration_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_duration_id') }">
+                                            <label for="duration_id">Select Duration</label>
+                                            <select class="form-control" v-model="househelpform.duration_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('duration_id') }">
                                                     <option disabled value="">Select duration</option>
                                                     <option v-for="duration in Durations" :value="duration.id" :key="duration.id">{{duration.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_duration_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="duration_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_englishstatus_id">Select Englishstatus</label>
-                                            <select class="form-control" v-model="househelpform.househelp_englishstatus_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_englishstatus_id') }">
+                                            <label for="englishstatus_id">Select Englishstatus</label>
+                                            <select class="form-control" v-model="househelpform.englishstatus_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('englishstatus_id') }">
                                                     <option disabled value="">Select englishstatus</option>
                                                     <option v-for="englishstatus in Englishstatuses" :value="englishstatus.id" :key="englishstatus.id">{{englishstatus.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_englishstatus_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="englishstatus_id"></has-error>
                                         </div>
                                     </div>
                                     <div class=" row">
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_religion_id">Select Religion Level</label>
-                                            <select class="form-control" v-model="househelpform.househelp_religion_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_religion_id') }">
+                                            <label for="religion_id">Select Religion Level</label>
+                                            <select class="form-control" v-model="househelpform.religion_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('religion_id') }">
                                                     <option disabled value="">Select religion</option>
                                                     <option v-for="religion in Religions" :value="religion.id" :key="religion.id">{{religion.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_religion_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="religion_id"></has-error>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <label for="househelp_kid_id">Select Kid Level</label>
-                                            <select class="form-control" v-model="househelpform.househelp_kid_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelp_kid_id') }">
+                                            <label for="kid_id">Select Kid Level</label>
+                                            <select class="form-control" v-model="househelpform.kid_id"
+                                                    :class="{ 'is-invalid': househelpform.errors.has('kid_id') }">
                                                     <option disabled value="">Select kid</option>
                                                     <option v-for="kid in Kids" :value="kid.id" :key="kid.id">{{kid.name}}</option>
                                             </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelp_kid_id"></has-error>
+                                                <has-error style="color: #e83e8c" :form="househelpform" field="kid_id"></has-error>
+                                        </div>
+                                    </div>
+                                    <div class=" row">
+                                        <div class="form-group col-md-4">
+                                            <div>Househelp ID status</div>
+
+                                            <div >
+                                                <input type="radio" v-model="Healthstatus" value="HEALTHY">
+                                                <label for="Healthstatus" class="col-form-label"> Is Healthy</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" v-model="Healthstatus" value="HASMINOR">
+                                                <label for="Healthstatus" class="col-form-label">Has Minor Health Issues</label>
+                                            </div>
+
+                                            <div>
+                                                <input type="radio" v-model="Healthstatus" value="HASCHRONIC">
+                                                <label for="Healthstatus" class="col-form-label">Has Other Chronic</label>
+                                            </div>
+                                            <div v-if="this.househelpform.other_chronics = 'Has Other Chronic Issues'">
+                                                <input type="radio" v-model="Healthstatus" value="HASCHRONIC" checked>
+                                                <label for="Healthstatus" class="col-form-label">Has Other Chronic</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div v-show="Healthstatus === 'HEALTHY'">
+                                                   <label for="HIV_status" class="col-form-label">HIV status</label>
+                                                    <input v-model="househelpform.HIV_status" type="text" name="HIV_status" placeholder="HIV status"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('HIV_status') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelpform" field="HIV_status"></has-error>
+                                            </div>
+                                            <div v-show="Healthstatus === 'HASMINOR'">
+                                                <label for="HIV_status" class="col-form-label">HIV status</label>
+                                                    <input v-model="househelpform.HIV_status" type="text" name="HIV_status" placeholder="HIV status"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('HIV_status') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelpform" field="HIV_status"></has-error>
+                                            </div>
+                                            <div v-show="Healthstatus === 'HASCHRONIC'">
+                                                <label for="HIV_status" class="col-form-label"> HIV status</label>
+                                                    <input v-model="househelpform.HIV_status" type="text" name="HIV_status" placeholder="HIV status"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('HIV_status') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelpform" field="HIV_status"></has-error>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div v-show="Healthstatus === 'HASMINOR'">
+                                                <label for="specify" class="col-form-label">Allergies Specification</label>
+                                                <input v-model="househelpform.specify" type="text" name="specify" placeholder="Allergies Specification"
+                                                   class="form-control" :class="{ 'is-invalid': househelpform.errors.has('specify') }" >
+                                               <has-error style="color: #e83e8c" :form="househelpform" field="specify"></has-error>
+                                            </div>
+                                            <div v-show="Healthstatus === 'HASCHRONIC'">
+                                                   <label for="chronic_details" class="col-form-label">Chronic Issues</label>
+                                                    <input v-model="househelpform.chronic_details" type="text" name="chronic_details" placeholder="Chronic Issues"
+                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('chronic_details') }" >
+                                                   <has-error style="color: #e83e8c" :form="househelpform" field="chronic_details"></has-error>
+                                            </div>
                                         </div>
                                     </div>
                             </tab-content>
-                            <tab-content title="Househelpkin Househelpkin Info" :before-change="newHousehelpkin ? validateHousehelpkin : validateHousehelpkinUpdate ">
-                                      <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label for="househelpkin_first_name" class="col-form-label"> Househelpkin First Name</label>
-                                            <input v-model="househelpform.househelpkin_first_name" type="text" name="first_name" placeholder="Househelpkin First Name"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_first_name') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_first_name"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="househelpkin_last_name" class=" col-form-label">househelpkin_Last Name </label>
-                                            <input v-model="househelpform.househelpkin_last_name" type="househelpkin_last_name" name="househelpkin_last_name" placeholder="househelpkin_Last Name"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_last_name') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_last_name"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="email" class=" col-form-label">Email </label>
-                                            <input v-model="househelpform.email" type="email" name="email" placeholder="Email Address"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('email') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="email"></has-error>
-                                        </div>
-                                    </div>
-                                    <div class=" row">
-                                        <div class="form-group col-md-4">
-                                            <input v-model="househelpform.househelpkin_password" type="password" id="househelpkin_password" placeholder="Househelpkin Password"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_password') }">
-                                            <has-error :form="househelpform" field="password"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="househelpkin_id_no" class="col-form-label">Househelpkin ID no.</label>
-                                            <input v-model="househelpform.househelpkin_id_no" type="text" name="househelpkin_id_no" placeholder="Househelpkin ID NO"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_id_no') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_id_no"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="househelpkin_address" class=" col-form-label">Househelpkin Address</label>
-                                            <input v-model="househelpform.househelpkin_address" type="text" name="Address" placeholder="Househelpkin Address"
-                                                class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_address') }" >
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_address"></has-error>
-                                        </div>
-
-                                    </div>
-                                    <div class=" row">
-                                         <div class="form-group col-md-3">
-                                            <label for="househelpkin_gender_id">Select Gender</label>
-                                            <select class="form-control" v-model="househelpform.househelpkin_gender_id"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelpkin_gender_id') }">
-                                                    <option disabled value="">Select gender</option>
-                                                    <option v-for="gender in Genders" :value="gender.id" :key="gender.id">{{gender.name}}</option>
-                                            </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_gender_id"></has-error>
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="househelpkin_phone" class="col-form-label"> Househelpkin Phone</label>
-                                                <div>
-                                                    <vue-tel-input v-model="househelpform.househelpkin_phone" name="househelpkin_phone" @onInput="HousehelpkinInputPhone"
-                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_phone') }">
-                                                    </vue-tel-input>
-                                                    <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_phone"></has-error>
-                                                </div>
-                                                <div v-if="househelpform.househelpkin_phone" style="color: #e83e8c">
-                                                    <span>Is valid: <strong>{{househelpkin_phone1.isValid}}</strong>,&nbsp;</span>
-                                                    <span>Country: <strong>{{househelpkin_phone1.country}}</strong></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="househelpkin_landline" class=" col-form-label">Househelpkin Landline</label>
-                                                <vue-tel-input v-model="househelpform.househelpkin_landline" name="househelpkin_landline" @onInput="HousehelpkinInputLandline"
-                                                    class="form-control" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_landline') }">
-                                                </vue-tel-input>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_landline"></has-error>
-
-                                                <div v-if="househelpform.househelpkin_landline" style="color: #e83e8c">
-                                                    <span>Is valid: <strong>{{househelpkin_landline1.isValid}}</strong>,&nbsp;</span>
-                                                    <span>Country: <strong>{{househelpkin_landline1.country}}</strong></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class=" row">
-                                        <div class="form-group col-md-3">
-                                            <label for="househelpkin_country_id">Select Country</label>
-                                            <select class="form-control" @change="HousehelpkincountryCounties(househelpform.househelpkin_country_id)"
-                                            v-model="househelpform.househelpkin_country_id" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_country_id') }">
-                                                    <option disabled value="">Select Country</option>
-                                                    <option v-for="country in Countries" :value="country.id" :key="country.id">{{country.name}}</option>
-                                            </select>
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_country_id"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="househelpkin_county_id" class=" col-form-label">County</label>
-                                            <select class="form-control" @change="HousehelpkincountyConstituencies(househelpform.househelpkin_county_id)"
-                                            v-model="househelpform.househelpkin_county_id" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_county_id') }">
-                                                    <option disabled value="">Select County</option>
-                                                    <option v-for="county in Counties" :value="county.id" :key="county.id">{{county.name}}</option>
-                                            </select>
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_county_id"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="househelpkin_constituency_id" class=" col-form-label">Constituency</label>
-                                            <select class="form-control" @change="HousehelpkinconstituencyWards(househelpform.househelpkin_constituency_id)"
-                                            v-model="househelpform.househelpkin_constituency_id" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_constituency_id') }">
-                                                    <option disabled value="">Select County</option>
-                                                    <option v-for="constituency in Constituencies" :value="constituency.id" :key="constituency.id">{{constituency.name}}</option>
-                                            </select>
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_constituency_id"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-3">
-                                            <label for="househelpkin_ward_id" class="col-form-label"> Ward </label>
-                                            <select class="form-control"
-                                            v-model="househelpform.househelpkin_ward_id" :class="{ 'is-invalid': househelpform.errors.has('househelpkin_ward_id') }">
-                                                    <option disabled value="">Select Ward</option>
-                                                    <option v-for="ward in Wards" :value="ward.id" :key="ward.id">{{ward.name}}</option>
-                                            </select>
-                                            <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_ward_id"></has-error>
-                                        </div>
-
-                                    </div>
-                                    <div class=" row">
-                                        <div class="form-group col-md-4">
-                                            <label for="househelpkin_passport_image" class=" col-form-label">Househelpkin PassPort Image</label><br>
-                                                <input @change="househelpkinChangePImage($event)" type="file" name="househelpkin_passport_image"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('househelpkin_passport_image') }">
-                                                    <img v-show="editmodeHousehelpkin" :src="updateHousehelpkinPImage(househelpform.househelpkin_passport_image)" alt="" width="100%" >
-                                                    <img  v-show="!editmodeHousehelpkin" :src="househelpform.househelpkin_passport_image" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="househelpkin_passport_image"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="frontside_househelpkin_id_photo" class=" col-form-label">Househelpkin FrontSide ID Photo</label><br>
-                                                <input @change="househelpkinChangeFIDPhoto($event)" type="file" name="frontside_househelpkin_id_photo"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('frontside_househelpkin_id_photo') }">
-                                                    <img v-show="editmodeHousehelpkin" :src="updateHousehelpkinFIDPhoto(househelpform.frontside_househelpkin_id_photo)" alt="" width="100%" >
-                                                    <img  v-show="!editmodeHousehelpkin" :src="househelpform.frontside_househelpkin_id_photo" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="frontside_househelpkin_id_photo"></has-error>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="backside_househelpkin_i_photod" class=" col-form-label">Househelpkin BackSide ID Photo</label><br>
-                                                <input @change="househelpkinChangeBIDPhoto($event)" type="file" name="backside_househelpkin_id_photo"
-                                                    :class="{ 'is-invalid': househelpform.errors.has('backside_househelpkin_id') }">
-                                                    <img v-show="editmodeHousehelpkin" :src="updateHousehelpkinBIDPhoto(househelpform.backside_househelpkin_id_photo)" alt="" width="100%" >
-                                                    <img  v-show="!editmodeHousehelpkin" :src="househelpform.backside_househelpkin_id_photo" alt="" width="100%" >
-                                                <has-error style="color: #e83e8c" :form="househelpform" field="backside_househelpkin_id_photo"></has-error>
-                                        </div>
-                                    </div>
+                            <tab-content>
+                                Update Houshelp
                             </tab-content>
                         </form-wizard>
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
+
+        <div class="modal fade " id="HousehelpKinModal" tabindex="-1" role="dialog" aria-labelledby="HousehelpKinModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4> Update Househelp Demographic data</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="first_name" class="col-form-label"> Househelpkin First Name</label>
+                                <input v-model="househelpkinform.first_name" type="text" name="first_name" placeholder="Househelpkin First Name"
+                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('first_name') }" >
+                                <has-error style="color: #e83e8c" :form="househelpkinform" field="first_name"></has-error>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="last_name" class=" col-form-label">Last Name </label>
+                                <input v-model="househelpkinform.last_name" type="last_name" name="last_name" placeholder="Last Name"
+                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('last_name') }" >
+                                <has-error style="color: #e83e8c" :form="househelpkinform" field="last_name"></has-error>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="id_no" class="col-form-label">Househelpkin ID no.</label>
+                                <input v-model="househelpkinform.id_no" type="text" name="id_no" placeholder="Househelpkin ID NO"
+                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('id_no') }" >
+                                <has-error style="color: #e83e8c" :form="househelpkinform" field="id_no"></has-error>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class="form-group col-md-3">
+                                <label for="relationship_id">Select Relationship </label>
+                                <select class="form-control" v-model="househelpkinform.relationship_id"
+                                        :class="{ 'is-invalid': househelpkinform.errors.has('relationship_id') }">
+                                        <option disabled value="">Select relationship</option>
+                                        <option v-for="relationship in Relationships" :value="relationship.id" :key="relationship.id">{{relationship.name}}</option>
+                                </select>
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="gender_id"></has-error>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="gender_id">Select Gender</label>
+                                <select class="form-control" v-model="househelpkinform.gender_id"
+                                        :class="{ 'is-invalid': househelpkinform.errors.has('gender_id') }">
+                                        <option disabled value="">Select gender</option>
+                                        <option v-for="gender in Genders" :value="gender.id" :key="gender.id">{{gender.name}}</option>
+                                </select>
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="gender_id"></has-error>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="address" class=" col-form-label">Househelpkin Address</label>
+                                <input v-model="househelpkinform.address" type="text" name="Address" placeholder="Househelpkin Address"
+                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('address') }" >
+                                <has-error style="color: #e83e8c" :form="househelpkinform" field="address"></has-error>
+                            </div>
+                             <div class="form-group col-md-3">
+                                <label for="phone" class="col-form-label"> Househelpkin Phone</label>
+                                    <div>
+                                        <vue-tel-input v-model="househelpkinform.phone" name="phone" @onInput="HousehelpkinInputPhone1"
+                                        class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('phone') }">
+                                        </vue-tel-input>
+                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="phone"></has-error>
+                                    </div>
+                                    <div v-if="househelpkinform.phone" style="color: #e83e8c">
+                                        <span>Is valid: <strong>{{phone2.isValid}}</strong>,&nbsp;</span>
+                                        <span>Country: <strong>{{phone2.country}}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class="form-group col-md-3">
+                                <label for="country_id">Select Country</label>
+                                <select class="form-control" @change="countryCounties(househelpkinform.country_id)"
+                                v-model="househelpkinform.country_id" :class="{ 'is-invalid': househelpkinform.errors.has('country_id') }">
+                                        <option disabled value="">Select Country</option>
+                                        <option v-for="country in Countries" :value="country.id" :key="country.id">{{country.name}}</option>
+                                </select>
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="country_id"></has-error>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="county_id" class=" col-form-label">County</label>
+                                <select class="form-control" @change="countyConstituencies(househelpkinform.county_id)"
+                                v-model="househelpkinform.county_id" :class="{ 'is-invalid': househelpkinform.errors.has('county_id') }">
+                                        <option disabled value="">Select County</option>
+                                        <option v-for="county in Counties" :value="county.id" :key="county.id">{{county.name}}</option>
+                                </select>
+                                <has-error style="color: #e83e8c" :form="househelpkinform" field="county_id"></has-error>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="constituency_id" class=" col-form-label">Constituency</label>
+                                <select class="form-control" @change="constituencyWards(househelpkinform.constituency_id)"
+                                v-model="househelpkinform.constituency_id" :class="{ 'is-invalid': househelpkinform.errors.has('constituency_id') }">
+                                        <option disabled value="">Select County</option>
+                                        <option v-for="constituency in Constituencies" :value="constituency.id" :key="constituency.id">{{constituency.name}}</option>
+                                </select>
+                                <has-error style="color: #e83e8c" :form="househelpkinform" field="constituency_id"></has-error>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="ward_id" class="col-form-label"> Ward </label>
+                                <select class="form-control"
+                                v-model="househelpkinform.ward_id" :class="{ 'is-invalid': househelpkinform.errors.has('ward_id') }">
+                                        <option disabled value="">Select Ward</option>
+                                        <option v-for="ward in Wards" :value="ward.id" :key="ward.id">{{ward.name}}</option>
+                                </select>
+                                <has-error style="color: #e83e8c" :form="househelpkinform" field="ward_id"></has-error>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class="form-group col-md-4">
+                                <label for="photo" class=" col-form-label">Househelpkin PassPort Image</label><br>
+                                    <input @change="househelpkinChangePassPhoto($event)" type="file" name="photo"
+                                        :class="{ 'is-invalid': househelpkinform.errors.has('photo') }">
+                                        <img :src="updateHousehelpKinPassPhoto(househelpkinform.photo)" alt="" width="100%" >
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="photo"></has-error>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="id_photo_front" class=" col-form-label">Househelpkin FrontSide ID Photo</label><br>
+                                    <input @change="househelpkinChangeIDFrontPhoto($event)" type="file" name="id_photo_front"
+                                        :class="{ 'is-invalid': househelpkinform.errors.has('id_photo_front') }">
+                                         <img :src="updateHousehelpKinIDFrontPhoto(househelpkinform.id_photo_front)" alt="" width="100%" >
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="id_photo_front"></has-error>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="id_photo_back" class=" col-form-label">Househelpkin BackSide ID Photo</label><br>
+                                    <input @change="househelpkinChangeIDBackPhoto($event)" type="file" name="id_photo_back"
+                                        :class="{ 'is-invalid': househelpkinform.errors.has('id_photo_back') }">
+                                        <img :src="updateHousehelpKinIDBackPhoto(househelpkinform.id_photo_back)" alt="" width="100%" >
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="id_photo_back"></has-error>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
 
 
 
 
-  </div>
+
+
+
+
+
+
+
+    </section>
+    <!-- /.content -->
 </template>
 
 <script>
-
     export default {
-        name:"SingleBureau",
         data(){
             return{
-                newBureauDirector: false,
-                editmodeBureau: false,
-                bureauOutput:'',//view form data and confirm if is ok before submit
-                bureauform: new Form({
+                IDstatus:"HasID",    //id status check
+                Healthstatus: "HEALTHY",
+                househelpform: new Form({
                         id:'',
-                        name:'',
-                        bureau_email:'',
+                        first_name:'',
+                        last_name:'',
+                        email:'',
+                        password:'',
+
+                        user_id:'',
+                        bureau_id:'',
+
+                        photo:'',
+
+                        about_me:'',
                         phone:'',
-                        landline:'',
-                        website:'',
                         address:'',
                         country_id:'',
                         county_id:'',
                         constituency_id:'',
                         ward_id:'',
-                        logo:'',
-                }),
-                 newDirector: false,
-                editmodeHousehelp: false,
-                househelpform: new Form({
-                        id:'',
-                        househelp_first_name:'',
-                        househelp_last_name:'',
-                        househelp_email:'',
-                        househelp_password:'',
-                        househelp_user_type:'',
-                        permissions:[],
-                        roles:[],
-                        househelp_user_id:'',
-                        househelp_bureau_id:'',
-                        househelp_age:'',
-
-                        househelp_photo:'',
-                        househelp_id_photo_front:'',
-                        househelp_id_photo_back:'',
-                        househelp_about_me:'',
-                        househelp_phone:'',
-                        househelp_address:'',
-                        househelp_country_id:'',
-                        househelp_county_id:'',
-                        househelp_constituency_id:'',
-                        househelp_ward_id:'',
                         //extra
-                        househelp_id_no:'',
+                        birth_date:'',
+                        age:'',
+                        gender_id:'',
                         education_id:'',
                         experience_id:'',
                         maritalstatus_id:'',
@@ -587,15 +756,32 @@
                         religion_id:'',
                         kid_id:'',
                         //id status
+                        IDstatus:'',
+                        idstatus_id:'',//id of idstatus row
+                        bureau_househelp_id:'',
                         id_status:'',
                         id_number:'',
                         ref_number:'',
                         id_photo_front:'',
                         id_photo_back:'',
-                        //health status
-                        health_status:'',
-                        specify:'',
+                        waiting_card_photo:'',
+                        reason:'',
+                        status:'',
 
+                        //health status
+                        HealthStatus:'',
+                        health_status_id:'',
+                        bureau_househelp_id:'',
+                        health_status:'',
+                        HIV_status:'',
+                        allergy:'',
+                        chronic_details:'',
+                        other_chronics:'',
+                        specify:'',
+                        status:'',
+                }),
+                househelpkinform: new Form({
+                        id:'',
                         //househelp
                         househelpkin_first_name:'',
                         househelpkin_last_name:'',
@@ -609,53 +795,26 @@
 
                         househelpkin_id_no:'',
                         househelpkin_photo:'',
-                        househelpkin_id_photo_front:'',
-                        househelpkin_id_photo_back:'',
+                        id_photo_front:'',
+                        id_photo_back:'',
                         househelpkin_phone:'',
                         househelpkin_address:'',
                         househelpkin_country_id:'',
                         househelpkin_county_id:'',
                         househelpkin_constituency_id:'',
                         househelpkin_ward_id:'',
-
                 }),
-
-                 //organisation
+                 //Househelp
                 phone1:{
                         isValid: false,
                         country: undefined,
                 },
-                landline1:{
-                        isValid: false,
-                        country: undefined,
-                },
-                 //director
+                 //househelpkin
                 phone2:{
                         isValid: false,
                         country: undefined,
                 },
-                landline2:{
-                        isValid: false,
-                        country: undefined,
-                },
-                //admin
-                phone3:{
-                        isValid: false,
-                        country: undefined,
-                },
-                landline3:{
-                        isValid: false,
-                        country: undefined,
-                },
-                  //employee
-                phone4:{
-                        isValid: false,
-                        country: undefined,
-                },
-                landline4:{
-                        isValid: false,
-                        country: undefined,
-                },
+
             }
         },
         mounted() {
@@ -663,13 +822,28 @@
             this.loadCounties();
             this.loadConstituencies();///linked to methods and actions store
             this.loadWards();///linked to methods and actions store
-            this.singlebureau();
+            this.loadDurations(); //from methods
+            this.loadEducations(); //from methods
+            this.loadEnglishstatuses(); //from methods
+            this.loadExperiences(); //from methods
+            this.loadKids(); //from methods
+            this.loadMaritalstatuses(); //from methods
+            this.loadOperations(); //from methods
+            this.loadReligions(); //from methods
+            this.loadSkills(); //from methods
+            this.loadTribes(); //from methods
+            this.loadGenders(); //from methods
+            this.loadRelationships(); //from methods
+            this.loadBureau(); //from methods
+            this.singlehousehelp()
+
         },
         computed:{
             Countries(){
                 return this.$store.getters.Countries
             },
             Counties(){
+                console.log(this.$store.getters.CountryCounties)
                return this.$store.getters.CountryCounties
             },
             Constituencies(){
@@ -679,90 +853,109 @@
                return this.$store.getters.ConstituencyWards
             },
             Bureau(){
-                console.log(this.$store.getters.Bureau)
-               return this.$store.getters.Bureau//single Bureau by parameter id
+               return this.$store.getters.Bureau
             },
-            Director(){
-                console.log(this.$store.getters.BureauDirector)
-               return this.$store.getters.BureauDirector//View Single Bureau director  by parameter id
+            Househelp(){
+                console.log(this.$store.getters.Househelp)
+               return this.$store.getters.Househelp
             },
-            Admin(){
-                console.log(this.$store.getters.BureauAdmin)
-               return this.$store.getters.BureauAdmin//View Single Bureau  admin by parameter id
+            Genders(){
+               return this.$store.getters.Genders
             },
-            Employee(){
-                console.log(this.$store.getters.BureauEmployee)
-               return this.$store.getters.BureauEmployee//View Single Bureau  admin by parameter id
+            Relationships(){
+               return this.$store.getters.Relationships
             },
-            // Househelp(){
-            //     console.log(this.$store.getters.BureauHousehelp)
-            //    return this.$store.getters.BureauHousehelps//View Single Bureau houshelp  by parameter id with their kins
-            // },
-            // CLient(){
-            //     console.log(this.$store.getters.BureauClient)
-            //    return this.$store.getters.BureauClient//View Single Bureau client  by parameter id
-            // },
+            Educations(){
+               return this.$store.getters.Educations
+            },
+            Durations(){
+               return this.$store.getters.Durations
+            },
+            Englishstatuses(){
+               return this.$store.getters.Englishstatuses
+            },
+            Experiences(){
+               return this.$store.getters.Experiences
+            },
+            Kids(){
+               return this.$store.getters.Kids
+            },
+            Maritalstatuses(){
+               return this.$store.getters.Maritalstatuses
+            },
+            Operations(){
+               return this.$store.getters.Operations
+            },
+            Religions(){
+               return this.$store.getters.Religions
+            },
+            Skills(){
+               return this.$store.getters.Skills
+            },
+            Tribes(){
+               return this.$store.getters.Tribes
+            },
         },
         methods:{
-            singlebureau(){
-                        console.log(this.$route.params.id)
-                        this.$store.dispatch('BureauById', this.$route.params.id);   //action from index.js
-                    },
-
-            // phone and landline
-            //Bureau
-            BureauInputPhone({ number, isValid, country }) {
+            singlehousehelp(){
+                console.log(this.$route.params.id, 'jjjjj')
+                this.$store.dispatch('HousehelpById', this.$route.params.id);
+            },
+             //Househelp Update Demographic
+            validateupdateHousehelpDemograhic() {
+                let id = this.househelpform.id;
+                this.$Progress.start()
+                return this.househelpform.patch('/househelp/verify/updatedemographics/' +id)
+                    .then((response)=>{
+                        return true;
+                        toast({
+                            type: 'success',
+                            title: 'Househelp Update Demographic Info Verifed successfully'
+                        })
+                        this.$Progress.finish()
+                    })
+                    .catch(()=>{
+                        this.$Progress.fail()
+                        toast({
+                            type: 'error',
+                            title: 'The Househelp Update Demographic Info failed Verification.'
+                        })
+                    })
+            },
+            //Househelp update Attributes Info info verification
+            validateupdateHousehelpAttributes() {
+                let id = this.househelpform.id;
+                this.$Progress.start()
+                return this.househelpform.patch('/househelp/verify/updateattributes/' +id)
+                    .then((response)=>{
+                        return true;
+                        toast({
+                            type: 'success',
+                            title: 'Househelp Update Attributes Info Verifed successfully'
+                        })
+                        this.$Progress.finish()
+                    })
+                    .catch(()=>{
+                        this.$Progress.fail()
+                        toast({
+                            type: 'error',
+                            title: 'The Househelp Update Attributes Info failed Verification.'
+                        })
+                    })
+            },
+                        //Househelp and kin
+            HousehelpInputPhone1({ number, isValid, country }) {
             console.log(number, isValid, country);
-            this.bureauform.phone = number;
+            this.househelpform.phone = number;
             this.phone1.isValid = isValid;
             this.phone1.country = country && country.name;
             },
-            BureauInputLandline({ number, isValid, country }) {
+             //Househelpkin
+            HousehelpkinInputPhone1({ number, isValid, country }) {
             console.log(number, isValid, country);
-            this.bureauform.landline = number;
-            this.landline1.isValid = isValid;
-            this.landline1.country = country && country.name;
-            },
-
-
-            //Director
-            DirectorInputPhone({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.directorform.phone = number;
+            this.househelpkinform.phone = number;
             this.phone2.isValid = isValid;
             this.phone2.country = country && country.name;
-            },
-            DirectorInputLandline({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.directorform.landline = number;
-            this.landline2.isValid = isValid;
-            this.landline2.country = country && country.name;
-            },
-                        //Admin
-            AdminInputPhone({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.adminform.phone = number;
-            this.phone3.isValid = isValid;
-            this.phone3.country = country && country.name;
-            },
-            AdminInputLandline({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.adminform.landline = number;
-            this.landline3.isValid = isValid;
-            this.landline3.country = country && country.name;
-            },
- //Employee
-            EmployeeInputPhone({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.employeeform.phone = number;
-            this.phone4.isValid = isValid;
-            this.phone4.country = country && country.name;
-            },
-            EmployeeInputLandline({ number, isValid, country }) {
-            console.log(number, isValid, country);
-            this.employeeform.landline = number;
-            this.landline4.isValid = isValid;
-            this.landline4.country = country && country.name;
             },
 
             loadCountries(){
@@ -777,54 +970,6 @@
             loadWards(){
                 return this.$store.dispatch( "constituencywards")//get all from towns.index
             },
-            loadBureau(){
-                return this.$store.dispatch( "bureaus")//get all from bureau. bureau linked to user
-            },
-
-            //Bureau
-            validateBureau() {
-                this.$Progress.start()
-                return this.bureauform.post('/bureau/verify/info')
-                    .then((response)=>{
-                        return true;
-                        toast({
-                            type: 'success',
-                            title: 'Bureau Info Verifed successfully'
-                        })
-                        this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        toast({
-                            type: 'error',
-                            title: 'The Bureau Info failed Verification.'
-                        })
-                    })
-            },
-
-            //Bureau verification
-            validateBureauUpdate() {
-                let id = this.bureauform.id;
-                console.log('first',id);
-                this.$Progress.start()
-                return this.bureauform.patch('/bureau/updateverify/info/'+id)
-                    .then((response)=>{
-                        return true;
-                        toast({
-                            type: 'success',
-                            title: 'Bureau update Info Verifed successfully'
-                        })
-                        this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        toast({
-                            type: 'error',
-                            title: 'The Bureau update Info failed Verification.'
-                        })
-                    })
-            },
-
             countryCounties(country_id){
                 console.log(country_id);
                 this.$store.dispatch('countrycounties', country_id);
@@ -837,7 +982,78 @@
                 console.log(constituency_id);
                 this.$store.dispatch('constituencywards', constituency_id); //send to store to the action with id
             },
-            bureauChangeLogo(event){
+            loadBureau(){
+                return this.$store.dispatch("bureauByUserID")
+            },
+            loadGenders(){
+               return this.$store.dispatch("genders")
+            },
+            loadRelationships(){
+               return this.$store.dispatch("relationships")
+            },
+            loadEducations(){
+               return this.$store.dispatch("educations")
+            },
+            loadDurations(){
+               return this.$store.dispatch("durations")
+            },
+            loadEnglishstatuses(){
+               return this.$store.dispatch("englishstatuses")
+            },
+            loadExperiences(){
+               return this.$store.dispatch("experiences")
+            },
+            loadKids(){
+               return this.$store.dispatch("kids")
+            },
+            loadMaritalstatuses(){
+               return this.$store.dispatch("maritalstatuses")
+            },
+            loadOperations(){
+               return this.$store.dispatch("operations")
+            },
+            loadReligions(){
+               return this.$store.dispatch("religions")
+            },
+            loadSkills(){
+               return this.$store.dispatch("skills")
+            },
+            loadTribes(){
+               return this.$store.dispatch("tribes")
+            },
+
+
+
+            // househelp
+             househelpLoadPassPhoto(Househelp_photo){
+                if(Househelp_photo){
+                    return "/assets/bureau/img/househelps/passports/"+Househelp_photo;
+                }else{
+                    return "/assets/bureau/img/website/empty.png";
+                }
+            },
+            househelpLoadIDFrontPhoto(househelp_idstatus_id_photo_front){
+                if(househelp_idstatus_id_photo_front){
+                    return "/assets/bureau/img/househelps/IDs/front/"+househelp_idstatus_id_photo_front;
+                }else{
+                    return "/assets/bureau/img/website/empty.png";
+                }
+            },
+            househelpLoadIDBackPhoto(househelp_idstatus_id_photo_back){
+                if(househelp_idstatus_id_photo_back){
+                    return "/assets/bureau/img/househelps/IDs/back/"+househelp_idstatus_id_photo_back;
+                }else{
+                    return "/assets/bureau/img/website/empty.png";
+                }
+            },
+            househelpLoadWaitingCard(househelp_idstatus_waiting_card_photo){
+                if(househelp_idstatus_waiting_card_photo){
+                    return "/assets/bureau/img/househelps/waitingcards/"+househelp_idstatus_waiting_card_photo;
+                }else{
+                    return "/assets/bureau/img/website/empty.png";
+                }
+            },
+            househelpChangePassPhoto(event){
              let file = event.target.files[0];
                 if(file.size>1048576){
                     Swal.fire({
@@ -849,31 +1065,93 @@
                 }else{
                     let reader = new FileReader();
                         reader.onload = event=> {
-                            this.bureauform.logo =event.target.result
+                            this.househelpform.photo =event.target.result
                                 // console.log(event.target.result)
                             };
                         reader.readAsDataURL(file);
                 }
             },
-            bureauLoadLogo(logo_id){
-                 if(logo_id){
-                    return "assets/bureau/img/logo/"+logo_id;
+            househelpChangeIDFrontPhoto(event){
+             let file = event.target.files[0];
+                if(file.size>1048576){
+                    Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'The File you are uploading is larger than 2mbs!',
+                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
+                        })
                 }else{
-                    return "/assets/bureau/img/website/empty.png";
+                    let reader = new FileReader();
+                        reader.onload = event=> {
+                            this.househelpform.id_photo_front =event.target.result
+                                // console.log(event.target.result)
+                            };
+                        reader.readAsDataURL(file);
                 }
             },
-            updateBureauLogo(bureauformlogo){
-                console.log(bureauformlogo)
-                let img = this.bureauform.logo;
+            househelpChangeWaitingCardPhoto(event){
+             let file = event.target.files[0];
+                if(file.size>1048576){
+                    Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'The File you are uploading is larger than 2mbs!',
+                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
+                        })
+                }else{
+                    let reader = new FileReader();
+                        reader.onload = event=> {
+                            this.househelpform.waiting_card_photo =event.target.result
+                                // console.log(event.target.result)
+                            };
+                        reader.readAsDataURL(file);
+                }
+            },
+            househelpChangeIDBackPhoto(event){
+             let file = event.target.files[0];
+                if(file.size>1048576){
+                    Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'The File you are uploading is larger than 2mbs!',
+                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
+                        })
+                }else{
+                    let reader = new FileReader();
+                        reader.onload = event=> {
+                            this.househelpform.id_photo_back =event.target.result
+                            };
+                        reader.readAsDataURL(file);
+                }
+            },
+            updateHousehelpPassPhoto(househelpform_photo){
+                // console.log(househelpform_bureauhousehelp_photo)
+                let img = this.househelpform.photo;
                       if(img ==null){
                           return "/assets/bureau/img/website/empty.png";
                         //  console.log('its reall null')
                       }else{
                           if(img.length>100){
-                            return this.bureauform.logo;
+                            return this.househelpform.photo;
                         }else{
-                            if(bureauformlogo){
-                                return "assets/bureau/img/logo/"+bureauformlogo;
+                            if(househelpform_photo){
+                                return "assets/bureau/img/househelps/passports/"+househelpform_photo;
+                            }else{
+                                return "/assets/bureau/img/website/empty.png";
+                            }
+                        }
+                      }
+            },
+            updateHousehelpIDFrontPhoto(househelpform_id_photo_front){
+                let img = this.househelpform.id_photo_front;
+                      if(img ==null){
+                          return "/assets/bureau/img/website/empty.png";
+                      }else{
+                          if(img.length>100){
+                            return this.househelpform.id_photo_front;
+                        }else{
+                            if(househelpform_id_photo_front){
+                                return "assets/bureau/img/househelps/IDs/front/"+househelpform_id_photo_front;
                             }else{
                                 return "/assets/bureau/img/website/empty.png";
                             }
@@ -881,325 +1159,167 @@
                       }
 
             },
-            editBureauModal(id){
+            updateHousehelpIDBackPhoto(househelpform_id_photo_back){
+                let img = this.househelpform.id_photo_back;
+                      if(img ==null){
+                          return "/assets/bureau/img/website/empty.png";
+                      }else{
+                          if(img.length>100){
+                            return this.househelpform.id_photo_back;
+                        }else{
+                            if(househelpform_id_photo_back){
+                                return "assets/bureau/img/househelps/IDs/back/"+househelpform_id_photo_back;
+                            }else{
+                                return "/assets/bureau/img/website/empty.png";
+                            }
+                        }
+                      }
 
-                 this.editmodeBureau = true;
-                 this.bureauform.reset()
-                   console.log('edit bureauanisaton', id)
+            },
+            updateHousehelpWaitingCardPhoto(househelpform_waiting_card_photo){
+                let img = this.househelpform.waiting_card_photo;
+                      if(img ==null){
+                          return "/assets/bureau/img/website/empty.png";
+                      }else{
+                          if(img.length>100){
+                            return this.househelpform.waiting_card_photo;
+                        }else{
+                            if(househelpform_waiting_card_photo){
+                                return "assets/bureau/img/househelps/waitingcards/"+househelpform_waiting_card_photo;
+                            }else{
+                                return "/assets/bureau/img/website/empty.png";
+                            }
+                        }
+                      }
+
+            },
+
+            editHousehelpModal(id){
+                console.log(id)
+                 this.househelpform.reset()
                     this.$Progress.start();
-                      axios.get('/bureau/edit/'+id)
+                      axios.get('/househelp/edit/'+id)
                         .then((response)=>{
-                           $('#BureauModal').modal('show')
+                           $('#HousehelpModal').modal('show')
                            toast({
                             type: 'success',
-                            title: 'Fetched the Bureau data successfully'
-                            })
-                            this.bureauform.fill(response.data.bureau);
-                            //get country id
-                            this.bureauform.country_id = response.data.bureau.country.id;
-                            //get county id using the country id
-                            this.bureauform.county_id = response.data.bureau.county.id
-                            this.$store.dispatch('countrycounties', response.data.bureau.country.id);
-                            //get contituency using county id
-                            this.bureauform.constituency_id = response.data.bureau.constituency.id
-                            this.$store.dispatch('countyconstituencies', response.data.bureau.county.id);
-                            //get ward usng constituency id
-                            this.bureauform.ward_id = response.data.bureau.ward.id
-                            this.$store.dispatch('constituencywards', response.data.bureau.constituency.id);
-
-                            this.$Progress.finish();
-
-                        })
-                        .catch(()=>{
-                            this.$Progress.fail();
-                            //errors
-                            $('#BureauModal').modal('show');
-                            toast({
-                            type: 'error',
-                            title: 'There was something Wrong'
-                            })
-                        })
-            },
-
-            updateBureau(id){
-                  console.log('update bureauanisaton')
-                  this.$Progress.start();
-                     this.bureauform.patch('/bureau/update/'+id)
-                        .then(()=>{
-                            this.$store.dispatch('BureauById', this.$route.params.id);
-                         $('#BureauModal').modal('hide')
-                         toast({
-                            type: 'success',
-                            title: 'User Created successfully'
-                            })
-                            this.$Progress.finish();
-                        })
-                        .catch(()=>{
-                            this.$Progress.fail();
-                            $('#BureauModal').modal('show')
-                            toast({
-                            type: 'error',
-                            title: 'There was something wrong'
-                            })
-                        })
-            },
-
-            DirectorcountryCounties(country_id){
-                console.log(country_id);
-                this.$store.dispatch('countrycounties', country_id);
-            },
-            DirectorcountyConstituencies(county_id){
-                console.log(county_id);
-                this.$store.dispatch('countyconstituencies', county_id);
-            },
-            DirectorconstituencyWards(constituency_id){
-                console.log(constituency_id);
-                this.$store.dispatch('constituencywards', constituency_id); //send to store to the action with id
-            },
-            newDirectorModal(bureau_id){
-                console.log(bureau_id)
-                 this.editmodeDirector= false;
-                 this.directorform.reset()
-                 this.directorform.bureau_id;
-                     $('#DirectorModal').modal('show')
-            },
-            //bureau director passposrt image
-            directorLoadPassPhoto(directorpivot_photo){
-                if(directorpivot_photo){
-                    return "/assets/bureau/img/directors/passports/"+directorpivot_photo;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            //director passport photo
-            directorChangePassPhoto(event){
-             let file = event.target.files[0];
-                if(file.size>1048576){
-                    Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'The File you are uploading is larger than 2mbs!',
-                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
-                        })
-                }else{
-                    let reader = new FileReader();
-                        reader.onload = event=> {
-                            this.directorform.photo =event.target.result
-                                // console.log(event.target.result)
-                            };
-                        reader.readAsDataURL(file);
-                }
-            },
-            updateDirectorPassPhoto(directorform_bureaudirector_photo){
-                // console.log(directorform_bureaudirector_photo)
-                let img = this.directorform.photo;
-                      if(img ==null){
-                          return "/assets/bureau/img/website/empty.png";
-                        //  console.log('its reall null')
-                      }else{
-                          if(img.length>100){
-                            return this.directorform.photo;
-                        }else{
-                            if(directorform_bureaudirector_photo){
-                                return "assets/bureau/img/directors/passports/"+directorform_bureaudirector_photo;
-                            }else{
-                                return "/assets/bureau/img/website/empty.png";
-                            }
-                        }
-                      }
-
-            },
-            directorLoadIDFrontPhoto(directorpivot_id_photo_front){
-                if(directorpivot_id_photo_front){
-                    return "/assets/bureau/img/directors/IDs/front/"+directorpivot_id_photo_front;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            directorChangeIDFrontPhoto(event){
-             let file = event.target.files[0];
-                if(file.size>1048576){
-                    Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'The File you are uploading is larger than 2mbs!',
-                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
-                        })
-                }else{
-                    let reader = new FileReader();
-                        reader.onload = event=> {
-                            this.directorform.id_photo_front =event.target.result
-                                // console.log(event.target.result)
-                            };
-                        reader.readAsDataURL(file);
-                }
-            },
-            updateDirectorIDFrontPhoto(directorform_id_photo_front){
-                let img = this.directorform.id_photo_front;
-                      if(img ==null){
-                          return "/assets/bureau/img/website/empty.png";
-                      }else{
-                          if(img.length>100){
-                            return this.directorform.id_photo_front;
-                        }else{
-                            if(directorform_id_photo_front){
-                                return "assets/bureau/img/directors/IDs/front/"+directorform_id_photo_front;
-                            }else{
-                                return "/assets/bureau/img/website/empty.png";
-                            }
-                        }
-                      }
-
-            },
-            directorLoadIDBackPhoto(directorform_id_photo_back){
-                if(directorform_id_photo_back){
-                    return "/assets/bureau/img/directors/IDs/back/"+directorform_id_photo_back;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            directorChangeIDBackPhoto(event){
-             let file = event.target.files[0];
-                if(file.size>1048576){
-                    Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'The File you are uploading is larger than 2mbs!',
-                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
-                        })
-                }else{
-                    let reader = new FileReader();
-                        reader.onload = event=> {
-                            this.directorform.id_photo_back =event.target.result
-                            };
-                        reader.readAsDataURL(file);
-                }
-            },
-            updateDirectorIDBackPhoto(directorform_id_photo_back){
-                let img = this.directorform.id_photo_back;
-                      if(img ==null){
-                          return "/assets/bureau/img/website/empty.png";
-                      }else{
-                          if(img.length>100){
-                            return this.directorform.id_photo_back;
-                        }else{
-                            if(directorform_id_photo_back){
-                                return "assets/bureau/img/directors/IDs/back/"+directorform_id_photo_back;
-                            }else{
-                                return "/assets/bureau/img/website/empty.png";
-                            }
-                        }
-                      }
-
-            },
-            viewDirectorModal(id){
-                console.log(id)
-                this.$Progress.start();
-                    //get bueau director by id
-                this.$store.dispatch('BureauDirectorById', id)  //action from index.js
-                    .then((response)=>{
-                       $('#ViewDirectorModal').modal('show')
-                       toast({
-                        type: 'success',
-                        title: 'Fetched the Bureau Director data successfully'
-                        })
-                        this.$Progress.finish();
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail();
-                        //errors
-                        $('#ViewDirectorModal').modal('show');
-                        toast({
-                        type: 'error',
-                        title: 'There was something Wrong Wheen feching data'
-                        })
-                    })
-            },
-            editDirectorModal(id){
-                console.log(id)
-                 this.editmodeDirector = true;
-                 this.directorform.reset()
-                    this.$Progress.start();
-                      axios.get('/bureaudirector/edit/'+id)
-                        .then((response)=>{
-                           $('#DirectorModal').modal('show')
-                           toast({
-                            type: 'success',
-                            title: 'Fetched the Director data successfully'
+                            title: 'Fetched the Househelp data successfully'
                             })
                             console.log(response.data)
-                            this.directorform.fill(response.data.director)
-                            this.directorform.user_id = response.data.director.bureaudirectors[0].pivot.user_id
-                            this.directorform.bureau_id = response.data.director.bureaudirectors[0].pivot.bureau_id
-                            // // this.directorform.position_id = response.data.director.bureaudirectors[0].pivot.position_id
-                            this.directorform.photo = response.data.director.bureaudirectors[0].pivot.photo
-                            this.directorform.id_no = response.data.director.bureaudirectors[0].pivot.id_no
-                            this.directorform.id_photo_front = response.data.director.bureaudirectors[0].pivot.id_photo_front
-                            this.directorform.id_photo_back = response.data.director.bureaudirectors[0].pivot.id_photo_back
-                            this.directorform.phone = response.data.director.bureaudirectors[0].pivot.phone
-                            this.directorform.landline = response.data.director.bureaudirectors[0].pivot.landline
-                            this.directorform.address = response.data.director.bureaudirectors[0].pivot.address
+                            this.househelpform.fill(response.data.househelp)
+                            this.househelpform.id = response.data.househelp.id
+                            this.househelpform.first_name = response.data.househelp.user.first_name
+                            this.househelpform.last_name = response.data.househelp.user.last_name
+                            this.househelpform.email = response.data.househelp.user.email
+                            this.househelpform.user_id = response.data.househelp.user_id
+                            this.househelpform.password = response.data.househelp.user.password
 
-                        // //    //get country id
-                            this.directorform.country_id = response.data.director.bureaudirectors[0].pivot.country_id
+                            this.househelpform.photo = response.data.househelp.photo
+                            this.househelpform.bureau_id = response.data.househelp.bureau_id
+
+
+                            this.househelpform.about_me = response.data.househelp.about_me
+                            this.househelpform.phone = response.data.househelp.phone
+                            this.househelpform.address = response.data.househelp.address
+
+                            //    //get country id
+                            this.househelpform.country_id = response.data.househelp.country.id
+                            console.log(response.data.househelp.country.id)
                             //get county id using the country id
-                            this.directorform.county_id = response.data.director.bureaudirectors[0].pivot.county_id
-                            this.$store.dispatch('countrycounties', response.data.director.bureaudirectors[0].pivot.country_id);
+                             this.househelpform.county_id = response.data.househelp.county.id
+                             console.log(response.data.househelp.county.id)
+                            this.$store.dispatch('countrycounties', response.data.househelp.country.id);
                             //get contituency using county id
-                            this.directorform.constituency_id = response.data.director.bureaudirectors[0].pivot.constituency_id
-                            this.$store.dispatch('countyconstituencies', response.data.director.bureaudirectors[0].pivot.county_id);
+                            this.househelpform.constituency_id = response.data.househelp.constituency.id
+                            console.log(response.data.househelp.constituency.id)
+                            this.$store.dispatch('countyconstituencies', response.data.househelp.county.id);
                             // //get ward usng constituency id
-                            this.directorform.ward_id = response.data.director.bureaudirectors[0].pivot.ward_id
-                            this.$store.dispatch('constituencywards', response.data.director.bureaudirectors[0].pivot.constituency_id);
+                           this.househelpform.ward_id = response.data.househelp.ward.id
+                           console.log( response.data.househelp.constituency.id)
+                            this.$store.dispatch('constituencywards', response.data.househelp.constituency.id);
+
+                            this.househelpform.age = response.data.househelp.age
+                            this.househelpform.gender_id = response.data.househelp.gender.id
+                            this.househelpform.education_id = response.data.househelp.education.id
+                            this.househelpform.experience_id = response.data.househelp.experience.id
+                            this.househelpform.maritalstatus_id = response.data.househelp.maritalstatus.id
+                            this.househelpform.tribe_id = response.data.househelp.tribe.id
+                            this.househelpform.skill_id = response.data.househelp.skill.id
+                            this.househelpform.operation_id = response.data.househelp.operation.id
+                            this.househelpform.duration_id = response.data.househelp.duration.id
+                            this.househelpform.englishstatus_id = response.data.househelp.englishstatus.id
+                            this.househelpform.religion_id = response.data.househelp.religion.id
+                            this.househelpform.kid_id = response.data.househelp.kid.id
+                            //id status
+                            this.househelpform.idstatus_id = response.data.househelp.idstatus.id
+                            this.househelpform.bureau_househelp_id = response.data.househelp.idstatus.bureau_househelp_id
+                            this.househelpform.id_number = response.data.househelp.idstatus.id_number
+                            this.househelpform.ref_number = response.data.househelp.idstatus.ref_number
+                            this.househelpform.id_photo_front = response.data.househelp.idstatus.id_photo_front
+                            this.househelpform.id_photo_back = response.data.househelp.idstatus.id_photo_back
+                            this.househelpform.waiting_card_photo = response.data.househelp.idstatus.waiting_card_photo
+                            this.househelpform.reason = response.data.househelp.idstatus.reason
+                            this.househelpform.status = response.data.househelp.idstatus.status
+
+                            if(response.data.househelp.idstatus.reason == 'Has ID Card'){
+                                this.IDstatus = 'HasID'
+                            }
+                            if(response.data.househelp.idstatus.reason == 'Has ID Card but lost, however applied for replacement'){
+                                this.IDstatus = 'HASIDbutlost'
+                            }
+                            if(response.data.househelp.idstatus.reason == 'Dont Have ID Card but applied for new Card'){
+                                this.IDstatus = 'NOIDbutapplied'
+                            }
+                            if(response.data.househelp.idstatus.reason == 'Dont Have ID Card and Has not applied for new Card'){
+                                this.IDstatus = 'NOID'
+                            }
+
+                            // this.househelpform.health_status = response.data.househelp
+                            this.househelpform.HIV_status = response.data.househelp.healthstatus.HIV_status
+                            this.househelpform.allergy = response.data.househelp.healthstatus.allergy
+                            this.househelpform.health_status_id = response.data.househelp.healthstatus.id
+                            this.househelpform.bureau_househelp_id = response.data.househelp.healthstatus.bureau_househelp_id
+                            this.househelpform.chronic_details = response.data.househelp.healthstatus.chronic_details
+                            this.househelpform.other_chronics = response.data.househelp.healthstatus.other_chronics
+                            this.househelpform.specify = response.data.househelp.healthstatus.specify
+                            this.househelpform.status = response.data.househelp.healthstatus.status
+
+                            if(response.data.househelp.healthstatus.allergy == 'Healthy'){
+                                this.Healthstatus = 'HEALTHY'
+                            }
+                            if(response.data.househelp.healthstatus.allergy == 'Has Minor Health Issues'){
+                                this.Healthstatus = 'HASMINOR'
+                            }
+                            if(response.data.househelp.healthstatus.other_chronics == 'Has Other Chronic Issues'){
+                                console.log(response.data.househelp.healthstatus.allergy)
+                                this.Healthstatus = 'HASCHRONIC'
+                            }
+
                             this.$Progress.finish();
                         })
                         .catch(()=>{
                             this.$Progress.fail();
                             //errors
-                            $('#DirectorModal').modal('show');
+                            $('#HousehelpModal').modal('show');
                             toast({
                             type: 'error',
                             title: 'There was something Wrong'
                             })
                         })
             },
-            addDirector(Bureau_id) {
-                // let bureau = this.$store.getters.Bureau[0];
-                console.log(Bureau_id)
-                this.$Progress.start();
-                this.directorform.patch('/bureaudirector/'+Bureau_id)
-                    .then((response)=>{
-                        //  console.log(response.data)
-                         toast({
-                            type: 'success',
-                            title: 'Director Created successfully'
-                            })
-                            this.$store.dispatch('BureauById', this.$route.params.id);
-                            this.directorform.reset()
-                            $('#DirectorModal').modal('hide')
-                              this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        //errors
-                            $('#DirectorModal').modal('show');
-                            toast({
-                                type: 'error',
-                                title: 'There was something wrong.'
-                                })
-                    })
-            },
-            updateDirector(id){
+            updateHousehelp(id){
                   console.log(id)
                   console.log(+this.$route.params.id)
                   this.$Progress.start();
-                     this.directorform.patch('/bureaudirector/update/'+id)
+                     this.househelpform.patch('/househelp/update/'+id)
                         .then(()=>{
-                        this.$store.dispatch('BureauById', this.$route.params.id);
-                         $('#DirectorModal').modal('hide')
+                        this.$store.dispatch('HousehelpById', this.$route.params.id);
+                        this.$refs.wizard.reset()
+                         $('#HousehelpModal').modal('hide')
+
                          toast({
                             type: 'success',
-                            title: 'Director Created successfully'
+                            title: 'Househelp Created successfully'
                             })
                             this.$Progress.finish();
                         })
@@ -1211,70 +1331,30 @@
                             })
                         })
             },
-            deleteDirector(id){
-                Swal({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                })
-                .then((result) => {
-                    if (result.value) {
-                    //  console.log('delete director', id)
-                        this.$Progress.start();
-                        this.directorform.get('/bureaudirector/delete/'+id)
-                            .then(()=>{
-                            toast({
-                            type: 'success',
-                            title: 'Director Deleted successfully'
-                            })
-                           this.$store.dispatch('BureauById', this.$route.params.id);
-                            this.$Progress.finish();
-                        })
-                        .catch(()=>{
-                            this.$Progress.fail();
-                            toast({
-                            type: 'error',
-                            title: 'There was something wrong'
-                            })
-                        })
-                     }
-                })
-            },
 
-
-            AdmincountryCounties(country_id){
-                console.log(country_id);
-                this.$store.dispatch('countrycounties', country_id);
-            },
-            AdmincountyConstituencies(county_id){
-                console.log(county_id);
-                this.$store.dispatch('countyconstituencies', county_id);
-            },
-            AdminconstituencyWards(constituency_id){
-                console.log(constituency_id);
-                this.$store.dispatch('constituencywards', constituency_id); //send to store to the action with id
-            },
-            newAdminModal(bureau_id){
-                console.log(bureau_id)
-                 this.editmodeAdmin= false;
-                 this.adminform.reset()
-                 this.adminform.bureau_id;
-                     $('#AdminModal').modal('show')
-            },
-            //bureau admin passposrt image
-            adminLoadPassPhoto(adminpivot_photo){
-                if(adminpivot_photo){
-                    return "/assets/bureau/img/admins/passports/"+adminpivot_photo;
+            // househelp kin
+            househelpkinLoadPassPhoto(househelpkinpivot_photo){
+                if(househelpkinpivot_photo){
+                    return "/assets/bureau/img/househelps/househelpkins/passports/"+househelpkinpivot_photo;
                 }else{
                     return "/assets/bureau/img/website/empty.png";
                 }
             },
-            //admin passport photo
-            adminChangePassPhoto(event){
+            househelpkinLoadIDFrontPhoto(househelpkinpivot_id_photo_front){
+                if(househelpkinpivot_id_photo_front){
+                    return "/assets/bureau/img/househelps/househelpkins/IDs/front/"+househelpkinpivot_id_photo_front;
+                }else{
+                    return "/assets/bureau/img/website/empty.png";
+                }
+            },
+            househelpkinLoadIDBackPhoto(househelpkinform_id_photo_back){
+                if(househelpkinform_id_photo_back){
+                    return "/assets/bureau/img/househelps/househelpkins/IDs/back/"+househelpkinform_id_photo_back;
+                }else{
+                    return "/assets/bureau/img/website/empty.png";
+                }
+            },
+            househelpkinChangePassPhoto(event){
              let file = event.target.files[0];
                 if(file.size>1048576){
                     Swal.fire({
@@ -1286,39 +1366,31 @@
                 }else{
                     let reader = new FileReader();
                         reader.onload = event=> {
-                            this.adminform.photo =event.target.result
+                            this.househelpkinform.photo =event.target.result
                                 // console.log(event.target.result)
                             };
                         reader.readAsDataURL(file);
                 }
             },
-            updateAdminPassPhoto(adminform_bureauadmin_photo){
-                // console.log(adminform_bureauadmin_photo)
-                let img = this.adminform.photo;
+            updateHousehelpKinPassPhoto(househelpkinform_househelpkin_photo){
+                // console.log(househelpkinform_bureauhousehelpkin_photo)
+                let img = this.househelpkinform.photo;
                       if(img ==null){
                           return "/assets/bureau/img/website/empty.png";
                         //  console.log('its reall null')
                       }else{
                           if(img.length>100){
-                            return this.adminform.photo;
+                            return this.househelpkinform.photo;
                         }else{
-                            if(adminform_bureauadmin_photo){
-                                return "assets/bureau/img/admins/passports/"+adminform_bureauadmin_photo;
+                            if(househelpkinform_househelpkin_photo){
+                                return "assets/bureau/img/househelps/househelpkins/passports/"+househelpkinform_househelpkin_photo;
                             }else{
                                 return "/assets/bureau/img/website/empty.png";
                             }
                         }
                       }
-
             },
-            adminLoadIDFrontPhoto(adminpivot_id_photo_front){
-                if(adminpivot_id_photo_front){
-                    return "/assets/bureau/img/admins/IDs/front/"+adminpivot_id_photo_front;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            adminChangeIDFrontPhoto(event){
+            househelpkinChangeIDFrontPhoto(event){
              let file = event.target.files[0];
                 if(file.size>1048576){
                     Swal.fire({
@@ -1330,22 +1402,22 @@
                 }else{
                     let reader = new FileReader();
                         reader.onload = event=> {
-                            this.adminform.id_photo_front =event.target.result
+                            this.househelpkinform.id_photo_front =event.target.result
                                 // console.log(event.target.result)
                             };
                         reader.readAsDataURL(file);
                 }
             },
-            updateAdminIDFrontPhoto(adminform_id_photo_front){
-                let img = this.adminform.id_photo_front;
+            updateHousehelpKinIDFrontPhoto(househelpkinform_id_photo_front){
+                let img = this.househelpkinform.id_photo_front;
                       if(img ==null){
                           return "/assets/bureau/img/website/empty.png";
                       }else{
                           if(img.length>100){
-                            return this.adminform.id_photo_front;
+                            return this.househelpkinform.id_photo_front;
                         }else{
-                            if(adminform_id_photo_front){
-                                return "assets/bureau/img/admins/IDs/front/"+adminform_id_photo_front;
+                            if(househelpkinform_id_photo_front){
+                                return "assets/bureau/img/househelpkins/househelpkins/IDs/front/"+househelpkinform_id_photo_front;
                             }else{
                                 return "/assets/bureau/img/website/empty.png";
                             }
@@ -1353,14 +1425,7 @@
                       }
 
             },
-            adminLoadIDBackPhoto(adminform_id_photo_back){
-                if(adminform_id_photo_back){
-                    return "/assets/bureau/img/admins/IDs/back/"+adminform_id_photo_back;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            adminChangeIDBackPhoto(event){
+            househelpkinChangeIDBackPhoto(event){
              let file = event.target.files[0];
                 if(file.size>1048576){
                     Swal.fire({
@@ -1372,21 +1437,21 @@
                 }else{
                     let reader = new FileReader();
                         reader.onload = event=> {
-                            this.adminform.id_photo_back =event.target.result
+                            this.househelpkinform.id_photo_back =event.target.result
                             };
                         reader.readAsDataURL(file);
                 }
             },
-            updateAdminIDBackPhoto(adminform_id_photo_back){
-                let img = this.adminform.id_photo_back;
+            updateHousehelpKinIDBackPhoto(househelpkinform_id_photo_back){
+                let img = this.househelpkinform.id_photo_back;
                       if(img ==null){
                           return "/assets/bureau/img/website/empty.png";
                       }else{
                           if(img.length>100){
-                            return this.adminform.id_photo_back;
+                            return this.househelpkinform.id_photo_back;
                         }else{
-                            if(adminform_id_photo_back){
-                                return "assets/bureau/img/admins/IDs/back/"+adminform_id_photo_back;
+                            if(househelpkinform_id_photo_back){
+                                return "assets/bureau/img/househelpkin/househelpkins/IDs/back/"+househelpkinform_id_photo_back;
                             }else{
                                 return "/assets/bureau/img/website/empty.png";
                             }
@@ -1394,414 +1459,87 @@
                       }
 
             },
-            viewAdminModal(id){
+            viewHousehelpkinModal(id){
                 console.log(id)
                 this.$Progress.start();
-                    //get bueau admin by id
-                this.$store.dispatch('BureauAdminById', id)  //action from index.js
+                    //get bueau househelpkin by id
+                this.$store.dispatch('HousehelpKinById', id)  //action from index.js
                     .then((response)=>{
-                       $('#ViewAdminModal').modal('show')
+                       $('#ViewHousehelpKinModal').modal('show')
                        toast({
                         type: 'success',
-                        title: 'Fetched the Bureau Admin data successfully'
+                        title: 'Fetched the Househelpkin data successfully'
                         })
                         this.$Progress.finish();
                     })
                     .catch(()=>{
                         this.$Progress.fail();
                         //errors
-                        $('#ViewAdminModal').modal('show');
+                        $('#ViewHousehelpKinModal').modal('show');
                         toast({
                         type: 'error',
                         title: 'There was something Wrong Wheen feching data'
                         })
                     })
             },
-            editAdminModal(id){
+            editHousehelpKinModal(id){
                 console.log(id)
-                 this.editmodeAdmin = true;
-                 this.adminform.reset()
+                 this.househelpkinform.reset()
                     this.$Progress.start();
-                      axios.get('/bureauadmin/edit/'+id)
+                      axios.get('/househelp/edit/'+id)
                         .then((response)=>{
-                           $('#AdminModal').modal('show')
+                           $('#HousehelpKinModal').modal('show')
                            toast({
                             type: 'success',
-                            title: 'Fetched the Admin data successfully'
+                            title: 'Fetched the Househelp data successfully'
                             })
                             console.log(response.data)
-                            this.adminform.fill(response.data.admin)
-                            this.adminform.user_id = response.data.admin.bureauadmins[0].pivot.user_id
-                            this.adminform.bureau_id = response.data.admin.bureauadmins[0].pivot.bureau_id
-                            // // this.adminform.position_id = response.data.admin.bureauadmins[0].pivot.position_id
-                            this.adminform.photo = response.data.admin.bureauadmins[0].pivot.photo
-                            this.adminform.id_no = response.data.admin.bureauadmins[0].pivot.id_no
-                            this.adminform.id_photo_front = response.data.admin.bureauadmins[0].pivot.id_photo_front
-                            this.adminform.id_photo_back = response.data.admin.bureauadmins[0].pivot.id_photo_back
-                            this.adminform.phone = response.data.admin.bureauadmins[0].pivot.phone
-                            this.adminform.landline = response.data.admin.bureauadmins[0].pivot.landline
-                            this.adminform.address = response.data.admin.bureauadmins[0].pivot.address
+                            this.househelpkinform.fill(response.data.househelp)
+                            this.househelpkinform.user_id = response.data.househelp.househelpkins[0].pivot.user_id
+                            this.househelpkinform.bureau_id = response.data.househelp.househelpkins[0].pivot.bureau_id
+                            // // this.househelpkinform.position_id = response.data.househelp.househelpkins[0].pivot.position_id
+                            this.househelpkinform.photo = response.data.househelp.househelpkins[0].pivot.photo
+                            this.househelpkinform.id_no = response.data.househelp.househelpkins[0].pivot.id_no
+                            this.househelpkinform.id_photo_front = response.data.househelp.househelpkins[0].pivot.id_photo_front
+                            this.househelpkinform.id_photo_back = response.data.househelp.househelpkins[0].pivot.id_photo_back
+                            this.househelpkinform.phone = response.data.househelp.househelpkins[0].pivot.phone
+                            this.househelpkinform.landline = response.data.househelp.househelpkins[0].pivot.landline
+                            this.househelpkinform.address = response.data.househelp.househelpkins[0].pivot.address
 
                         // //    //get country id
-                            this.adminform.country_id = response.data.admin.bureauadmins[0].pivot.country_id
+                            this.househelpkinform.country_id = response.data.househelp.househelpkins[0].pivot.country_id
                             //get county id using the country id
-                            this.adminform.county_id = response.data.admin.bureauadmins[0].pivot.county_id
-                            this.$store.dispatch('countrycounties', response.data.admin.bureauadmins[0].pivot.country_id);
+                            this.househelpkinform.county_id = response.data.househelp.househelpkins[0].pivot.county_id
+                            this.$store.dispatch('countrycounties', response.data.househelp.househelpkins[0].pivot.country_id);
                             //get contituency using county id
-                            this.adminform.constituency_id = response.data.admin.bureauadmins[0].pivot.constituency_id
-                            this.$store.dispatch('countyconstituencies', response.data.admin.bureauadmins[0].pivot.county_id);
+                            this.househelpkinform.constituency_id = response.data.househelp.househelpkins[0].pivot.constituency_id
+                            this.$store.dispatch('countyconstituencies', response.data.househelp.househelpkins[0].pivot.county_id);
                             // //get ward usng constituency id
-                            this.adminform.ward_id = response.data.admin.bureauadmins[0].pivot.ward_id
-                            this.$store.dispatch('constituencywards', response.data.admin.bureauadmins[0].pivot.constituency_id);
+                            this.househelpkinform.ward_id = response.data.househelp.househelpkins[0].pivot.ward_id
+                            this.$store.dispatch('constituencywards', response.data.househelp.househelpkins[0].pivot.constituency_id);
                             this.$Progress.finish();
                         })
                         .catch(()=>{
                             this.$Progress.fail();
                             //errors
-                            $('#AdminModal').modal('show');
+                            $('#HousehelpKinModal').modal('show');
                             toast({
                             type: 'error',
                             title: 'There was something Wrong'
                             })
                         })
             },
-            addAdmin(Bureau_id) {
-                console.log(Bureau_id)
-                this.$Progress.start();
-                this.adminform.patch('/bureauadmin/'+Bureau_id)
-                    .then((response)=>{
-                        //  console.log(response.data)
-                         toast({
-                            type: 'success',
-                            title: 'Admin Created successfully'
-                            })
-                            this.$store.dispatch('BureauById', this.$route.params.id);
-                            this.adminform.reset()
-                            $('#AdminModal').modal('hide')
-                              this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        //errors
-                            $('#AdminModal').modal('show');
-                            toast({
-                                type: 'error',
-                                title: 'There was something wrong.'
-                                })
-                    })
-            },
-            updateAdmin(id){
-                  console.log(id)
-                  this.$Progress.start();
-                     this.adminform.patch('/bureauadmin/update/'+id)
-                        .then(()=>{
-                        this.$store.dispatch('BureauById', this.$route.params.id);
-                         $('#AdminModal').modal('hide')
-                         toast({
-                            type: 'success',
-                            title: 'Admin Created successfully'
-                            })
-                            this.$Progress.finish();
-                        })
-                        .catch(()=>{
-                            this.$Progress.fail();
-                            toast({
-                            type: 'error',
-                            title: 'There was something wrong'
-                            })
-                        })
-            },
-            deleteAdmin(id){
-                Swal({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                })
-                .then((result) => {
-                    if (result.value) {
-                    //  console.log('delete admin', id)
-                        this.$Progress.start();
-                        this.adminform.get('/bureauadmin/delete/'+id)
-                            .then(()=>{
-                            toast({
-                            type: 'success',
-                            title: 'Admin Deleted successfully'
-                            })
-                            this.$store.dispatch('BureauById', this.$route.params.id);
-                            this.$Progress.finish();
-                        })
-                        .catch(()=>{
-                            this.$Progress.fail();
-                            toast({
-                            type: 'error',
-                            title: 'There was something wrong'
-                            })
-                        })
-                     }
-                })
-            },
-
-
-
-            EmployeecountryCounties(country_id){
-                console.log(country_id);
-                this.$store.dispatch('countrycounties', country_id);
-            },
-            EmployeecountyConstituencies(county_id){
-                console.log(county_id);
-                this.$store.dispatch('countyconstituencies', county_id);
-            },
-            EmployeeconstituencyWards(constituency_id){
-                console.log(constituency_id);
-                this.$store.dispatch('constituencywards', constituency_id); //send to store to the action with id
-            },
-            newEmployeeModal(bureau_id){
-                console.log(bureau_id)
-                 this.editmodeEmployee= false;
-                 this.employeeform.reset()
-                 this.employeeform.bureau_id;
-                     $('#EmployeeModal').modal('show')
-            },
-            //bureau employee passposrt image
-            employeeLoadPassPhoto(employeepivot_photo){
-                if(employeepivot_photo){
-                    return "/assets/bureau/img/employees/passports/"+employeepivot_photo;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            //employee passport photo
-            employeeChangePassPhoto(event){
-             let file = event.target.files[0];
-                if(file.size>1048576){
-                    Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'The File you are uploading is larger than 2mbs!',
-                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
-                        })
-                }else{
-                    let reader = new FileReader();
-                        reader.onload = event=> {
-                            this.employeeform.photo =event.target.result
-                                // console.log(event.target.result)
-                            };
-                        reader.readAsDataURL(file);
-                }
-            },
-            updateEmployeePassPhoto(employeeform_bureauemployee_photo){
-                // console.log(employeeform_bureauemployee_photo)
-                let img = this.employeeform.photo;
-                      if(img ==null){
-                          return "/assets/bureau/img/website/empty.png";
-                        //  console.log('its reall null')
-                      }else{
-                          if(img.length>100){
-                            return this.employeeform.photo;
-                        }else{
-                            if(employeeform_bureauemployee_photo){
-                                return "assets/bureau/img/employees/passports/"+employeeform_bureauemployee_photo;
-                            }else{
-                                return "/assets/bureau/img/website/empty.png";
-                            }
-                        }
-                      }
-
-            },
-            employeeLoadIDFrontPhoto(employeepivot_id_photo_front){
-                if(employeepivot_id_photo_front){
-                    return "/assets/bureau/img/employees/IDs/front/"+employeepivot_id_photo_front;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            employeeChangeIDFrontPhoto(event){
-             let file = event.target.files[0];
-                if(file.size>1048576){
-                    Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'The File you are uploading is larger than 2mbs!',
-                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
-                        })
-                }else{
-                    let reader = new FileReader();
-                        reader.onload = event=> {
-                            this.employeeform.id_photo_front =event.target.result
-                                // console.log(event.target.result)
-                            };
-                        reader.readAsDataURL(file);
-                }
-            },
-            updateEmployeeIDFrontPhoto(employeeform_id_photo_front){
-                let img = this.employeeform.id_photo_front;
-                      if(img ==null){
-                          return "/assets/bureau/img/website/empty.png";
-                      }else{
-                          if(img.length>100){
-                            return this.employeeform.id_photo_front;
-                        }else{
-                            if(employeeform_id_photo_front){
-                                return "assets/bureau/img/employees/IDs/front/"+employeeform_id_photo_front;
-                            }else{
-                                return "/assets/bureau/img/website/empty.png";
-                            }
-                        }
-                      }
-
-            },
-            employeeLoadIDBackPhoto(employeeform_id_photo_back){
-                if(employeeform_id_photo_back){
-                    return "/assets/bureau/img/employees/IDs/back/"+employeeform_id_photo_back;
-                }else{
-                    return "/assets/bureau/img/website/empty.png";
-                }
-            },
-            employeeChangeIDBackPhoto(event){
-             let file = event.target.files[0];
-                if(file.size>1048576){
-                    Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'The File you are uploading is larger than 2mbs!',
-                            // footer: '<a href>Why do I have this issue? Reduce the Logo Size</a>'
-                        })
-                }else{
-                    let reader = new FileReader();
-                        reader.onload = event=> {
-                            this.employeeform.id_photo_back =event.target.result
-                            };
-                        reader.readAsDataURL(file);
-                }
-            },
-            updateEmployeeIDBackPhoto(employeeform_id_photo_back){
-                let img = this.employeeform.id_photo_back;
-                      if(img ==null){
-                          return "/assets/bureau/img/website/empty.png";
-                      }else{
-                          if(img.length>100){
-                            return this.employeeform.id_photo_back;
-                        }else{
-                            if(employeeform_id_photo_back){
-                                return "assets/bureau/img/employees/IDs/back/"+employeeform_id_photo_back;
-                            }else{
-                                return "/assets/bureau/img/website/empty.png";
-                            }
-                        }
-                      }
-
-            },
-            viewEmployeeModal(id){
-                console.log(id)
-                this.$Progress.start();
-                    //get bueau employee by id
-                this.$store.dispatch('BureauEmployeeById', id)  //action from index.js
-                    .then((response)=>{
-                       $('#ViewEmployeeModal').modal('show')
-                       toast({
-                        type: 'success',
-                        title: 'Fetched the Bureau Employee data successfully'
-                        })
-                        this.$Progress.finish();
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail();
-                        //errors
-                        $('#ViewEmployeeModal').modal('show');
-                        toast({
-                        type: 'error',
-                        title: 'There was something Wrong Wheen feching data'
-                        })
-                    })
-            },
-            editEmployeeModal(id){
-                console.log(id)
-                 this.editmodeEmployee = true;
-                 this.employeeform.reset()
-                    this.$Progress.start();
-                      axios.get('/bureauemployee/edit/'+id)
-                        .then((response)=>{
-                           $('#EmployeeModal').modal('show')
-                           toast({
-                            type: 'success',
-                            title: 'Fetched the Employee data successfully'
-                            })
-                            console.log(response.data)
-                            this.employeeform.fill(response.data.employee)
-                            this.employeeform.user_id = response.data.employee.bureauemployees[0].pivot.user_id
-                            this.employeeform.bureau_id = response.data.employee.bureauemployees[0].pivot.bureau_id
-                            // // this.employeeform.position_id = response.data.employee.bureauemployees[0].pivot.position_id
-                            this.employeeform.photo = response.data.employee.bureauemployees[0].pivot.photo
-                            this.employeeform.id_no = response.data.employee.bureauemployees[0].pivot.id_no
-                            this.employeeform.id_photo_front = response.data.employee.bureauemployees[0].pivot.id_photo_front
-                            this.employeeform.id_photo_back = response.data.employee.bureauemployees[0].pivot.id_photo_back
-                            this.employeeform.phone = response.data.employee.bureauemployees[0].pivot.phone
-                            this.employeeform.landline = response.data.employee.bureauemployees[0].pivot.landline
-                            this.employeeform.address = response.data.employee.bureauemployees[0].pivot.address
-
-                        // //    //get country id
-                            this.employeeform.country_id = response.data.employee.bureauemployees[0].pivot.country_id
-                            //get county id using the country id
-                            this.employeeform.county_id = response.data.employee.bureauemployees[0].pivot.county_id
-                            this.$store.dispatch('countrycounties', response.data.employee.bureauemployees[0].pivot.country_id);
-                            //get contituency using county id
-                            this.employeeform.constituency_id = response.data.employee.bureauemployees[0].pivot.constituency_id
-                            this.$store.dispatch('countyconstituencies', response.data.employee.bureauemployees[0].pivot.county_id);
-                            // //get ward usng constituency id
-                            this.employeeform.ward_id = response.data.employee.bureauemployees[0].pivot.ward_id
-                            this.$store.dispatch('constituencywards', response.data.employee.bureauemployees[0].pivot.constituency_id);
-                            this.$Progress.finish();
-                        })
-                        .catch(()=>{
-                            this.$Progress.fail();
-                            //errors
-                            $('#EmployeeModal').modal('show');
-                            toast({
-                            type: 'error',
-                            title: 'There was something Wrong'
-                            })
-                        })
-            },
-            addEmployee(Bureau_id) {
-                console.log(Bureau_id)
-                this.$Progress.start();
-                this.employeeform.patch('/bureauemployee/'+Bureau_id)
-                    .then((response)=>{
-                        //  console.log(response.data)
-                         toast({
-                            type: 'success',
-                            title: 'Employee Created successfully'
-                            })
-                            this.$store.dispatch('BureauById', this.$route.params.id);
-                            this.employeeform.reset()
-                            $('#EmployeeModal').modal('hide')
-                              this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        //errors
-                            $('#EmployeeModal').modal('show');
-                            toast({
-                                type: 'error',
-                                title: 'There was something wrong.'
-                                })
-                    })
-            },
-            updateEmployee(id){
-                  console.log(id)
+            updateHousehelpKin(id){
+               console.log(id)
                   console.log(+this.$route.params.id)
                   this.$Progress.start();
-                     this.employeeform.patch('/bureauemployee/update/'+id)
+                     this.househelpkinform.patch('/househelpkin/update/'+id)
                         .then(()=>{
-                        this.$store.dispatch('BureauById', this.$route.params.id);
-                         $('#EmployeeModal').modal('hide')
+                        this.$store.dispatch('HousehelpById', this.$route.params.id);
+                         $('#HousehelpKinModal').modal('hide')
                          toast({
                             type: 'success',
-                            title: 'Employee Created successfully'
+                            title: 'Househelpkin Created successfully'
                             })
                             this.$Progress.finish();
                         })
@@ -1813,49 +1551,8 @@
                             })
                         })
             },
-            deleteEmployee(id){
-                Swal({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                })
-                .then((result) => {
-                    if (result.value) {
-                    //  console.log('delete employee', id)
-                        this.$Progress.start();
-                        this.employeeform.get('/bureauemployee/delete/'+id)
-                            .then(()=>{
-                            toast({
-                            type: 'success',
-                            title: 'Employee Deleted successfully'
-                            })
-                            this.$store.dispatch('BureauById', this.$route.params.id);
-                            this.$Progress.finish();
-                        })
-                        .catch(()=>{
-                            this.$Progress.fail();
-                            toast({
-                            type: 'error',
-                            title: 'There was something wrong'
-                            })
-                        })
-                     }
-                })
-            },
-
 
 
         },
-        watch:{
-            $route(to, from){
-                this.singleabureau();//method
-           }
-        }
-
     }
 </script>
-
