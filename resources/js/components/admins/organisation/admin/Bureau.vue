@@ -227,7 +227,7 @@
                                         <div class="form-group col-md-4">
                                             <input v-model="bureauform.director_password" type="password" id="director_password" placeholder="Director Password"
                                                 class="form-control" :class="{ 'is-invalid': bureauform.errors.has('director_password') }">
-                                            <has-error :form="bureauform" field="password"></has-error>
+                                            <has-error :form="bureauform" field="director_password"></has-error>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="director_phone" class="col-form-label"> Director Phone</label>

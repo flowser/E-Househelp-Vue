@@ -34,7 +34,7 @@ class BureauAdminController extends Controller
     {
         //
     }
- 
+
     public function store(Request $request, $id)
     {
         $this->validate($request,[
@@ -59,17 +59,15 @@ class BureauAdminController extends Controller
         //geting organistion id
         $bureau= Bureau::find($id);
         if ($bureau){
-            $user = User::create([
-                'first_name'        => $request->first_name,
-                'last_name'         => $request->last_name,
-                'email'             => $request->email,
-                'password' => Hash::make($request->password),
-                'user_type'         => 'Bureau Director',
-                'active'            => true,
-                'confirmed'         => true,
-                'confirmation_code' => md5(uniqid(mt_rand(), true)),
-            ]);
-
+            $user = new User();
+            $user->first_name = $request->first_name;
+            $user->last_name  = $request->last_name;
+            $user->email      = $request->email;
+            $user->active     = true;
+            $user->confirmed  = true;
+            $user->confirmation_code = md5(uniqid(mt_rand(), true));
+            $user->user_type      = 'Bureau Admin';
+            $user->password   = Hash::make($request->password);
 
             $user->assignRole('Bureau Admin');
             $user ->givePermissionTo('View Backend', 'View All');
@@ -117,7 +115,7 @@ class BureauAdminController extends Controller
                      //end processing
                     $id_photo_back = $bs_id_name;
                 }
-                $position_id = Position::find(3)->id;
+                $position_id = Position::find(1)->id;
                 $gender_id = Gender::find(1)->id;
             if($user){
                 $bureau->bureauadmins()->save($user, [

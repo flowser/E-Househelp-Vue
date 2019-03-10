@@ -21,7 +21,7 @@ class CreateBureauHousehelpTable extends Migration
             $table->string('photo')->nullable();
             $table->string('age')->nullable();
 
-            $table->float('search_fee', 8, 2);
+            // $table->float('search_fee', 8, 2);
             $table->longText('about_me')->nullable();
             $table->string('phone')->nullable();
             $table->string('address', 120)->nullable();

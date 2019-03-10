@@ -73,16 +73,15 @@ class BureauDirectorController extends Controller
         //geting organistion id
         $bureau= Bureau::find($id);
         if ($bureau){
-            $user = User::create([
-                'first_name'        => $request->first_name,
-                'last_name'         => $request->last_name,
-                'email'             => $request->email,
-                'password' => Hash::make($request->password),
-                'user_type'         => 'Bureau Director',
-                'active'            => true,
-                'confirmed'         => true,
-                'confirmation_code' => md5(uniqid(mt_rand(), true)),
-            ]);
+            $user = new User();
+            $user->first_name = $request->first_name;
+            $user->last_name  = $request->last_name;
+            $user->email      = $request->email;
+            $user->active     = true;
+            $user->confirmed  = true;
+            $user->confirmation_code = md5(uniqid(mt_rand(), true));
+            $user->user_type      = 'Bureau Director';
+            $user->password   = Hash::make($request->password);
 
             $user->assignRole('Bureau Director');
             $user ->givePermissionTo('View Backend', 'View All');

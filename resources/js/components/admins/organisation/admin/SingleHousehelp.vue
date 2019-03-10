@@ -87,7 +87,7 @@
                                         <img class="card-img-top" :src="househelpLoadPassPhoto(Househelp.photo)" style="width:100%; height:130px" alt="Card image cap">
                                     </div>
                                     <div class="col" style="padding: 3px;" v-if="Househelp.idstatus">
-                                        <img class="card-img-top" :src="househelpLoadIDFrontPhoto(Househelp.idstatus.id_photo_back)" style="width:100%;height:65px" alt="Card image cap"><br>
+                                        <img class="card-img-top" :src="househelpLoadIDFrontPhoto(Househelp.idstatus.id_photo_front)" style="width:100%;height:65px" alt="Card image cap"><br>
                                         <img class="card-img-top" :src="househelpLoadIDBackPhoto(Househelp.idstatus.id_photo_back)" style="width:100%;height:65px" alt="Card image cap">
                                     </div>
                                     <div style="font-weight:bold;font-size:0.7em;min-width:210px;max-width:400px;margin-top:4px;padding-top:4px;font-style: italic ">
@@ -177,9 +177,9 @@
                                                 </div>
                                             </span>
                                             <span class="float-right">
-                                                <a href=""  @click.prevent="viewHousehelpkinModal(househelpkin.user_id)">
+                                                <!-- <a href=""  @click.prevent="viewHousehelpkinModal(househelpkin.user_id)">
                                                     <i class="fa fa-eye purple"></i>
-                                                </a>
+                                                </a> -->
                                                 <a href=""  @click.prevent="editHousehelpkinModal(househelpkin.user_id)">
                                                     <i class="fa fa-edit blue"></i>
                                                 </a>
@@ -571,133 +571,139 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4> Update Househelp Demographic data</h4>
+                        <h4> Update Househelp Kin data</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="first_name" class="col-form-label"> Househelpkin First Name</label>
-                                <input v-model="househelpkinform.first_name" type="text" name="first_name" placeholder="Househelpkin First Name"
-                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('first_name') }" >
-                                <has-error style="color: #e83e8c" :form="househelpkinform" field="first_name"></has-error>
+                    <form role="form" @submit.prevent="updateHousehelpKin(househelpkinform.id)" >
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="first_name" class="col-form-label"> Househelpkin First Name</label>
+                                    <input v-model="househelpkinform.first_name" type="text" name="first_name" placeholder="Househelpkin First Name"
+                                        class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('first_name') }" >
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="first_name"></has-error>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="last_name" class=" col-form-label">Last Name </label>
+                                    <input v-model="househelpkinform.last_name" type="last_name" name="last_name" placeholder="Last Name"
+                                        class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('last_name') }" >
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="last_name"></has-error>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_no" class="col-form-label">Househelpkin ID no.</label>
+                                    <input v-model="househelpkinform.id_no" type="text" name="id_no" placeholder="Househelpkin ID NO"
+                                        class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('id_no') }" >
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="id_no"></has-error>
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="last_name" class=" col-form-label">Last Name </label>
-                                <input v-model="househelpkinform.last_name" type="last_name" name="last_name" placeholder="Last Name"
-                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('last_name') }" >
-                                <has-error style="color: #e83e8c" :form="househelpkinform" field="last_name"></has-error>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_no" class="col-form-label">Househelpkin ID no.</label>
-                                <input v-model="househelpkinform.id_no" type="text" name="id_no" placeholder="Househelpkin ID NO"
-                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('id_no') }" >
-                                <has-error style="color: #e83e8c" :form="househelpkinform" field="id_no"></has-error>
-                            </div>
-                        </div>
-                        <div class=" row">
-                            <div class="form-group col-md-3">
-                                <label for="relationship_id">Select Relationship </label>
-                                <select class="form-control" v-model="househelpkinform.relationship_id"
-                                        :class="{ 'is-invalid': househelpkinform.errors.has('relationship_id') }">
-                                        <option disabled value="">Select relationship</option>
-                                        <option v-for="relationship in Relationships" :value="relationship.id" :key="relationship.id">{{relationship.name}}</option>
-                                </select>
-                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="gender_id"></has-error>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="gender_id">Select Gender</label>
-                                <select class="form-control" v-model="househelpkinform.gender_id"
-                                        :class="{ 'is-invalid': househelpkinform.errors.has('gender_id') }">
-                                        <option disabled value="">Select gender</option>
-                                        <option v-for="gender in Genders" :value="gender.id" :key="gender.id">{{gender.name}}</option>
-                                </select>
-                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="gender_id"></has-error>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="address" class=" col-form-label">Househelpkin Address</label>
-                                <input v-model="househelpkinform.address" type="text" name="Address" placeholder="Househelpkin Address"
-                                    class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('address') }" >
-                                <has-error style="color: #e83e8c" :form="househelpkinform" field="address"></has-error>
-                            </div>
-                             <div class="form-group col-md-3">
-                                <label for="phone" class="col-form-label"> Househelpkin Phone</label>
-                                    <div>
-                                        <vue-tel-input v-model="househelpkinform.phone" name="phone" @onInput="HousehelpkinInputPhone1"
-                                        class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('phone') }">
-                                        </vue-tel-input>
-                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="phone"></has-error>
+                            <div class=" row">
+                                <div class="form-group col-md-3">
+                                    <label for="relationship_id">Select Relationship </label>
+                                    <select class="form-control" v-model="househelpkinform.relationship_id"
+                                            :class="{ 'is-invalid': househelpkinform.errors.has('relationship_id') }">
+                                            <option disabled value="">Select relationship</option>
+                                            <option v-for="relationship in Relationships" :value="relationship.id" :key="relationship.id">{{relationship.name}}</option>
+                                    </select>
+                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="gender_id"></has-error>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="gender_id">Select Gender</label>
+                                    <select class="form-control" v-model="househelpkinform.gender_id"
+                                            :class="{ 'is-invalid': househelpkinform.errors.has('gender_id') }">
+                                            <option disabled value="">Select gender</option>
+                                            <option v-for="gender in Genders" :value="gender.id" :key="gender.id">{{gender.name}}</option>
+                                    </select>
+                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="gender_id"></has-error>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="address" class=" col-form-label">Househelpkin Address</label>
+                                    <input v-model="househelpkinform.address" type="text" name="Address" placeholder="Househelpkin Address"
+                                        class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('address') }" >
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="address"></has-error>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="phone" class="col-form-label"> Househelpkin Phone</label>
+                                        <div>
+                                            <vue-tel-input v-model="househelpkinform.phone" name="phone" @onInput="HousehelpkinInputPhone1"
+                                            class="form-control" :class="{ 'is-invalid': househelpkinform.errors.has('phone') }">
+                                            </vue-tel-input>
+                                            <has-error style="color: #e83e8c" :form="househelpkinform" field="phone"></has-error>
+                                        </div>
+                                        <div v-if="househelpkinform.phone" style="color: #e83e8c">
+                                            <span>Is valid: <strong>{{phone2.isValid}}</strong>,&nbsp;</span>
+                                            <span>Country: <strong>{{phone2.country}}</strong></span>
                                     </div>
-                                    <div v-if="househelpkinform.phone" style="color: #e83e8c">
-                                        <span>Is valid: <strong>{{phone2.isValid}}</strong>,&nbsp;</span>
-                                        <span>Country: <strong>{{phone2.country}}</strong></span>
+                                </div>
+                            </div>
+                            <div class=" row">
+                                <div class="form-group col-md-3">
+                                    <label for="country_id">Select Country</label>
+                                    <select class="form-control" @change="countryCounties(househelpkinform.country_id)"
+                                    v-model="househelpkinform.country_id" :class="{ 'is-invalid': househelpkinform.errors.has('country_id') }">
+                                            <option disabled value="">Select Country</option>
+                                            <option v-for="country in Countries" :value="country.id" :key="country.id">{{country.name}}</option>
+                                    </select>
+                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="country_id"></has-error>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="county_id" class=" col-form-label">County</label>
+                                    <select class="form-control" @change="countyConstituencies(househelpkinform.county_id)"
+                                    v-model="househelpkinform.county_id" :class="{ 'is-invalid': househelpkinform.errors.has('county_id') }">
+                                            <option disabled value="">Select County</option>
+                                            <option v-for="county in Counties" :value="county.id" :key="county.id">{{county.name}}</option>
+                                    </select>
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="county_id"></has-error>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="constituency_id" class=" col-form-label">Constituency</label>
+                                    <select class="form-control" @change="constituencyWards(househelpkinform.constituency_id)"
+                                    v-model="househelpkinform.constituency_id" :class="{ 'is-invalid': househelpkinform.errors.has('constituency_id') }">
+                                            <option disabled value="">Select County</option>
+                                            <option v-for="constituency in Constituencies" :value="constituency.id" :key="constituency.id">{{constituency.name}}</option>
+                                    </select>
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="constituency_id"></has-error>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label for="ward_id" class="col-form-label"> Ward </label>
+                                    <select class="form-control"
+                                    v-model="househelpkinform.ward_id" :class="{ 'is-invalid': househelpkinform.errors.has('ward_id') }">
+                                            <option disabled value="">Select Ward</option>
+                                            <option v-for="ward in Wards" :value="ward.id" :key="ward.id">{{ward.name}}</option>
+                                    </select>
+                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="ward_id"></has-error>
+                                </div>
+                            </div>
+                            <div class=" row">
+                                <div class="form-group col-md-4">
+                                    <label for="photo" class=" col-form-label">Househelpkin PassPort Image</label><br>
+                                        <input @change="househelpkinChangePassPhoto($event)" type="file" name="photo"
+                                            :class="{ 'is-invalid': househelpkinform.errors.has('photo') }">
+                                            <img :src="updateHousehelpKinPassPhoto(househelpkinform.photo)" alt="" width="100%" >
+                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="photo"></has-error>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_photo_front" class=" col-form-label">Househelpkin FrontSide ID Photo</label><br>
+                                        <input @change="househelpkinChangeIDFrontPhoto($event)" type="file" name="id_photo_front"
+                                            :class="{ 'is-invalid': househelpkinform.errors.has('id_photo_front') }">
+                                            <img :src="updateHousehelpKinIDFrontPhoto(househelpkinform.id_photo_front)" alt="" width="100%" >
+                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="id_photo_front"></has-error>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_photo_back" class=" col-form-label">Househelpkin BackSide ID Photo</label><br>
+                                        <input @change="househelpkinChangeIDBackPhoto($event)" type="file" name="id_photo_back"
+                                            :class="{ 'is-invalid': househelpkinform.errors.has('id_photo_back') }">
+                                            <img :src="updateHousehelpKinIDBackPhoto(househelpkinform.id_photo_back)" alt="" width="100%" >
+                                        <has-error style="color: #e83e8c" :form="househelpkinform" field="id_photo_back"></has-error>
                                 </div>
                             </div>
                         </div>
-                        <div class=" row">
-                            <div class="form-group col-md-3">
-                                <label for="country_id">Select Country</label>
-                                <select class="form-control" @change="countryCounties(househelpkinform.country_id)"
-                                v-model="househelpkinform.country_id" :class="{ 'is-invalid': househelpkinform.errors.has('country_id') }">
-                                        <option disabled value="">Select Country</option>
-                                        <option v-for="country in Countries" :value="country.id" :key="country.id">{{country.name}}</option>
-                                </select>
-                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="country_id"></has-error>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="county_id" class=" col-form-label">County</label>
-                                <select class="form-control" @change="countyConstituencies(househelpkinform.county_id)"
-                                v-model="househelpkinform.county_id" :class="{ 'is-invalid': househelpkinform.errors.has('county_id') }">
-                                        <option disabled value="">Select County</option>
-                                        <option v-for="county in Counties" :value="county.id" :key="county.id">{{county.name}}</option>
-                                </select>
-                                <has-error style="color: #e83e8c" :form="househelpkinform" field="county_id"></has-error>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="constituency_id" class=" col-form-label">Constituency</label>
-                                <select class="form-control" @change="constituencyWards(househelpkinform.constituency_id)"
-                                v-model="househelpkinform.constituency_id" :class="{ 'is-invalid': househelpkinform.errors.has('constituency_id') }">
-                                        <option disabled value="">Select County</option>
-                                        <option v-for="constituency in Constituencies" :value="constituency.id" :key="constituency.id">{{constituency.name}}</option>
-                                </select>
-                                <has-error style="color: #e83e8c" :form="househelpkinform" field="constituency_id"></has-error>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="ward_id" class="col-form-label"> Ward </label>
-                                <select class="form-control"
-                                v-model="househelpkinform.ward_id" :class="{ 'is-invalid': househelpkinform.errors.has('ward_id') }">
-                                        <option disabled value="">Select Ward</option>
-                                        <option v-for="ward in Wards" :value="ward.id" :key="ward.id">{{ward.name}}</option>
-                                </select>
-                                <has-error style="color: #e83e8c" :form="househelpkinform" field="ward_id"></has-error>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Update</button>
                         </div>
-                        <div class=" row">
-                            <div class="form-group col-md-4">
-                                <label for="photo" class=" col-form-label">Househelpkin PassPort Image</label><br>
-                                    <input @change="househelpkinChangePassPhoto($event)" type="file" name="photo"
-                                        :class="{ 'is-invalid': househelpkinform.errors.has('photo') }">
-                                        <img :src="updateHousehelpKinPassPhoto(househelpkinform.photo)" alt="" width="100%" >
-                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="photo"></has-error>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_photo_front" class=" col-form-label">Househelpkin FrontSide ID Photo</label><br>
-                                    <input @change="househelpkinChangeIDFrontPhoto($event)" type="file" name="id_photo_front"
-                                        :class="{ 'is-invalid': househelpkinform.errors.has('id_photo_front') }">
-                                         <img :src="updateHousehelpKinIDFrontPhoto(househelpkinform.id_photo_front)" alt="" width="100%" >
-                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="id_photo_front"></has-error>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_photo_back" class=" col-form-label">Househelpkin BackSide ID Photo</label><br>
-                                    <input @change="househelpkinChangeIDBackPhoto($event)" type="file" name="id_photo_back"
-                                        :class="{ 'is-invalid': househelpkinform.errors.has('id_photo_back') }">
-                                        <img :src="updateHousehelpKinIDBackPhoto(househelpkinform.id_photo_back)" alt="" width="100%" >
-                                    <has-error style="color: #e83e8c" :form="househelpkinform" field="id_photo_back"></has-error>
-                            </div>
-                        </div>
-                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -783,26 +789,29 @@
                 househelpkinform: new Form({
                         id:'',
                         //househelp
-                        househelpkin_first_name:'',
-                        househelpkin_last_name:'',
-                        househelpkin_email:'',
-                        househelpkin_password:'',
-                        househelpkin_user_type:'',
+                        first_name:'',
+                        last_name:'',
+                        email:'',
+                        password:'',
+                        user_type:'',
 
-                        househelpkin_user_id:'',
-                        househelpkin_househelp_id:'',
-                        houshelpkin_relationship_id:'',
 
-                        househelpkin_id_no:'',
-                        househelpkin_photo:'',
+                        bureau_househelp_id:'',
+                        gender_id:'',
+                        user_id:'',
+                        househelp_id:'',
+                        relationship_id:'',
+
+                        id_no:'',
+                        photo:'',
                         id_photo_front:'',
                         id_photo_back:'',
-                        househelpkin_phone:'',
-                        househelpkin_address:'',
-                        househelpkin_country_id:'',
-                        househelpkin_county_id:'',
-                        househelpkin_constituency_id:'',
-                        househelpkin_ward_id:'',
+                        phone:'',
+                        address:'',
+                        country_id:'',
+                        county_id:'',
+                        constituency_id:'',
+                        ward_id:'',
                 }),
                  //Househelp
                 phone1:{
@@ -1417,7 +1426,7 @@
                             return this.househelpkinform.id_photo_front;
                         }else{
                             if(househelpkinform_id_photo_front){
-                                return "assets/bureau/img/househelpkins/househelpkins/IDs/front/"+househelpkinform_id_photo_front;
+                                return "assets/bureau/img/househelps/househelpkins/IDs/front/"+househelpkinform_id_photo_front;
                             }else{
                                 return "/assets/bureau/img/website/empty.png";
                             }
@@ -1451,7 +1460,7 @@
                             return this.househelpkinform.id_photo_back;
                         }else{
                             if(househelpkinform_id_photo_back){
-                                return "assets/bureau/img/househelpkin/househelpkins/IDs/back/"+househelpkinform_id_photo_back;
+                                return "assets/bureau/img/househelps/househelpkins/IDs/back/"+househelpkinform_id_photo_back;
                             }else{
                                 return "/assets/bureau/img/website/empty.png";
                             }
@@ -1482,11 +1491,11 @@
                         })
                     })
             },
-            editHousehelpKinModal(id){
+            editHousehelpkinModal(id){
                 console.log(id)
                  this.househelpkinform.reset()
                     this.$Progress.start();
-                      axios.get('/househelp/edit/'+id)
+                      axios.get('/househelpkin/edit/'+id)
                         .then((response)=>{
                            $('#HousehelpKinModal').modal('show')
                            toast({
@@ -1494,29 +1503,42 @@
                             title: 'Fetched the Househelp data successfully'
                             })
                             console.log(response.data)
-                            this.househelpkinform.fill(response.data.househelp)
-                            this.househelpkinform.user_id = response.data.househelp.househelpkins[0].pivot.user_id
-                            this.househelpkinform.bureau_id = response.data.househelp.househelpkins[0].pivot.bureau_id
-                            // // this.househelpkinform.position_id = response.data.househelp.househelpkins[0].pivot.position_id
-                            this.househelpkinform.photo = response.data.househelp.househelpkins[0].pivot.photo
-                            this.househelpkinform.id_no = response.data.househelp.househelpkins[0].pivot.id_no
-                            this.househelpkinform.id_photo_front = response.data.househelp.househelpkins[0].pivot.id_photo_front
-                            this.househelpkinform.id_photo_back = response.data.househelp.househelpkins[0].pivot.id_photo_back
-                            this.househelpkinform.phone = response.data.househelp.househelpkins[0].pivot.phone
-                            this.househelpkinform.landline = response.data.househelp.househelpkins[0].pivot.landline
-                            this.househelpkinform.address = response.data.househelp.househelpkins[0].pivot.address
+                            this.househelpkinform.fill(response.data.househelpkin)
+                            this.househelpkinform.id  = response.data.househelpkin.househelpkins[0].pivot.user_id
+                        //househelp
+                            this.househelpkinform.first_name   = response.data.househelpkin.first_name
+                            this.househelpkinform.last_name    = response.data.househelpkin.last_name
+                            this.househelpkinform.email        = response.data.househelpkin.email
+                            this.househelpkinform.user_type    = response.data.househelpkin.user_type
+
+                            this.househelpkinform.bureau_househelp_id  = response.data.househelpkin.househelpkins[0].pivot.bureau_househelp_id
+                            this.househelpkinform.gender_id   = response.data.househelpkin.househelpkins[0].pivot.gender_id
+                            this.househelpkinform.user_id     = response.data.househelpkin.househelpkins[0].pivot.user_id
+
+                            this.househelpkinform.househelp_id  = response.data.househelpkin.househelpkins[0].pivot.househelp_id
+                            this.househelpkinform.relationship_id  = response.data.househelpkin.househelpkins[0].pivot.relationship_id
+
+                            this.househelpkinform.id_no  = response.data.househelpkin.househelpkins[0].pivot.id_no
+                            this.househelpkinform.photo  = response.data.househelpkin.househelpkins[0].pivot.photo
+
+                            this.househelpkinform.id_photo_front  = response.data.househelpkin.househelpkins[0].pivot.id_photo_front
+                            this.househelpkinform.id_photo_back  = response.data.househelpkin.househelpkins[0].pivot.id_photo_back
+                            console.log(this.househelpkinform.id_photo_front)
+                            console.log(this.househelpkinform.id_photo_back)
+                            this.househelpkinform.phone  = response.data.househelpkin.househelpkins[0].pivot.phone
+                            this.househelpkinform.address  = response.data.househelpkin.househelpkins[0].pivot.address
 
                         // //    //get country id
-                            this.househelpkinform.country_id = response.data.househelp.househelpkins[0].pivot.country_id
+                            this.househelpkinform.country_id = response.data.househelpkin.househelpkins[0].pivot.country_id
                             //get county id using the country id
-                            this.househelpkinform.county_id = response.data.househelp.househelpkins[0].pivot.county_id
-                            this.$store.dispatch('countrycounties', response.data.househelp.househelpkins[0].pivot.country_id);
+                            this.househelpkinform.county_id = response.data.househelpkin.househelpkins[0].pivot.county_id
+                            this.$store.dispatch('countrycounties', response.data.househelpkin.househelpkins[0].pivot.country_id);
                             //get contituency using county id
-                            this.househelpkinform.constituency_id = response.data.househelp.househelpkins[0].pivot.constituency_id
-                            this.$store.dispatch('countyconstituencies', response.data.househelp.househelpkins[0].pivot.county_id);
+                            this.househelpkinform.constituency_id = response.data.househelpkin.househelpkins[0].pivot.constituency_id
+                            this.$store.dispatch('countyconstituencies', response.data.househelpkin.househelpkins[0].pivot.county_id);
                             // //get ward usng constituency id
-                            this.househelpkinform.ward_id = response.data.househelp.househelpkins[0].pivot.ward_id
-                            this.$store.dispatch('constituencywards', response.data.househelp.househelpkins[0].pivot.constituency_id);
+                            this.househelpkinform.ward_id = response.data.househelpkin.househelpkins[0].pivot.ward_id
+                            this.$store.dispatch('constituencywards', response.data.househelpkin.househelpkins[0].pivot.constituency_id);
                             this.$Progress.finish();
                         })
                         .catch(()=>{
