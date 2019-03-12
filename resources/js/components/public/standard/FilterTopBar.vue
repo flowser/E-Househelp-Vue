@@ -2,7 +2,7 @@
   <div id="filter">
     <section id="filter">
         <div class="container-fluid">
-            <form role="form" @submit.prevent="filter()">
+            <form role="form" action="#">
                 <h2 class="text-center" style="margin-bottom: 10px">Choose Your Desired Filter</h2>
                 <div class="row" style="margin-right: 1px; margin-left: 1px; ">
                      <div class="form-group col-xs-3 col-sm-3 col-md-3 col-md-3 col-lg-3" style="width: 100px; padding-left: 5px; padding-right: 0px;">
@@ -113,8 +113,8 @@
                      </div>
                 </div>
                  <div class=" row" style="margin-right: 1px; margin-left: 1px; ">
-
-                     <button type="submit" class="btn btn-success">filter</button>
+                     <button type="submit" @click.prevent="filter">Filter</button>
+                     <!-- <button type="submit" class="btn btn-success">filter</button> -->
                  </div>
             </form>
         </div>
@@ -245,33 +245,27 @@
             },
             loadHealthstatuses(){
                 return this.$store.dispatch("healthstatuses")
-            },
-            filter(){
+            },            
+            filter:_.debounce(function () {
                 this.$Progress.start();
-
-                // this.filterform.post('/househelpfilter', {
-                //  params:this.filterform})
-
-                 this.$store.dispatch("HousehelpsByFilter",
-                     this.filterform
-                 )
-                    .then((response)=>{
-                         toast({
-                            type: 'success',
-                            title: 'Househlp Filtration search has been successful'
+                                this.$store.dispatch("HousehelpsByFilter", this.filterform)
+                .then((response)=>{
+                     toast({
+                        type: 'success',
+                        title: 'Househlp Filtration search has been successful'
+                        })
+                        this.filterform.reset()
+                          this.$Progress.finish()
+                })
+                .catch(()=>{
+                    this.$Progress.fail()
+                    //errors
+                        toast({
+                            type: 'error',
+                            title: 'Househlp Filtration search was not successful, change your Filters.'
                             })
-                            this.filterform.reset()
-                              this.$Progress.finish()
-                    })
-                    .catch(()=>{
-                        this.$Progress.fail()
-                        //errors
-                            toast({
-                                type: 'error',
-                                title: 'Househlp Filtration search was not successful, change your Filters.'
-                                })
-                    })
-            },
+                })
+            }, 20)       
         },
     }
 </script>
