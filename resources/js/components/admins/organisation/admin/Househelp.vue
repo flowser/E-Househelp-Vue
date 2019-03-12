@@ -962,12 +962,12 @@
                 }
                 if(this.Healthstatus === 'HASMINOR'){
                     this.househelp_kinform.HealthStatus = 'HASMINOR';
-                    this.househelp_kinform.status = 'Yes';
+                    this.househelp_kinform.status = 'HASMINOR';
                     this.househelp_kinform.allergy = 'Has Minor Health Issues';
                 }
                 if(this.Healthstatus === 'HASCHRONIC'){
                     this.househelp_kinform.HealthStatus = 'HASCHRONIC';
-                    this.househelp_kinform.status = 'Yes';
+                    this.househelp_kinform.status = 'HASCHRONIC';
                     this.househelp_kinform.other_chronics = 'Has Other Chronic Issues';
                 }
                 this.$Progress.start()

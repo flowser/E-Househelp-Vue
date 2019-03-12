@@ -39,6 +39,8 @@ import operation from './modules/bureau/standard/operation';
 import religion from './modules/bureau/standard/religion';
 import skill from './modules/bureau/standard/skill';
 import tribe from './modules/bureau/standard/tribe';
+import idstatus from './modules/bureau/standard/idstatus';
+import healthstatus from './modules/bureau/standard/healthstatus';
 
         export default {
           modules: {
@@ -69,6 +71,8 @@ import tribe from './modules/bureau/standard/tribe';
                 religion,
                 skill,
                 tribe,
+                idstatus,
+                healthstatus,
 
             //client
                 // client,

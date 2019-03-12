@@ -15,7 +15,7 @@ class MaritalstatusController extends Controller
      */
     public function index()
     {
-        $maritalstatuses = Maritalstatus::all();
+        $maritalstatuses = Maritalstatus::with('househelps')->get();
         return response()-> json([
             'maritalstatuses' => $maritalstatuses,
         ], 200);

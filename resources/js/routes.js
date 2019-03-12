@@ -42,6 +42,19 @@ import PublicSingleServiceModel from './components/public/PublicSingleServiceMod
 
 
 
+// front filter default by categories
+import GenderHousehelps from './components/public/standard/Househelp.vue';
+import EducationHousehelps from './components/public/standard/Househelp.vue';
+import DurationHousehelps from './components/public/standard/Househelp.vue';
+import MaritalstatusHousehelps from './components/public/standard/Househelp.vue';
+import ExperienceHousehelps from './components/public/standard/Househelp.vue';
+import OperationHousehelps from './components/public/standard/Househelp.vue';
+import SkillHousehelps from './components/public/standard/Househelp.vue';
+import ReligionHousehelps from './components/public/standard/Househelp.vue';
+import TribeHousehelps from './components/public/standard/Househelp.vue';
+
+
+
 
 
 
@@ -125,6 +138,55 @@ export const routes = [
 
 
 // //Front End
+ 
+//filter by category
+ //gender
+  {
+    path:'/genderhousehelps/:id', ///public
+    component: GenderHousehelps
+  },
+ //education
+  {
+    path:'/educationhousehelps/:id', ///public
+    component: EducationHousehelps
+  },
+ //duration
+  {
+    path:'/durationhousehelps/:id', ///public
+    component: DurationHousehelps
+  },
+ //maritalstatus
+  {
+    path:'/maritalstatushousehelps/:id', ///public
+    component: MaritalstatusHousehelps
+  },
+ //experience
+  {
+    path:'/experiencehousehelps/:id', ///public
+    component: ExperienceHousehelps
+  },
+ //operation
+  {
+    path:'/operationhousehelps/:id', ///public
+    component: OperationHousehelps
+  },
+ //skill
+  {
+    path:'/skillhousehelps/:id', ///public
+    component: SkillHousehelps
+  },
+ //religion
+  {
+    path:'/religionhousehelps/:id', ///public
+    component: ReligionHousehelps
+  },
+ //tribe
+  {
+    path:'/tribehousehelps/:id', ///public
+    component: TribeHousehelps
+  },
+
+
   {
     path:'/pub', ///public
     component: Public

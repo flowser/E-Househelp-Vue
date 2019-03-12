@@ -6,84 +6,167 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Bureau\Bureau;
 use App\Models\Standard\User;
-use App\Models\Standard\Gender;
-use App\Models\Standard\Position;
-use Illuminate\Support\Facades\DB;
 use App\Models\Househelp\Househelp;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
-use App\Models\Organisation\Organisation;
-use App\Models\Househelp\HousehelpDirector;
 use App\Models\Househelp\Standard\Idstatus;
-use Propaganistas\LaravelPhone\PhoneNumber;
+use Fouladgar\EloquentBuilder\EloquentBuilder;
 use App\Models\Househelp\Standard\Healthstatus;
-
 
 class HousehelpController extends Controller
 {
     public function index()
     {
-        if (auth()->check()) {
-            if (auth()->user()->hasRole('Organisation Director', 'Organisation Superadmin','Organisation Admin','Organisation Employee')) {
-                $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
-                'genders', 'education', 'experiences', 'tribes', 'skills','durations',
-                'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
-                '_i_dstatus','healthstatus', 'bureau')//single has
-                                       ->get();
-                    return response()-> json([
-                        'househelps' => $househelps,
-                    ], 200);
-            }elseif(auth()->user()->hasRole('Bureau Director')) {
-                        $bureau = Auth::user()->bureaudirectors()->first();
-                        $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
-                        'genders', 'education', 'experiences', 'tribes', 'skills','durations',
-                        'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
-                        '_i_dstatus','healthstatus', 'househelpkins')//single has
-                        ->where('bureau_id', $bureau->id)
-                                               ->get();
-                           return response()-> json([
-                                'househelps' => $househelps,
-                            ], 200);
-
-            }elseif(auth()->user()->hasRole('Bureau Admin')){
-                $bureau = Auth::user()->bureauadmins()->first();
-                $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
-                'genders', 'education', 'experiences', 'tribes', 'skills','durations',
-                'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
-                '_i_dstatus','healthstatus', 'househelpkins')//single has
-                ->where('bureau_id', $bureau->id)
-                                       ->get();
-                   return response()-> json([
-                        'househelps' => $househelps,
-                    ], 200);
-            }elseif(auth()->user()->hasRole('Bureau Employee')){
-                $bureau = Auth::user()->bureauemployees()->first();
-                $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
-                'genders', 'education', 'experiences', 'tribes', 'skills','durations',
-                'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
-                '_i_dstatus','healthstatus', 'househelpkins')//single has
-                ->where('bureau_id', $bureau->id)
-                                       ->get();
-                   return response()-> json([
-                        'househelps' => $househelps,
-                    ], 200);
-            }else{
-                $househelps = Househelp:: with('country', 'county', 'constituency', 'ward',
-                'genders', 'education', 'experiences', 'tribes', 'skills','durations',
-                'operations', 'englishstatuses','maritalstatuses','locations', 'religions',
-                '_i_dstatus','healthstatus')//single has
-                ->where('bureau_id', $bureau->id)
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
                                        ->get();
                    return response()-> json([
                         'househelps' => $househelps,
                     ], 200);
 
-            }
-        }
+
 
     }
+    // simple filtration
+    public function gender($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('gender_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function education($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('education_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function duration($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('duration_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function experience($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('experience_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function maritalstatus($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('maritalstatus_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function operation($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('operation_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function skill($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('skill_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function religion($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('religion_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+    public function tribe($id)
+    {
+          $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward',
+                'gender', 'education', 'experience', 'tribe', 'skill','duration',
+                'operation', 'englishstatus','maritalstatus', 'religion', 'kid',
+                'idstatus','healthstatus')//single has
+                ->where('tribe_id',$id)
+                                       ->get();
+                   return response()-> json([
+                        'househelps' => $househelps,
+                    ], 200);
+    }
+
+    // simple filtration>
+
+    // detailed filtration
+    public function filter(Request $request)
+    {        
+        $househelps = Househelp::
+                with('country', 'county', 'constituency', 'ward','gender', 'education', 'experience', 'tribe', 'skill','duration',
+                     'operation', 'englishstatus','maritalstatus', 'religion', 'kid','idstatus','healthstatus')
+                                ->filter($request)->get();
+            return response()-> json([
+                'househelps' => $househelps,
+        ], 200);        
+    }
+
+
+
+    // detailed filtration
 //for fresh store
 
     public function verifyDemographics (Request $request)

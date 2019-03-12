@@ -15,7 +15,7 @@ class KidController extends Controller
      */
     public function index()
     {
-        $kids = Kid::all();
+        $kids = Kid::with('househelps')->get();
         return response()-> json([
             'kids' => $kids,
         ], 200);

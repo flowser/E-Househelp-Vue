@@ -15,7 +15,7 @@ class OperationController extends Controller
      */
     public function index()
     {
-        $operations = Operation::all();
+        $operations = Operation::with('househelps')->get();
         return response()-> json([
             'operations' => $operations,
         ], 200);

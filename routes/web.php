@@ -33,10 +33,12 @@ use App\Http\Controllers\Backend\Standard\Househelp\SkillController;
 use App\Http\Controllers\Backend\Standard\Househelp\TribeController;
 use App\Http\Controllers\Backend\Organisation\OrganisationController;
 use App\Http\Controllers\Backend\Standard\Househelp\DurationController;
+use App\Http\Controllers\Backend\Standard\househelp\IDstatusController;
 use App\Http\Controllers\Backend\Standard\Househelp\ReligionController;
 use App\Http\Controllers\Backend\Standard\Househelp\EducationController;
 use App\Http\Controllers\Backend\Standard\Househelp\OperationController;
 use App\Http\Controllers\Backend\Standard\Househelp\ExperienceController;
+use App\Http\Controllers\Backend\Standard\househelp\HealthstatusController;
 use App\Http\Controllers\Backend\Standard\Househelp\EnglishstatusController;
 use App\Http\Controllers\Backend\Standard\Househelp\MaritalstatusController;
 
@@ -397,7 +399,20 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
 
     //                  // househelp
          Route::get('househelp/get', [HousehelpController::class, 'index'])->name('househelp.index');
+         Route::get('genderhousehelps/get/{househelp}', [HousehelpController::class, 'gender'])->name('genderhousehelp.index');
+         Route::get('educationhousehelps/get/{househelp}', [HousehelpController::class, 'education'])->name('educationhousehelp.index');
+         Route::get('durationhousehelps/get/{househelp}', [HousehelpController::class, 'duration'])->name('durationhousehelp.index');
+         Route::get('experiencehousehelps/get/{househelp}', [HousehelpController::class, 'experience'])->name('experiencehousehelp.index');
+         Route::get('maritalstatushousehelps/get/{househelp}', [HousehelpController::class, 'maritalstatus'])->name('maritalstatushousehelp.index');
+         Route::get('operationhousehelps/get/{househelp}', [HousehelpController::class, 'operation'])->name('operationhousehelp.index');
+         Route::get('skillhousehelps/get/{househelp}', [HousehelpController::class, 'skill'])->name('skillhousehelp.index');
+         Route::get('religionhousehelps/get/{househelp}', [HousehelpController::class, 'religion'])->name('religionhousehelp.index');
+         Route::get('tribehousehelps/get/{househelp}', [HousehelpController::class, 'tribe'])->name('tribehousehelp.index');
+         Route::post('househelpfilter/get', [HousehelpController::class, 'filter'])->name('househelp.filter');
          Route::post('househelp/verify/demographics/', [HousehelpController::class, 'verifyDemographics'])->name('househelp.verifydemographics');
+
+
+
          Route::post('househelp/verify/attributes/', [HousehelpController::class, 'verifyAttributes'])->name('househelp.verifyattributes');
          Route::post('househelp/verify/kin/', [HousehelpController::class, 'verifyKin'])->name('househelp.verifykin');
 
@@ -531,6 +546,31 @@ Route::get('admin_home', [HomeController::class, 'index'])->name('adminhome');
         Route::get('tribe/edit/{tribe}', [TribeController::class, 'edit'])->name('tribe.edit');
         Route::patch('tribe/update/{tribe}', [TribeController::class, 'update'])->name('tribe.update');
         Route::get('tribe/delete/{tribe}', [TribeController::class, 'destroy'])->name('tribe.destroy');
+
+
+
+        Route::get('idstatus/get', [IDstatusController::class, 'index'])->name('idstatus.index');
+        Route::get('idstatus/get/list/{idstatus}', [IDstatusController::class, 'IdstatusList'])->name('idstatus.list-index');
+        Route::post('idstatus', [IDstatusController::class, 'store'])->name('idstatus.store');
+    //     /*
+    //      * Specifics
+    //      */
+        Route::get('idstatus/show/{idstatus}', [IDstatusController::class, 'show'])->name('idstatus.show');
+        Route::get('idstatus/edit/{idstatus}', [IDstatusController::class, 'edit'])->name('idstatus.edit');
+        Route::patch('idstatus/update/{idstatus}', [IDstatusController::class, 'update'])->name('idstatus.update');
+        Route::get('idstatus/delete/{idstatus}', [IDstatusController::class, 'destroy'])->name('idstatus.destroy');
+
+        Route::get('healthstatus/get', [HealthstatusController::class, 'index'])->name('healthstatus.index');
+        Route::get('healthstatus/get/list/{healthstatus}', [HealthstatusController::class, 'HealthstatusList'])->name('healthstatus.list-index');
+        Route::post('healthstatus', [HealthstatusController::class, 'store'])->name('healthstatus.store');
+    //     /*
+    //      * Specifics
+    //      */
+        Route::get('healthstatus/show/{healthstatus}', [HealthstatusController::class, 'show'])->name('healthstatus.show');
+        Route::get('healthstatus/edit/{healthstatus}', [HealthstatusController::class, 'edit'])->name('healthstatus.edit');
+        Route::patch('healthstatus/update/{healthstatus}', [HealthstatusController::class, 'update'])->name('healthstatus.update');
+        Route::get('healthstatus/delete/{healthstatus}', [HealthstatusController::class, 'destroy'])->name('healthstatus.destroy');
+
 
 
 

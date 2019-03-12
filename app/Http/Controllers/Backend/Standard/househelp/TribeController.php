@@ -15,7 +15,7 @@ class TribeController extends Controller
      */
     public function index()
     {
-        $tribes = Tribe::all();
+        $tribes = Tribe::with('househelps')->get();
         return response()-> json([
             'tribes' => $tribes,
         ], 200);

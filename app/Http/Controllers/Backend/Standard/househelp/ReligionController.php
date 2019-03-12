@@ -15,7 +15,7 @@ class ReligionController extends Controller
      */
     public function index()
     {
-        $religions = Religion::all();
+        $religions = Religion::with('househelps')->get();
         return response()-> json([
             'religions' => $religions,
         ], 200);

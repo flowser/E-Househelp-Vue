@@ -2,6 +2,7 @@
 
 namespace App\Models\Househelp\Standard;
 
+
 use App\Models\Househelp\Househelp;
 use Illuminate\Database\Eloquent\Model;
 

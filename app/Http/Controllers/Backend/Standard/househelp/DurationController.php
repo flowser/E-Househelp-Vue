@@ -15,7 +15,7 @@ class DurationController extends Controller
      */
     public function index()
     {
-        $durations = Duration::all();
+        $durations = Duration::with('househelps')->get();
         return response()-> json([
             'durations' => $durations,
         ], 200);

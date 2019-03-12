@@ -35,13 +35,18 @@ import{routes} from './routes';
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('admin-main', require('./components/admins/AdminMaster.vue').default);
 Vue.component('pub-main', require('./components/public/PublicMaster.vue').default);
+Vue.component('header-main', require('./components/public/standard/Header.vue').default);
+Vue.component('slider-header', require('./components/public/standard/Slider.vue').default);
+// Vue.component('filter-header', require('./components/public/standard/Filter.vue').default);
+Vue.component('househelp-content', require('./components/public/standard/Househelp.vue').default);
+Vue.component('footer-content', require('./components/public/standard/Footer.vue').default);
 
 //Vue-progress bar
 import VueProgressBar from 'vue-progressbar';
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',
-  height: '4px'
+  height: '4px',
 })
 
 //sweet alert 2

@@ -15,7 +15,7 @@ class GenderController extends Controller
      */
     public function index()
     {
-        $genders = Gender::all();
+        $genders = Gender::with('househelps')->get();
         return response()-> json([
             'genders' => $genders,
         ], 200);

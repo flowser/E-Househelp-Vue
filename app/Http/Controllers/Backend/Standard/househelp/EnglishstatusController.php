@@ -15,7 +15,7 @@ class EnglishstatusController extends Controller
      */
     public function index()
     {
-        $englishstatuses = Englishstatus::all();
+        $englishstatuses = Englishstatus::with('househelps')->get();
         return response()-> json([
             'englishstatuses' => $englishstatuses,
         ], 200);

@@ -15,7 +15,7 @@ class EducationController extends Controller
      */
     public function index()
     {
-        $educations = Education::all();
+        $educations = Education::with('househelps')->get();
         return response()-> json([
             'educations' => $educations,
         ], 200);

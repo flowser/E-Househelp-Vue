@@ -18,8 +18,8 @@ class Idstatus extends Model
         'househelp_id',
     ];
 
-    public function househelps()
+    public function househelp()
     {
-        return $this->hasMany(Househelp::class);
+        return $this->belongsTo(Househelp::class);
     }
 }

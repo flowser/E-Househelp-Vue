@@ -26,7 +26,7 @@ class PublicController extends Controller
 
         // return $organisation;
 
-         return view('public.publicmaster', compact("organisation", "servicemodels", "adverts"));
+         return view('public.publicmaster2', compact("organisation", "servicemodels", "adverts"));
     }
 
     /**

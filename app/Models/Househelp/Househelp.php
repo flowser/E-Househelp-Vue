@@ -8,13 +8,14 @@ use App\Models\Standard\User;
 use App\Models\Standard\Ward;
 use App\Models\Standard\County;
 use App\Models\Standard\Gender;
+use App\Filters\HousehelpFilter;
 use App\Models\Standard\Country;
 use App\Models\Standard\Constituency;
-use App\Models\Househelp\HousehelpKin;
 use App\Models\Househelp\Standard\Kid;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Househelp\Standard\Skill;
 use App\Models\Househelp\Standard\Tribe;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Househelp\Standard\Duration;
 use App\Models\Househelp\Standard\Idstatus;
 use App\Models\Househelp\Standard\Religion;
@@ -65,6 +66,12 @@ class Househelp extends Model
         'employmentstatus' => 'boolean',
         'hired'=> 'boolean',
     ];
+
+    // filter
+    public function scopeFilter(Builder $builder, $request)
+    {
+        return (new HousehelpFilter($request))->filter($builder);
+    }
 
     //belongs to
     public function country()

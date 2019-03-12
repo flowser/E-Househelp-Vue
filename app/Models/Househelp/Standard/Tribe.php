@@ -2,7 +2,8 @@
 
 namespace App\Models\Househelp\Standard;
 
-use App\Models\Househelp;
+
+use App\Models\Househelp\Househelp;
 use Illuminate\Database\Eloquent\Model;
 
 class Tribe extends Model
